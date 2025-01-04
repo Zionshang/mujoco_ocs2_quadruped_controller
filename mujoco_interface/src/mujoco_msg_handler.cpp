@@ -1,70 +1,36 @@
-#include "MujocoMsgHandler.h"
-
+#include "mujoco_msg_handler.h"
 #include <algorithm>
-
 #include "sensor_msgs/image_encodings.hpp"
 
 namespace Galileo
 {
     MujocoMsgHandler::MujocoMsgHandler(mj::Simulate *sim)
         : Node("MujocoMsgHandler", rclcpp::NodeOptions().use_intra_process_comms(true)),
-          sim_(sim),
-          name_prefix("simulation/")
+          sim_(sim)
     {
-        model_param_name = name_prefix + "model_file";
-        this->declare_parameter(model_param_name, "");
-
-        // reset_service_ = this->create_service<communication::srv::SimulationReset>(
-        //     name_prefix + "sim_reset",
-        //     std::bind(&MujocoMsgHandler::reset_callback, this,
-        //               std::placeholders::_1, std::placeholders::_2));
+        this->declare_parameter<std::string>("xml_file_path", "path/to/your/xml");
+        this->get_parameter("xml_file_path", xml_file_path_);
+        std::cout << "xml file path:" << xml_file_path_ << std::endl;
 
         auto qos = rclcpp::QoS(rclcpp::KeepLast(1), rmw_qos_profile_sensor_data);
         imu_publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("imu_data", qos);
-        joint_state_publisher_ =
-            this->create_publisher<sensor_msgs::msg::JointState>("joint_states", qos);
+        joint_state_publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", qos);
         mujoco_msg_publisher_ = this->create_publisher<custom_msgs::msg::MujocoMsg>("mujoco_msg", qos);
 
-        timers_.emplace_back(
-            this->create_wall_timer(1ms, std::bind(&MujocoMsgHandler::publish_mujoco_callback, this)));
-
-        // timers_.emplace_back(this->create_wall_timer(
-        //     1ms, std::bind(&MujocoMsgHandler::joint_callback, this)));
-
-        // timers_.emplace_back(this->create_wall_timer(
-        //     20ms, std::bind(&MujocoMsgHandler::odom_callback, this)));
-        //
-        // timers_.emplace_back(this->create_wall_timer(
-        //     100ms, std::bind(&MujocoMsgHandler::drop_old_message, this)));
+        timers_.emplace_back(this->create_wall_timer(1ms, std::bind(&MujocoMsgHandler::publish_mujoco_callback, this)));
 
         actuator_cmd_subscription_ = this->create_subscription<custom_msgs::msg::ActuatorCmds>(
             "actuators_cmds",
             qos,
             std::bind(&MujocoMsgHandler::actuator_cmd_callback, this, std::placeholders::_1));
 
-        // param_subscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this
-        // );
-        // cb_handle_ = param_subscriber_->add_parameter_callback(
-        //     model_param_name, std::bind(&MujocoMsgHandler::parameter_callback,
-        //                                 this, std::placeholders::_1));
-
-        actuator_cmds_ptr_ = std::make_shared<ActuatorCmds>();
-
         RCLCPP_INFO(this->get_logger(), "Start MujocoMsgHandler ...");
-
-        std::string model_file =
-            this->get_parameter(model_param_name).get_parameter_value().get<std::string>();
-        mju::strcpy_arr(sim_->filename, model_file.c_str());
         sim_->uiloadrequest.fetch_add(1);
     }
 
     MujocoMsgHandler::~MujocoMsgHandler()
     {
         RCLCPP_INFO(this->get_logger(), "close node ...");
-    }
-
-    std::shared_ptr<MujocoMsgHandler::ActuatorCmds> MujocoMsgHandler::get_actuator_cmds_ptr()
-    {
     }
 
     void MujocoMsgHandler::publish_mujoco_callback()
@@ -83,7 +49,6 @@ namespace Galileo
         auto message = sensor_msgs::msg::Imu();
         message.header.frame_id = &sim_->m_->names[0];
         message.header.stamp = rclcpp::Clock().now();
-        // const std::unique_lock<std::recursive_mutex> lock(sim_->mtx);
 
         for (int i = 0; i < sim_->m_->nsensor; i++)
         {
@@ -109,15 +74,12 @@ namespace Galileo
         }
 
         imu_publisher_->publish(message);
-        // RCLCPP_INFO(this->get_logger(), "imu node %.2f",
-        // message.linear_acceleration.z);
     }
 
     void MujocoMsgHandler::contact_callback()
     {
         auto msg = custom_msgs::msg::MujocoMsg();
         std::vector<std::string> foot_geom_names = {"FR_foot", "FL_foot", "RR_foot", "RL_foot"}; // TODO: 改成参数传递
-        // std::vector<std::string> foot_geom_names = {"FR", "FL", "RR", "RL"}; // TODO: 改成参数传递
 
         std::vector<int> foot_geom_ids;
         for (const auto &foot_name : foot_geom_names)
@@ -147,7 +109,8 @@ namespace Galileo
                 int foot_geom_id = foot_geom_ids[foot_idx];
 
                 // 检查是否是足端与地面的接触
-                if ((contact.geom1 == foot_geom_id && contact.geom2 == ground_geom_id) || (contact.geom1 == ground_geom_id && contact.geom2 == foot_geom_id))
+                if ((contact.geom1 == foot_geom_id && contact.geom2 == ground_geom_id) ||
+                    (contact.geom1 == ground_geom_id && contact.geom2 == foot_geom_id))
                 {
                     // 如果发生接触，标记对应的接触状态为 1
                     contact_state[foot_idx] = 1;
@@ -193,8 +156,6 @@ namespace Galileo
                 }
             }
             joint_state_publisher_->publish(jointState);
-            // RCLCPP_INFO(this->get_logger(), "joint node %.2f",
-            // jointState.position.at(0));
         }
     }
 
@@ -237,11 +198,4 @@ namespace Galileo
         }
     }
 
-    void MujocoMsgHandler::parameter_callback(const rclcpp::Parameter &)
-    {
-    }
-
-    void MujocoMsgHandler::drop_old_message()
-    {
-    }
 } // namespace Galileo

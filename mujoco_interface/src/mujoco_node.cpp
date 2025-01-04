@@ -27,7 +27,8 @@
 #include "glfw_adapter.h"
 #include "simulate.h"
 #include "array_safety.h"
-#include "MujocoMsgHandler.h"
+#include "mujoco_msg_handler.h"
+
 #define MUJOCO_PLUGIN_DIR "mujoco_plugin"
 
 extern "C"
@@ -600,15 +601,11 @@ int main(int argc, char *argv[])
       std::make_unique<mj::GlfwAdapter>(),
       &cam, &opt, &pert, /* is_passive = */ false);
 
-  // TODO： 改成参数传递
-  const char *filename = "/home/zishang/ros2_workspace/mujoco_ocs2_ros2_ws/src/robot_description/galileo_mini_description/xml/galileo_mini.xml";
-  // const char *filename = "/home/zishang/ros2_workspace/mujoco_ocs2_ros2_ws/src/robot_description/go2_description/xml/scene_terrain.xml";
-  // const char *filename = " /home/zishang/ros2_workspace/mujoco_ocs2_ros2_ws/src/robot_description/bqr3_description/xml/robot.xml";
-  // const char *filename = "/home/zishang/ros2_workspace/mujoco_ocs2_ros2_ws/src/robot_description/b2_description/xml/scene_terrain.xml";
+  auto message_handle = std::make_shared<Galileo::MujocoMsgHandler>(sim.get());
+  const char *xml_filename = strdup(message_handle->xml_file_path().c_str());
 
   // start physics thread
-  std::thread physicsthreadhandle(&PhysicsThread, sim.get(), filename);
-  auto message_handle = std::make_shared<Galileo::MujocoMsgHandler>(sim.get());
+  std::thread physicsthreadhandle(&PhysicsThread, sim.get(), xml_filename);
   auto spin_func = [](std::shared_ptr<Galileo::MujocoMsgHandler> node_ptr)
   {
     rclcpp::spin(node_ptr);

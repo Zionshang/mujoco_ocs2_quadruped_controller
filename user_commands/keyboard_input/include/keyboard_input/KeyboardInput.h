@@ -44,8 +44,8 @@ private:
     bool just_published_ = false;
     int reset_count_ = 0;
 
-    float sensitivity_left_ = 0.05;
-    float sensitivity_right_ = 0.05;
+    float sensitivity_left_ = 0.1;
+    float sensitivity_right_ = 0.1;
     termios old_tio_{}, new_tio_{};
 };
 

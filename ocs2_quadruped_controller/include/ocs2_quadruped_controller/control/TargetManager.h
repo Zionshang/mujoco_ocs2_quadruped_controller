@@ -26,6 +26,7 @@ namespace ocs2::legged_robot
         void update();
 
     private:
+    
         TargetTrajectories targetPoseToTargetTrajectories(const vector_t &targetPose,
                                                           const SystemObservation &observation,
                                                           const scalar_t &targetReachingTime)

@@ -44,19 +44,19 @@ namespace ocs2::legged_robot
         const vector_t targetPose = [&]()
         {
             vector_t target(6);
-            target(0) = currentPose(0) + cmd_vel_rot(0) * time_to_target_;
-            target(1) = currentPose(1) + cmd_vel_rot(1) * time_to_target_;
-            target(2) = command_height_;
-            target(3) = currentPose(3) + cmdGoal(3) * time_to_target_;
-            target(4) = 0;
-            target(5) = 0;
+            target(0) = currentPose(0) + cmd_vel_rot(0) * time_to_target_; // x
+            target(1) = currentPose(1) + cmd_vel_rot(1) * time_to_target_; // y
+            target(2) = command_height_;                                   // z
+            target(3) = currentPose(3) + cmdGoal(3) * time_to_target_;     // yaw
+            target(4) = 0;                                                 // pitch
+            target(5) = 0;                                                 // roll
             return target;
         }();
 
         const scalar_t targetReachingTime = ctrl_component_.observation_.time + time_to_target_;
         auto trajectories = targetPoseToTargetTrajectories(targetPose, ctrl_component_.observation_, targetReachingTime);
-        
-        // ! the state in stateTrajectory is (vx, vy, vz, wz, wy, wx, x, y, z, yaw, pitch, row, joint state)
+
+        // ! the state in stateTrajectory is (vx, vy, vz, wz, wy, wx, x, y, z, yaw, pitch, roll, joint state)
         trajectories.stateTrajectory[0].head(3) = cmd_vel_rot;
         trajectories.stateTrajectory[1].head(3) = cmd_vel_rot;
 

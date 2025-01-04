@@ -12,11 +12,10 @@ package_controller = "ocs2_quadruped_controller"
 
 
 def launch_setup(context, *args, **kwargs):
-    package_description = context.launch_configurations["robot_description"]
+    robot_pkg = context.launch_configurations["robot_pkg"]
     rviz_enable = context.launch_configurations["rviz_enable"]
 
-    print(rviz_enable)
-    pkg_path = os.path.join(get_package_share_directory(package_description))
+    pkg_path = os.path.join(get_package_share_directory(robot_pkg))
     xacro_file = os.path.join(pkg_path, "xacro", "robot.xacro")
     rviz_config_file = os.path.join(
         get_package_share_directory("ocs2_quadruped_controller"),
@@ -26,7 +25,7 @@ def launch_setup(context, *args, **kwargs):
 
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare(package_description),
+            FindPackageShare(robot_pkg),
             "config",
             "robot_control.yaml",
         ]
@@ -114,8 +113,8 @@ def launch_setup(context, *args, **kwargs):
 
 
 def generate_launch_description():
-    pkg_description = DeclareLaunchArgument(
-        "robot_description",
+    robot_pkg = DeclareLaunchArgument(
+        "robot_pkg",
         default_value="galileo_mini_description",
         description="package for robot description",
     )
@@ -128,7 +127,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            pkg_description,
+            robot_pkg,
             rviz_enable,
             OpaqueFunction(function=launch_setup),
         ]
