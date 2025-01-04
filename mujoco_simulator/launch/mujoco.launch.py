@@ -29,8 +29,8 @@ def generate_launch_description():
 
     # 加载mujoco node
     mujoco_node = Node(
-        package="mujoco_interface",
-        executable="mujoco_interface",
+        package="mujoco_simulator",
+        executable="mujoco_simulator",
         output="screen",
         parameters=[{"xml_file_path": xml_file_path}],
     )
