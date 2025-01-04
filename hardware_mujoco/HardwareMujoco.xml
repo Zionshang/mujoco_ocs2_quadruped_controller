@@ -1,0 +1,9 @@
+<library path="hardware_mujoco">
+  <class name="hardware_mujoco/HardwareMujoco"
+         type="HardwareMujoco"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Robot System for mujoco.
+    </description>
+  </class>
+</library>
