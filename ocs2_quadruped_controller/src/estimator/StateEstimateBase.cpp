@@ -43,13 +43,14 @@ namespace ocs2::legged_robot
         rbd_state_.segment(6 + info_.generalizedCoordinatesNum, info_.actuatedDofNum) = joint_vel;
     }
 
-    void StateEstimateBase::updateContact()
+    void StateEstimateBase::updateContact(const contact_flag_t& contact_flag)
     {
-        const size_t size = ctrl_component_.foot_force_state_interface_.size();
-        for (int i = 0; i < size; i++)
-        {
-            contact_flag_[i] = ctrl_component_.foot_force_state_interface_[i].get().get_value() > 0.1;
-        }
+        // const size_t size = ctrl_component_.foot_force_state_interface_.size();
+        // for (int i = 0; i < size; i++)
+        // {
+        //     contact_flag_[i] = ctrl_component_.foot_force_state_interface_[i].get().get_value() > 0.1;
+        // }
+        contact_flag_ = contact_flag;
     }
 
     void StateEstimateBase::updateImu()

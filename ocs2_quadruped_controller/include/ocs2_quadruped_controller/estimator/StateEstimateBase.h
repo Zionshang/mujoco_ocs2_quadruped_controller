@@ -18,8 +18,10 @@
 
 struct CtrlComponent;
 
-namespace ocs2::legged_robot {
-    class StateEstimateBase {
+namespace ocs2::legged_robot
+{
+    class StateEstimateBase
+    {
     public:
         virtual ~StateEstimateBase() = default;
 
@@ -30,11 +32,11 @@ namespace ocs2::legged_robot {
 
         virtual void updateJointStates();
 
-        virtual void updateContact();
+        virtual void updateContact(const contact_flag_t& contact_flag);
 
         virtual void updateImu();
 
-        virtual vector_t update(const rclcpp::Time &time, const rclcpp::Duration &period) = 0;
+        virtual vector_t update(const contact_flag_t& contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period) = 0;
 
         size_t getMode() { return stanceLeg2ModeNumber(contact_flag_); }
 
@@ -63,13 +65,15 @@ namespace ocs2::legged_robot {
         rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
     };
 
-    template<typename T>
-    T square(T a) {
+    template <typename T>
+    T square(T a)
+    {
         return a * a;
     }
 
-    template<typename SCALAR_T>
-    Eigen::Matrix<SCALAR_T, 3, 1> quatToZyx(const Eigen::Quaternion<SCALAR_T> &q) {
+    template <typename SCALAR_T>
+    Eigen::Matrix<SCALAR_T, 3, 1> quatToZyx(const Eigen::Quaternion<SCALAR_T> &q)
+    {
         Eigen::Matrix<SCALAR_T, 3, 1> zyx;
 
         SCALAR_T as = std::min(-2. * (q.x() * q.z() - q.w() * q.y()), .99999);

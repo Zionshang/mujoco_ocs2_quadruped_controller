@@ -71,7 +71,8 @@ namespace ocs2::legged_robot
 
         void setupStateEstimate();
 
-        void updateStateEstimation(const rclcpp::Time &time,
+        void updateStateEstimation(const contact_flag_t &contact_flag,
+                                   const rclcpp::Time &time,
                                    const rclcpp::Duration &period);
 
         CtrlComponent ctrl_comp_;
@@ -129,6 +130,7 @@ namespace ocs2::legged_robot
         std::shared_ptr<CentroidalModelRbdConversions> rbd_conversions_;
 
     private:
+        size_t planned_mode; // The mode that is active at the time the policy is evaluated at.
         vector_t measured_rbd_state_;
         std::thread mpc_thread_;
         std::atomic_bool controller_running_{}, mpc_running_{};

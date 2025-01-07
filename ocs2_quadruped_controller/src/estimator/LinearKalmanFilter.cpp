@@ -12,7 +12,8 @@
 #include <ocs2_robotic_tools/common/RotationDerivativesTransforms.h>
 #include <ocs2_robotic_tools/common/RotationTransforms.h>
 
-namespace ocs2::legged_robot {
+namespace ocs2::legged_robot
+{
     KalmanFilterEstimate::KalmanFilterEstimate(PinocchioInterface pinocchio_interface,
                                                CentroidalModelInfo info,
                                                const PinocchioEndEffectorKinematics &ee_kinematics,
@@ -23,7 +24,8 @@ namespace ocs2::legged_robot {
           numContacts_(info_.numThreeDofContacts + info_.numSixDofContacts),
           dimContacts_(3 * numContacts_),
           numState_(6 + dimContacts_),
-          numObserve_(2 * dimContacts_ + numContacts_) {
+          numObserve_(2 * dimContacts_ + numContacts_)
+    {
         xHat_.setZero(numState_);
         ps_.setZero(dimContacts_);
         vs_.setZero(dimContacts_);
@@ -34,7 +36,8 @@ namespace ocs2::legged_robot {
         c1 << matrix3_t::Identity(), matrix3_t::Zero();
         c2 << matrix3_t::Zero(), matrix3_t::Identity();
         c_.setZero(numObserve_, numState_);
-        for (ssize_t i = 0; i < numContacts_; ++i) {
+        for (ssize_t i = 0; i < numContacts_; ++i)
+        {
             c_.block(3 * i, 0, 3, 6) = c1;
             c_.block(3 * (numContacts_ + i), 0, 3, 6) = c2;
             c_(2 * dimContacts_ + i, 6 + 3 * i + 2) = 1.0;
@@ -49,9 +52,10 @@ namespace ocs2::legged_robot {
         ee_kinematics_->setPinocchioInterface(pinocchio_interface_);
     }
 
-    vector_t KalmanFilterEstimate::update(const rclcpp::Time &time, const rclcpp::Duration &period) {
+    vector_t KalmanFilterEstimate::update(const contact_flag_t& contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period)
+    {
         updateJointStates();
-        updateContact();
+        updateContact(contact_flag);
         updateImu();
 
         scalar_t dt = period.seconds();
@@ -89,17 +93,18 @@ namespace ocs2::legged_robot {
         q.block(0, 0, 3, 3) = q_.block(0, 0, 3, 3) * imu_process_noise_position_;
         q.block(3, 3, 3, 3) = q_.block(3, 3, 3, 3) * imu_process_noise_velocity_;
         q.block(6, 6, dimContacts_, dimContacts_) =
-                q_.block(6, 6, dimContacts_, dimContacts_) * footProcessNoisePosition_;
+            q_.block(6, 6, dimContacts_, dimContacts_) * footProcessNoisePosition_;
 
         matrix_t r = matrix_t::Identity(numObserve_, numObserve_);
         r.block(0, 0, dimContacts_, dimContacts_) =
-                r_.block(0, 0, dimContacts_, dimContacts_) * footSensorNoisePosition_;
+            r_.block(0, 0, dimContacts_, dimContacts_) * footSensorNoisePosition_;
         r.block(dimContacts_, dimContacts_, dimContacts_, dimContacts_) =
-                r_.block(dimContacts_, dimContacts_, dimContacts_, dimContacts_) * footSensorNoiseVelocity_;
+            r_.block(dimContacts_, dimContacts_, dimContacts_, dimContacts_) * footSensorNoiseVelocity_;
         r.block(2 * dimContacts_, 2 * dimContacts_, numContacts_, numContacts_) =
-                r_.block(2 * dimContacts_, 2 * dimContacts_, numContacts_, numContacts_) * footHeightSensorNoise_;
+            r_.block(2 * dimContacts_, 2 * dimContacts_, numContacts_, numContacts_) * footHeightSensorNoise_;
 
-        for (int i = 0; i < numContacts_; i++) {
+        for (int i = 0; i < numContacts_; i++)
+        {
             int i1 = 3 * i;
 
             int qIndex = 6 + i1;
@@ -158,7 +163,8 @@ namespace ocs2::legged_robot {
         return rbd_state_;
     }
 
-    nav_msgs::msg::Odometry KalmanFilterEstimate::getOdomMsg() {
+    nav_msgs::msg::Odometry KalmanFilterEstimate::getOdomMsg()
+    {
         nav_msgs::msg::Odometry odom;
         odom.pose.pose.position.x = xHat_.segment<3>(0)(0);
         odom.pose.pose.position.y = xHat_.segment<3>(0)(1);
@@ -168,8 +174,10 @@ namespace ocs2::legged_robot {
         odom.pose.pose.orientation.z = quat_.z();
         odom.pose.pose.orientation.w = quat_.w();
         odom.pose.pose.orientation.x = quat_.x();
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 3; ++j) {
+        for (int i = 0; i < 3; ++i)
+        {
+            for (int j = 0; j < 3; ++j)
+            {
                 odom.pose.covariance[i * 6 + j] = p_(i, j);
                 odom.pose.covariance[6 * (3 + i) + (3 + j)] = orientationCovariance_(i * 3 + j);
             }
@@ -182,8 +190,10 @@ namespace ocs2::legged_robot {
         odom.twist.twist.angular.x = angular_vel_local_.x();
         odom.twist.twist.angular.y = angular_vel_local_.y();
         odom.twist.twist.angular.z = angular_vel_local_.z();
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 3; ++j) {
+        for (int i = 0; i < 3; ++i)
+        {
+            for (int j = 0; j < 3; ++j)
+            {
                 odom.twist.covariance[i * 6 + j] = p_.block<3, 3>(3, 3)(i, j);
                 odom.twist.covariance[6 * (3 + i) + (3 + j)] = angularVelCovariance_(i * 3 + j);
             }
@@ -191,11 +201,13 @@ namespace ocs2::legged_robot {
         return odom;
     }
 
-    void KalmanFilterEstimate::loadSettings(const std::string &task_file, const bool verbose) {
+    void KalmanFilterEstimate::loadSettings(const std::string &task_file, const bool verbose)
+    {
         boost::property_tree::ptree pt;
         read_info(task_file, pt);
         const std::string prefix = "kalmanFilter.";
-        if (verbose) {
+        if (verbose)
+        {
             std::cerr << "\n #### Kalman Filter Noise:";
             std::cerr << "\n #### =============================================================================\n";
         }

@@ -67,7 +67,8 @@ namespace ocs2::legged_robot
                                                                       const rclcpp::Duration &period)
     {
         // State Estimate
-        updateStateEstimation(time, period);
+        contact_flag_t contact_flag = modeNumber2StanceLeg(planned_mode);
+        updateStateEstimation(contact_flag, time, period);
 
         // Compute target trajectory
         ctrl_comp_.target_manager_->update(time);
@@ -80,7 +81,6 @@ namespace ocs2::legged_robot
 
         // Evaluate the current policy
         vector_t optimized_state, optimized_input;
-        size_t planned_mode = 0; // The mode that is active at the time the policy is evaluated at.
         mpc_mrt_interface_->evaluatePolicy(ctrl_comp_.observation_.time, ctrl_comp_.observation_.state, optimized_state,
                                            optimized_input, planned_mode);
 
@@ -88,8 +88,7 @@ namespace ocs2::legged_robot
         ctrl_comp_.observation_.input = optimized_input;
 
         wbc_timer_.startTimer();
-        vector_t x = wbc_->update(optimized_state, optimized_input, measured_rbd_state_, planned_mode,
-                                  period.seconds());
+        vector_t x = wbc_->update(optimized_state, optimized_input, measured_rbd_state_, planned_mode, period.seconds());
         wbc_timer_.endTimer();
 
         vector_t torque = x.tail(12);
@@ -182,6 +181,7 @@ namespace ocs2::legged_robot
         //                                                                        leggedInterface_->getGeometryInterface(), pinocchioMapping, nh));
 
         // State estimation
+        planned_mode = 0;
         setupStateEstimate();
 
         // Whole body control
@@ -278,7 +278,8 @@ namespace ocs2::legged_robot
             // Initial state
             ctrl_comp_.observation_.state.setZero(
                 static_cast<long>(legged_interface_->getCentroidalModelInfo().stateDim));
-            updateStateEstimation(get_node()->now(), rclcpp::Duration(0, 1 / ctrl_comp_.frequency_ * 1000000000));
+            contact_flag_t contact_flag = modeNumber2StanceLeg(planned_mode);
+            updateStateEstimation(contact_flag, get_node()->now(), rclcpp::Duration(0, 1 / ctrl_comp_.frequency_ * 1000000000));
             ctrl_comp_.observation_.input.setZero(
                 static_cast<long>(legged_interface_->getCentroidalModelInfo().inputDim));
             ctrl_comp_.observation_.mode = STANCE;
@@ -395,9 +396,9 @@ namespace ocs2::legged_robot
         ctrl_comp_.observation_.time = 0;
     }
 
-    void Ocs2QuadrupedController::updateStateEstimation(const rclcpp::Time &time, const rclcpp::Duration &period)
+    void Ocs2QuadrupedController::updateStateEstimation(const contact_flag_t &contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period)
     {
-        measured_rbd_state_ = ctrl_comp_.estimator_->update(time, period);
+        measured_rbd_state_ = ctrl_comp_.estimator_->update(contact_flag, time, period);
         ctrl_comp_.observation_.time += period.seconds();
         const scalar_t yaw_last = ctrl_comp_.observation_.state(9);
         ctrl_comp_.observation_.state = rbd_conversions_->computeCentroidalStateFromRbdModel(measured_rbd_state_);

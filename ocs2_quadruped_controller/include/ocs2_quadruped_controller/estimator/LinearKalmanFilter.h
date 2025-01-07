@@ -13,15 +13,17 @@
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_ros/transform_listener.h>
 
-namespace ocs2::legged_robot {
-    class KalmanFilterEstimate final : public StateEstimateBase {
+namespace ocs2::legged_robot
+{
+    class KalmanFilterEstimate final : public StateEstimateBase
+    {
     public:
         KalmanFilterEstimate(PinocchioInterface pinocchio_interface, CentroidalModelInfo info,
                              const PinocchioEndEffectorKinematics &ee_kinematics,
                              CtrlComponent &ctrl_component,
                              const rclcpp_lifecycle::LifecycleNode::SharedPtr &node);
 
-        vector_t update(const rclcpp::Time &time, const rclcpp::Duration &period) override;
+        vector_t update(const contact_flag_t& contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
         void loadSettings(const std::string &task_file, bool verbose);
 
