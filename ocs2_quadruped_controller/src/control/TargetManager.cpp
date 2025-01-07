@@ -27,9 +27,10 @@ namespace ocs2::legged_robot
         loadData::loadCppDataType(reference_file, "targetRotationVelocity", target_rotation_velocity_);
         loadData::loadCppDataType(reference_file, "targetDisplacementVelocity", target_displacement_velocity_);
         odom_pub_ = node_->create_publisher<nav_msgs::msg::Odometry>("reference_odom", 10);
+        targetPose = vector_t::Zero(6);
     }
 
-    void TargetManager::update(const rclcpp::Time &time)
+    void TargetManager::update(const rclcpp::Time &time, const rclcpp::Duration &period)
     {
         vector_t cmdGoal = vector_t::Zero(6);
         // cmdGoal is expressed in body frame
@@ -44,17 +45,13 @@ namespace ocs2::legged_robot
         vector_t cmd_vel_rot = getRotationMatrixFromZyxEulerAngles(zyx) * cmdGoal.head(3);
 
         // targetPose is expressed in world frame
-        const vector_t targetPose = [&]()
-        {
-            vector_t target(6);
-            target(0) = currentPose(0) + cmd_vel_rot(0) * time_to_target_; // x
-            target(1) = currentPose(1) + cmd_vel_rot(1) * time_to_target_; // y
-            target(2) = command_height_;                                   // z
-            target(3) = currentPose(3) + cmdGoal(3) * time_to_target_;     // yaw
-            target(4) = 0;                                                 // pitch
-            target(5) = 0;                                                 // roll
-            return target;
-        }();
+        double time_step = period.seconds() / time_to_target_;
+        targetPose(0) = targetPose(0) + cmd_vel_rot(0) * time_step; // x
+        targetPose(1) = targetPose(1) + cmd_vel_rot(1) * time_step; // y
+        targetPose(2) = command_height_;                            // z
+        targetPose(3) = targetPose(3) + cmdGoal(3) * time_step;     // yaw
+        targetPose(4) = 0;                                          // pitch
+        targetPose(5) = 0;                                          // roll
 
         const scalar_t targetReachingTime = ctrl_component_.observation_.time + time_to_target_;
         auto trajectories = targetPoseToTargetTrajectories(targetPose, ctrl_component_.observation_, targetReachingTime);
@@ -69,6 +66,30 @@ namespace ocs2::legged_robot
         odom.child_frame_id = "base";
         publishMsgs(odom);
         referenceManagerPtr_->setTargetTrajectories(std::move(trajectories));
+    }
+
+    TargetTrajectories TargetManager::targetPoseToTargetTrajectories(const vector_t &targetPose,
+                                                                     const SystemObservation &observation,
+                                                                     const scalar_t &targetReachingTime)
+    {
+        // desired time trajectory
+        const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
+
+        // desired state trajectory
+        vector_t currentPose = observation.state.segment<6>(6);
+        // TODO: remove the restrictions on z, pitch, row
+        currentPose(2) = command_height_;
+        currentPose(4) = 0;
+        currentPose(5) = 0;
+        // TODO: remove the restrictions on zero velocity
+        vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
+        stateTrajectory[0] << vector_t::Zero(6), currentPose, default_joint_state_;
+        stateTrajectory[1] << vector_t::Zero(6), targetPose, default_joint_state_;
+
+        // desired input trajectory (just right dimensions, they are not used)
+        const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
+
+        return {timeTrajectory, stateTrajectory, inputTrajectory};
     }
 
     nav_msgs::msg::Odometry TargetManager::getOdomMsg(const ocs2::TargetTrajectories &trajectories)

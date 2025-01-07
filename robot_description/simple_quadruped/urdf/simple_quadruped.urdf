@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<robot
-  name="simple_quadruped">
+<robot name="simple_quadruped">
   <link name="trunk">
     <inertial>
       <origin
@@ -62,7 +61,7 @@
         xyz="0.1 0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
       <material
         name="">
@@ -75,7 +74,7 @@
         xyz="0.1 0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
     </collision>
   </link>
@@ -141,7 +140,7 @@
     <child
       link="FL_thigh" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="-1.0472"
       upper="4.1888"
@@ -194,7 +193,7 @@
     <child
       link="FL_calf" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="0.9163"
       upper="2.6965"
@@ -221,7 +220,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
       <material
         name="">
@@ -234,7 +233,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
     </collision>
   </link>
@@ -286,7 +285,7 @@
         xyz="0.1 -0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
       <material
         name="">
@@ -299,7 +298,7 @@
         xyz="0.1 -0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
     </collision>
   </link>
@@ -312,7 +311,7 @@
     <child
       link="FR_thigh" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="-1.0472"
       upper="4.1888"
@@ -365,7 +364,7 @@
     <child
       link="FR_calf" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="0.9163"
       upper="2.6965"
@@ -440,7 +439,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
       <material
         name="">
@@ -453,7 +452,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
     </collision>
   </link>
@@ -494,7 +493,7 @@
         xyz="-0.1 -0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
       <material
         name="">
@@ -507,7 +506,7 @@
         xyz="-0.1 -0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
     </collision>
   </link>
@@ -520,7 +519,7 @@
     <child
       link="RR_thigh" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="-1.0472"
       upper="4.1888"
@@ -573,7 +572,7 @@
     <child
       link="RR_calf" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="0.9163"
       upper="2.6965"
@@ -648,7 +647,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
       <material
         name="">
@@ -661,7 +660,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
     </collision>
   </link>
@@ -702,7 +701,7 @@
         xyz="-0.1 0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
       <material
         name="">
@@ -715,7 +714,7 @@
         xyz="-0.1 0.03325 0"
         rpy="1.5707963 0 0" />
       <geometry>
-         <cylinder radius="0.06" length="0.1065"/>
+        <cylinder radius="0.06" length="0.1065" />
       </geometry>
     </collision>
   </link>
@@ -728,7 +727,7 @@
     <child
       link="RL_thigh" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="-1.0472"
       upper="4.1888"
@@ -781,7 +780,7 @@
     <child
       link="RL_calf" />
     <axis
-      xyz="0 -1 0" />
+      xyz="0 1 0" />
     <limit
       lower="0.9163"
       upper="2.6965"
@@ -856,7 +855,7 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
       <material
         name="">
@@ -869,9 +868,9 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.025" />
+        <sphere radius="0.030" />
       </geometry>
     </collision>
   </link>
-  
+
 </robot>

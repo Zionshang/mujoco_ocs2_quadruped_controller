@@ -70,7 +70,7 @@ namespace ocs2::legged_robot
         updateStateEstimation(modeNumber2StanceLeg(planned_mode), time, period);
 
         // Compute target trajectory
-        ctrl_comp_.target_manager_->update(time);
+        ctrl_comp_.target_manager_->update(time, period);
 
         // Update the current state of the system
         mpc_mrt_interface_->setCurrentObservation(ctrl_comp_.observation_);
@@ -184,12 +184,12 @@ namespace ocs2::legged_robot
         setupStateEstimate();
 
         // Whole body control
-        // wbc_ = std::make_shared<HierarchicalWbc>(legged_interface_->getPinocchioInterface(),
-        //                                          legged_interface_->getCentroidalModelInfo(),
-        //                                          *eeKinematicsPtr_);
-        wbc_ = std::make_shared<WeightedWbc>(legged_interface_->getPinocchioInterface(),
-                                             legged_interface_->getCentroidalModelInfo(),
-                                             *eeKinematicsPtr_);
+        wbc_ = std::make_shared<HierarchicalWbc>(legged_interface_->getPinocchioInterface(),
+                                                 legged_interface_->getCentroidalModelInfo(),
+                                                 *eeKinematicsPtr_);
+        // wbc_ = std::make_shared<WeightedWbc>(legged_interface_->getPinocchioInterface(),
+        //                                      legged_interface_->getCentroidalModelInfo(),
+        //                                      *eeKinematicsPtr_);
         wbc_->loadTasksSetting(task_file_, verbose_);
 
         // Safety Checker

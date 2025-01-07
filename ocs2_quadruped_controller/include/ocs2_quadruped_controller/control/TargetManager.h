@@ -26,32 +26,13 @@ namespace ocs2::legged_robot
 
         ~TargetManager() = default;
 
-        void update(const rclcpp::Time &time);
+        void update(const rclcpp::Time &time, const rclcpp::Duration &period);
 
     private:
         TargetTrajectories targetPoseToTargetTrajectories(const vector_t &targetPose,
                                                           const SystemObservation &observation,
-                                                          const scalar_t &targetReachingTime)
-        {
-            // desired time trajectory
-            const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
+                                                          const scalar_t &targetReachingTime);
 
-            // desired state trajectory
-            vector_t currentPose = observation.state.segment<6>(6);
-            // TODO: remove the restrictions on z, pitch, row
-            currentPose(2) = command_height_;
-            currentPose(4) = 0;
-            currentPose(5) = 0;
-            // TODO: remove the restrictions on zero velocity
-            vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
-            stateTrajectory[0] << vector_t::Zero(6), currentPose, default_joint_state_;
-            stateTrajectory[1] << vector_t::Zero(6), targetPose, default_joint_state_;
-
-            // desired input trajectory (just right dimensions, they are not used)
-            const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
-
-            return {timeTrajectory, stateTrajectory, inputTrajectory};
-        }
         nav_msgs::msg::Odometry getOdomMsg(const ocs2::TargetTrajectories &trajectories);
         void publishMsgs(const nav_msgs::msg::Odometry &odom) const;
 
@@ -63,6 +44,7 @@ namespace ocs2::legged_robot
         scalar_t time_to_target_{};
         scalar_t target_displacement_velocity_;
         scalar_t target_rotation_velocity_;
+        vector_t targetPose; // target [x, y, z, yaw, pitch, roll] expressed in WORLD frame
 
         rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
         rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
