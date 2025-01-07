@@ -27,7 +27,7 @@ public:
 protected:
     void imu_callback(const sensor_msgs::msg::Imu imu_state);
     void joint_state_callback(const sensor_msgs::msg::JointState joint_state);
-    void foot_contact_callback(const custom_msgs::msg::MujocoMsg foot_contact_state);
+    // void foot_contact_callback(const custom_msgs::msg::MujocoMsg foot_contact_state);
 
     // cmd
     std::unordered_map<std::string, double> joint_position_commands_;
@@ -41,7 +41,7 @@ protected:
     std::unordered_map<std::string, double> joint_velocity_states_;
     std::unordered_map<std::string, double> joint_effort_states_;
     std::vector<double> imu_states_;
-    std::vector<double> foot_contact_states_;
+    // std::vector<double> foot_contact_states_;
 
     /*node*/
     rclcpp::Node::SharedPtr node_;
@@ -50,5 +50,5 @@ protected:
     /*subscriber*/
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_subscriber_;
     rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_subscriber_;
-    rclcpp::Subscription<custom_msgs::msg::MujocoMsg>::SharedPtr foot_contact_state_subscriber_;
+    // rclcpp::Subscription<custom_msgs::msg::MujocoMsg>::SharedPtr foot_contact_state_subscriber_;
 };

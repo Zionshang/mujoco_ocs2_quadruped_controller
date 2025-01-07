@@ -164,12 +164,12 @@
             <state_interface name="linear_acceleration.z" />
         </sensor>
 
-        <sensor name="foot_contact_sensor">
+        <!-- <sensor name="foot_contact_sensor">
             <state_interface name="FR_foot" />
             <state_interface name="FL_foot" />
             <state_interface name="RR_foot" />
             <state_interface name="RL_foot" />
-        </sensor>
+        </sensor> -->
 
     </ros2_control>
 

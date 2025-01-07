@@ -99,9 +99,9 @@ namespace ocs2::legged_robot
         // IMU Sensor
         std::string imu_name_;
         std::vector<std::string> imu_interface_types_;
-        // Foot Force Sensor
-        std::string foot_force_name_;
-        std::vector<std::string> foot_force_interface_types_;
+        // // Foot Force Sensor
+        // std::string foot_force_name_;
+        // std::vector<std::string> foot_force_interface_types_;
 
         double default_kp_ = 0;
         double default_kd_ = 6;

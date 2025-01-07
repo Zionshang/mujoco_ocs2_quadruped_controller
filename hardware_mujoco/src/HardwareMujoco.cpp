@@ -30,7 +30,7 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Hardwa
         joint_kd_commands_[info.joints[i].name] = 0.0;
     }
     imu_states_.resize(info.sensors[0].state_interfaces.size(), 0);
-    foot_contact_states_.resize(info.sensors[1].state_interfaces.size(), 0);
+    // foot_contact_states_.resize(info.sensors[1].state_interfaces.size(), 0);
 
     node_ = rclcpp::Node::make_shared("ros2_control_mujoco");
     // subscription
@@ -38,8 +38,8 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn Hardwa
         "joint_states", rclcpp::SensorDataQoS(), std::bind(&HardwareMujoco::joint_state_callback, this, std::placeholders::_1));
     imu_subscriber_ = node_->create_subscription<sensor_msgs::msg::Imu>(
         "imu_data", rclcpp::SensorDataQoS(), std::bind(&HardwareMujoco::imu_callback, this, std::placeholders::_1));
-    foot_contact_state_subscriber_ = node_->create_subscription<custom_msgs::msg::MujocoMsg>(
-        "mujoco_msg", rclcpp::SensorDataQoS(), std::bind(&HardwareMujoco::foot_contact_callback, this, std::placeholders::_1));
+    // foot_contact_state_subscriber_ = node_->create_subscription<custom_msgs::msg::MujocoMsg>(
+    //     "mujoco_msg", rclcpp::SensorDataQoS(), std::bind(&HardwareMujoco::foot_contact_callback, this, std::placeholders::_1));
 
     // publish
     auto qos = rclcpp::QoS(rclcpp::KeepLast(1), rmw_qos_profile_sensor_data);
@@ -71,12 +71,12 @@ std::vector<hardware_interface::StateInterface> HardwareMujoco::export_state_int
             info_.sensors[0].name, info_.sensors[0].state_interfaces[i].name, &imu_states_[i]));
     }
 
-    // force contact sensor
-    for (size_t i = 0; i < info_.sensors[1].state_interfaces.size(); i++)
-    {
-        state_interfaces.emplace_back(hardware_interface::StateInterface(
-            info_.sensors[1].name, info_.sensors[1].state_interfaces[i].name, &foot_contact_states_[i]));
-    }
+    // // force contact sensor
+    // for (size_t i = 0; i < info_.sensors[1].state_interfaces.size(); i++)
+    // {
+    //     state_interfaces.emplace_back(hardware_interface::StateInterface(
+    //         info_.sensors[1].name, info_.sensors[1].state_interfaces[i].name, &foot_contact_states_[i]));
+    // }
 
     return state_interfaces;
 }
@@ -153,13 +153,13 @@ void HardwareMujoco::joint_state_callback(const sensor_msgs::msg::JointState joi
     }
 }
 
-void HardwareMujoco::foot_contact_callback(const custom_msgs::msg::MujocoMsg foot_contact_state)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        foot_contact_states_[i] = foot_contact_state.contact_state[i];
-    }
-}
+// void HardwareMujoco::foot_contact_callback(const custom_msgs::msg::MujocoMsg foot_contact_state)
+// {
+//     for (int i = 0; i < 4; i++)
+//     {
+//         foot_contact_states_[i] = foot_contact_state.contact_state[i];
+//     }
+// }
 
 #include "pluginlib/class_list_macros.hpp"
 

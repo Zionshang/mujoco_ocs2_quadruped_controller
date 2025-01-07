@@ -55,10 +55,10 @@ namespace ocs2::legged_robot
             conf.names.push_back(imu_name_ + "/" += interface_type);
         }
 
-        for (const auto &interface_type : foot_force_interface_types_)
-        {
-            conf.names.push_back(foot_force_name_ + "/" += interface_type);
-        }
+        // for (const auto &interface_type : foot_force_interface_types_)
+        // {
+        //     conf.names.push_back(foot_force_name_ + "/" += interface_type);
+        // }
 
         return conf;
     }
@@ -67,8 +67,7 @@ namespace ocs2::legged_robot
                                                                       const rclcpp::Duration &period)
     {
         // State Estimate
-        contact_flag_t contact_flag = modeNumber2StanceLeg(planned_mode);
-        updateStateEstimation(contact_flag, time, period);
+        updateStateEstimation(modeNumber2StanceLeg(planned_mode), time, period);
 
         // Compute target trajectory
         ctrl_comp_.target_manager_->update(time);
@@ -155,9 +154,9 @@ namespace ocs2::legged_robot
             auto_declare<std::vector<std::string>>("state_interfaces", state_interface_types_);
         imu_name_ = auto_declare<std::string>("imu_name", imu_name_);
         imu_interface_types_ = auto_declare<std::vector<std::string>>("imu_interfaces", state_interface_types_);
-        foot_force_name_ = auto_declare<std::string>("foot_force_name", foot_force_name_);
-        foot_force_interface_types_ =
-            auto_declare<std::vector<std::string>>("foot_force_interfaces", state_interface_types_);
+        // foot_force_name_ = auto_declare<std::string>("foot_force_name", foot_force_name_);
+        // foot_force_interface_types_ =
+        //     auto_declare<std::vector<std::string>>("foot_force_interfaces", state_interface_types_);
 
         // PD gains
         default_kp_ = auto_declare<double>("default_kp", default_kp_);
@@ -263,10 +262,10 @@ namespace ocs2::legged_robot
             {
                 ctrl_comp_.imu_state_interface_.emplace_back(interface);
             }
-            else if (interface.get_prefix_name() == foot_force_name_)
-            {
-                ctrl_comp_.foot_force_state_interface_.emplace_back(interface);
-            }
+            // else if (interface.get_prefix_name() == foot_force_name_)
+            // {
+            //     ctrl_comp_.foot_force_state_interface_.emplace_back(interface);
+            // }
             else
             {
                 state_interface_map_[interface.get_interface_name()]->push_back(interface);
@@ -278,8 +277,7 @@ namespace ocs2::legged_robot
             // Initial state
             ctrl_comp_.observation_.state.setZero(
                 static_cast<long>(legged_interface_->getCentroidalModelInfo().stateDim));
-            contact_flag_t contact_flag = modeNumber2StanceLeg(planned_mode);
-            updateStateEstimation(contact_flag, get_node()->now(), rclcpp::Duration(0, 1 / ctrl_comp_.frequency_ * 1000000000));
+            updateStateEstimation(modeNumber2StanceLeg(planned_mode), get_node()->now(), rclcpp::Duration(0, 1 / ctrl_comp_.frequency_ * 1000000000));
             ctrl_comp_.observation_.input.setZero(
                 static_cast<long>(legged_interface_->getCentroidalModelInfo().inputDim));
             ctrl_comp_.observation_.mode = STANCE;
