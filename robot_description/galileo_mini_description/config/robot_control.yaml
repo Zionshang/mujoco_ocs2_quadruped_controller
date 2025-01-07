@@ -10,7 +10,7 @@ ocs2_quadruped_controller:
   ros__parameters:
     update_rate: 1000  # Hz
     default_kp: 0.0
-    default_kd: 8.0
+    default_kd: 5.0
 
     joints:
       - FL_hip_joint

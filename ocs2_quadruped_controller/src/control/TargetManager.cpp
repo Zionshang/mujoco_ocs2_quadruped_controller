@@ -14,9 +14,11 @@ namespace ocs2::legged_robot
     TargetManager::TargetManager(CtrlComponent &ctrl_component,
                                  const std::shared_ptr<ReferenceManagerInterface> &referenceManagerPtr,
                                  const std::string &task_file,
-                                 const std::string &reference_file)
+                                 const std::string &reference_file,
+                                 rclcpp_lifecycle::LifecycleNode::SharedPtr node)
         : ctrl_component_(ctrl_component),
-          referenceManagerPtr_(referenceManagerPtr)
+          referenceManagerPtr_(referenceManagerPtr),
+          node_(std::move(node))
     {
         default_joint_state_ = vector_t::Zero(12);
         loadData::loadCppDataType(reference_file, "comHeight", command_height_);
@@ -24,9 +26,10 @@ namespace ocs2::legged_robot
         loadData::loadCppDataType(task_file, "mpc.timeHorizon", time_to_target_);
         loadData::loadCppDataType(reference_file, "targetRotationVelocity", target_rotation_velocity_);
         loadData::loadCppDataType(reference_file, "targetDisplacementVelocity", target_displacement_velocity_);
+        odom_pub_ = node_->create_publisher<nav_msgs::msg::Odometry>("reference_odom", 10);
     }
 
-    void TargetManager::update()
+    void TargetManager::update(const rclcpp::Time &time)
     {
         vector_t cmdGoal = vector_t::Zero(6);
         // cmdGoal is expressed in body frame
@@ -60,6 +63,46 @@ namespace ocs2::legged_robot
         trajectories.stateTrajectory[0].head(3) = cmd_vel_rot;
         trajectories.stateTrajectory[1].head(3) = cmd_vel_rot;
 
+        auto odom = getOdomMsg(trajectories);
+        odom.header.stamp = time;
+        odom.header.frame_id = "odom";
+        odom.child_frame_id = "base";
+        publishMsgs(odom);
         referenceManagerPtr_->setTargetTrajectories(std::move(trajectories));
+    }
+
+    nav_msgs::msg::Odometry TargetManager::getOdomMsg(const ocs2::TargetTrajectories &trajectories)
+    {
+        nav_msgs::msg::Odometry odom;
+
+        odom.pose.pose.position.x = trajectories.stateTrajectory[1](6);
+        odom.pose.pose.position.y = trajectories.stateTrajectory[1](7);
+        odom.pose.pose.position.z = trajectories.stateTrajectory[1](8);
+
+        const Eigen::Matrix<scalar_t, 3, 1> zyx = trajectories.stateTrajectory[1].segment(9, 3);
+        Eigen::Quaternion<scalar_t> quat = getQuaternionFromEulerAnglesZyx(zyx);
+        odom.pose.pose.orientation.x = quat.x();
+        odom.pose.pose.orientation.y = quat.y();
+        odom.pose.pose.orientation.z = quat.z();
+        odom.pose.pose.orientation.w = quat.w();
+        odom.pose.pose.orientation.x = quat.x();
+
+        //  The twist in this message should be specified in the coordinate frame given by the child_frame_id: "base"
+        vector_t twist = getRotationMatrixFromZyxEulerAngles(zyx).transpose() * trajectories.stateTrajectory[1].head(6);
+
+        odom.twist.twist.linear.x = twist(0);
+        odom.twist.twist.linear.y = twist(1);
+        odom.twist.twist.linear.z = twist(2);
+
+        odom.twist.twist.angular.x = twist(3);
+        odom.twist.twist.angular.y = twist(4);
+        odom.twist.twist.angular.z = twist(5);
+        return odom;
+    }
+
+    void TargetManager::publishMsgs(const nav_msgs::msg::Odometry &odom) const
+    {
+        rclcpp::Time time = odom.header.stamp;
+        odom_pub_->publish(odom);
     }
 }

@@ -70,7 +70,7 @@ namespace ocs2::legged_robot
         updateStateEstimation(time, period);
 
         // Compute target trajectory
-        ctrl_comp_.target_manager_->update();
+        ctrl_comp_.target_manager_->update(time);
 
         // Update the current state of the system
         mpc_mrt_interface_->setCurrentObservation(ctrl_comp_.observation_);
@@ -353,7 +353,8 @@ namespace ocs2::legged_robot
 
         ctrl_comp_.target_manager_ = std::make_shared<TargetManager>(ctrl_comp_,
                                                                      legged_interface_->getReferenceManagerPtr(),
-                                                                     task_file_, reference_file_);
+                                                                     task_file_, reference_file_,
+                                                                     this->get_node());
     }
 
     void Ocs2QuadrupedController::setupMrt()
