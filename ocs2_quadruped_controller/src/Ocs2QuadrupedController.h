@@ -106,7 +106,7 @@ namespace ocs2::legged_robot
         double default_kp_ = 0;
         double default_kd_ = 6;
 
-        rclcpp::Subscription<custom_msgs::msg::UserInputs>::SharedPtr control_input_subscription_;
+        rclcpp::Subscription<custom_msgs::msg::UserCmds>::SharedPtr control_input_subscription_;
         rclcpp::Publisher<ocs2_msgs::msg::MpcObservation>::SharedPtr observation_publisher_;
 
         std::string task_file_;

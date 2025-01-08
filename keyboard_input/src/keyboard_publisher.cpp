@@ -12,11 +12,13 @@ public:
         // 创建发布器
         publisher_ = this->create_publisher<std_msgs::msg::String>("keyboard_input", 10);
 
-        RCLCPP_INFO(this->get_logger(), "Keyboard publisher node started. Press any key to publish...");
+        RCLCPP_INFO(this->get_logger(), "Keyboard publisher node started in 50ms. Press any key to publish...");
     }
 
-    void run()
+    void run(double frequency)
     {
+        rclcpp::Rate rate(frequency);
+
         while (rclcpp::ok())
         {
             char key = getKey(); // 获取按键
@@ -33,6 +35,7 @@ public:
 
             RCLCPP_INFO(this->get_logger(), "Published key: %s", msg.data.c_str());
         }
+        rate.sleep(); // 控制循环频率
     }
 
 private:
@@ -55,9 +58,10 @@ private:
 
 int main(int argc, char **argv)
 {
+    double frequency = 20; // 50ms发布一次（1秒/50ms = 20Hz）
     rclcpp::init(argc, argv);
     auto node = std::make_shared<KeyboardPublisher>();
-    node->run();
+    node->run(frequency);
     rclcpp::shutdown();
     return 0;
 }

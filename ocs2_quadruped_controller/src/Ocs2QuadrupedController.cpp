@@ -219,15 +219,18 @@ namespace ocs2::legged_robot
     controller_interface::CallbackReturn Ocs2QuadrupedController::on_configure(
         const rclcpp_lifecycle::State & /*previous_state*/)
     {
-        control_input_subscription_ = get_node()->create_subscription<custom_msgs::msg::UserInputs>(
-            "/control_input", 10, [this](const custom_msgs::msg::UserInputs::SharedPtr msg)
+        control_input_subscription_ = get_node()->create_subscription<custom_msgs::msg::UserCmds>(
+            "user_cmd", 10, [this](const custom_msgs::msg::UserCmds::SharedPtr msg)
             {
                 // Handle message
-                ctrl_comp_.control_inputs_.command = msg->command;
-                ctrl_comp_.control_inputs_.lx = msg->lx;
-                ctrl_comp_.control_inputs_.ly = msg->ly;
-                ctrl_comp_.control_inputs_.rx = msg->rx;
-                ctrl_comp_.control_inputs_.ry = msg->ry; });
+                ctrl_comp_.user_cmds_.linear_x_input = msg->linear_x_input;
+                ctrl_comp_.user_cmds_.linear_y_input = msg->linear_y_input;
+                ctrl_comp_.user_cmds_.angular_y_input = msg->angular_y_input;
+                ctrl_comp_.user_cmds_.angular_z_input = msg->angular_z_input;
+
+                ctrl_comp_.user_cmds_.gait_name = msg->gait_name;
+                ctrl_comp_.user_cmds_.height_ratio = msg->height_ratio;
+                ctrl_comp_.user_cmds_.passive_enable = msg->passive_enable; });
 
         observation_publisher_ = get_node()->create_publisher<ocs2_msgs::msg::MpcObservation>(
             "legged_robot_mpc_observation", 10);

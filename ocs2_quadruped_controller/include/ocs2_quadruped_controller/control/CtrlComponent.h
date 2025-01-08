@@ -8,7 +8,7 @@
 #include <vector>
 #include <hardware_interface/loaned_command_interface.hpp>
 #include <hardware_interface/loaned_state_interface.hpp>
-#include <custom_msgs/msg/user_inputs.hpp>
+#include <custom_msgs/msg/user_cmds.hpp>
 
 #include <ocs2_mpc/SystemObservation.h>
 #include <ocs2_legged_robot_ros/visualization/LeggedRobotVisualizer.h>
@@ -42,7 +42,7 @@ struct CtrlComponent
     // std::vector<std::reference_wrapper<hardware_interface::LoanedStateInterface>>
     //     foot_force_state_interface_;
 
-    custom_msgs::msg::UserInputs control_inputs_;
+    custom_msgs::msg::UserCmds user_cmds_;
     ocs2::SystemObservation observation_;
     int frequency_{};
 
@@ -52,6 +52,13 @@ struct CtrlComponent
 
     CtrlComponent()
     {
+        user_cmds_.linear_x_input = 0.0;
+        user_cmds_.linear_y_input = 0.0;
+        user_cmds_.angular_y_input = 0.0;
+        user_cmds_.angular_z_input = 0.0;
+        user_cmds_.height_ratio = 0.0;
+        user_cmds_.gait_name = "stance";
+        user_cmds_.passive_enable = false;
     }
 
     void clear()

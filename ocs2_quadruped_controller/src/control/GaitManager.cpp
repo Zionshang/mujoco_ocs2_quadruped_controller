@@ -1,7 +1,3 @@
-//
-// Created by tlab-uav on 24-9-26.
-//
-
 #include <utility>
 
 #include "ocs2_quadruped_controller/control/GaitManager.h"
@@ -26,8 +22,7 @@ namespace ocs2::legged_robot
         if (gait_updated_)
         {
             const auto timeHorizon = finalTime - initTime;
-            gait_schedule_ptr_->insertModeSequenceTemplate(target_gait_, finalTime,
-                                                           timeHorizon);
+            gait_schedule_ptr_->insertModeSequenceTemplate(target_gait_, finalTime, timeHorizon);
             gait_updated_ = false;
         }
     }
@@ -48,14 +43,32 @@ namespace ocs2::legged_robot
 
     void GaitManager::getTargetGait()
     {
-        if (ctrl_component_.control_inputs_.command == 0)
+        const std::string &current_gait_name = ctrl_component_.user_cmds_.gait_name;
+
+        if (current_gait_name == last_gait_name_)
             return;
-        if (ctrl_component_.control_inputs_.command == last_command_)
+
+        int gait_index = findGaitIndex(current_gait_name);
+        if (gait_index == -1)
+        {
+            RCLCPP_INFO(rclcpp::get_logger("GaitManager"), "Unknown gait name: %s, automatically set to gait",
+                        current_gait_name.c_str());
             return;
-        last_command_ = ctrl_component_.control_inputs_.command;
-        target_gait_ = gait_list_[ctrl_component_.control_inputs_.command - 1];
+        }
+        target_gait_ = gait_list_[gait_index];
         RCLCPP_INFO(rclcpp::get_logger("GaitManager"), "Switch to gait: %s",
-                    gait_name_list_[ctrl_component_.control_inputs_.command - 1].c_str());
+                    gait_name_list_[gait_index].c_str());
         gait_updated_ = true;
+        last_gait_name_ = current_gait_name;
+    }
+
+    int GaitManager::findGaitIndex(const std::string &gait_name) const
+    {
+        auto itr = std::find(gait_name_list_.begin(), gait_name_list_.end(), gait_name);
+
+        if (itr != gait_name_list_.end())
+            return std::distance(gait_name_list_.begin(), itr);
+        else
+            return -1;
     }
 }

@@ -1,5 +1,4 @@
 import os
-
 import xacro
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -7,6 +6,7 @@ from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch.actions import ExecuteProcess
 
 package_controller = "ocs2_quadruped_controller"
 
@@ -103,9 +103,20 @@ def launch_setup(context, *args, **kwargs):
         ],
     )
 
+    cmd_mapping = Node(
+        package="cmd_mapping",
+        executable="cmd_mapping",
+    )
+
     nodes = [
         node
-        for node in [rviz, robot_state_publisher, controller_manager, ocs2_controller]
+        for node in [
+            cmd_mapping,
+            rviz,
+            robot_state_publisher,
+            controller_manager,
+            ocs2_controller,
+        ]
         if node is not None
     ]
 
@@ -130,5 +141,16 @@ def generate_launch_description():
             robot_pkg,
             rviz_enable,
             OpaqueFunction(function=launch_setup),
+            ExecuteProcess(
+                cmd=[
+                    "gnome-terminal",
+                    "--",
+                    "ros2",
+                    "run",
+                    "keyboard_input",
+                    "keyboard_publisher",
+                ],
+                output="screen",
+            ),
         ]
     )

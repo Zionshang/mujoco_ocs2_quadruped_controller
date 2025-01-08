@@ -1,7 +1,3 @@
-//
-// Created by tlab-uav on 24-9-30.
-//
-
 #ifndef TARGETMANAGER_H
 #define TARGETMANAGER_H
 
@@ -32,7 +28,7 @@ namespace ocs2::legged_robot
         TargetTrajectories targetPoseToTargetTrajectories(const vector_t &targetPose,
                                                           const SystemObservation &observation,
                                                           const scalar_t &targetReachingTime);
-
+        void updateHeight();
         nav_msgs::msg::Odometry getOdomMsg(const ocs2::TargetTrajectories &trajectories);
         void publishMsgs(const nav_msgs::msg::Odometry &odom) const;
 
@@ -45,6 +41,7 @@ namespace ocs2::legged_robot
         scalar_t target_displacement_velocity_;
         scalar_t target_rotation_velocity_;
         vector_t targetPose; // target [x, y, z, yaw, pitch, roll] expressed in WORLD frame
+        double height_ratio; // the ratio of target height to the nominal height
 
         rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
         rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
