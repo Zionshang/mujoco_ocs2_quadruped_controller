@@ -62,5 +62,9 @@ colcon build
 ## 3 Run Example
 1. Open a terminal to launch the mujoco emulator
 ```
+ros2 launch mujoco_simulator mujoco.launch.py
+```
+2. Open a terminal to run controller
+```
 
 ```

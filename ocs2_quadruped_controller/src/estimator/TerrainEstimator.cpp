@@ -18,7 +18,6 @@ namespace ocs2::legged_robot
             for (int i = 0; i < 4; i++)
             {
                 pos_feet2body_body[i] = rotmat_body.transpose() * pos_feet2body[i];
-                std::cout << i << ": " << pos_feet2body_body[i].transpose() << std::endl;
             }
 
             double x1 = pos_feet2body_body[1](0); // FR x
