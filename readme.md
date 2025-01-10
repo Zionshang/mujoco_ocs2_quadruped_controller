@@ -41,7 +41,7 @@ mkdir build && cd build
 3. Configure the build, build and install
 ```
 cmake ..
-make .
+make
 sudo make install
 ```
 
