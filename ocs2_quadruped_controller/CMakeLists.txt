@@ -33,6 +33,7 @@ add_library(${PROJECT_NAME} SHARED
 
         src/estimator/LinearKalmanFilter.cpp
         src/estimator/StateEstimateBase.cpp
+        src/estimator/TerrainEstimator.cpp
 
         src/wbc/HierarchicalWbc.cpp
         src/wbc/HoQp.cpp

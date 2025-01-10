@@ -54,7 +54,7 @@ namespace ocs2::legged_robot
         std::unique_ptr<PinocchioEndEffectorKinematics> ee_kinematics_;
 
         vector3_t zyx_offset_ = vector3_t::Zero();
-        vector_t rbd_state_;
+        vector_t rbd_state_;  // yaw, pitch, roll, x, y, z, joint pos, joint vel
         contact_flag_t contact_flag_{};
         Eigen::Quaternion<scalar_t> quat_;
         vector3_t angular_vel_local_, linear_accel_local_;

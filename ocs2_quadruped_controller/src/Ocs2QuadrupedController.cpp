@@ -1,7 +1,3 @@
-//
-// Created by tlab-uav on 24-9-24.
-//
-
 #include "Ocs2QuadrupedController.h"
 
 #include <ocs2_core/misc/LoadData.h>
@@ -69,8 +65,13 @@ namespace ocs2::legged_robot
         // State Estimate
         updateStateEstimation(modeNumber2StanceLeg(planned_mode), time, period);
 
+        // Terrain Estimator
+        terrain_estimator_->update(ctrl_comp_.observation_.state.segment(9, 3),
+                                   ctrl_comp_.estimator_->getPoseFeet2Body(),
+                                   modeNumber2StanceLeg(planned_mode));
+
         // Compute target trajectory
-        ctrl_comp_.target_manager_->update(time, period);
+        ctrl_comp_.target_manager_->update(terrain_estimator_->getGroundEulerAngleWrtBody(), time, period);
 
         // Update the current state of the system
         mpc_mrt_interface_->setCurrentObservation(ctrl_comp_.observation_);
@@ -107,7 +108,7 @@ namespace ocs2::legged_robot
                 ctrl_comp_.joint_position_command_interface_[i].get().set_value(0);
                 ctrl_comp_.joint_velocity_command_interface_[i].get().set_value(0);
                 ctrl_comp_.joint_kp_command_interface_[i].get().set_value(0.0);
-                ctrl_comp_.joint_kd_command_interface_[i].get().set_value(35);
+                ctrl_comp_.joint_kd_command_interface_[i].get().set_value(5);
             }
             return controller_interface::return_type::ERROR;
         }
@@ -194,6 +195,9 @@ namespace ocs2::legged_robot
 
         // Safety Checker
         safety_checker_ = std::make_shared<SafetyChecker>(legged_interface_->getCentroidalModelInfo());
+
+        // Terrain Estimator
+        terrain_estimator_ = std::make_shared<TerrainEstimator>();
 
         return CallbackReturn::SUCCESS;
     }

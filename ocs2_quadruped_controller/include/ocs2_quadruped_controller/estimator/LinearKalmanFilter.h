@@ -1,7 +1,3 @@
-//
-// Created by qiayuan on 2022/7/24.
-//
-
 #pragma once
 
 #include "StateEstimateBase.h"
@@ -23,7 +19,8 @@ namespace ocs2::legged_robot
                              CtrlComponent &ctrl_component,
                              const rclcpp_lifecycle::LifecycleNode::SharedPtr &node);
 
-        vector_t update(const contact_flag_t& contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period) override;
+        vector_t update(const contact_flag_t &contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period) override;
+        const std::vector<vector3_t> &getPoseFeet2Body() { return pos_feet2body_; };
 
         void loadSettings(const std::string &task_file, bool verbose);
 
@@ -42,8 +39,10 @@ namespace ocs2::legged_robot
         scalar_t footHeightSensorNoise_ = 0.01;
 
     private:
-        size_t numContacts_, dimContacts_, numState_, numObserve_;
+        std::vector<vector3_t> pos_feet2body_;
+        std::vector<vector3_t> vel_feet2body_;
 
+        size_t numContacts_, dimContacts_, numState_, numObserve_;
         matrix_t a_, b_, c_, q_, p_, r_;
         vector_t xHat_, ps_, vs_;
     };

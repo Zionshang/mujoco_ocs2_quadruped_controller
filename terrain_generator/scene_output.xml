@@ -1,0 +1,43 @@
+<mujoco model="go2 scene">
+  <include file="go2.xml" />
+
+  <statistic center="0 0 0.1" extent="0.8" />
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0" />
+    <rgba haze="0.15 0.25 0.35 1" />
+    <global azimuth="-130" elevation="-20" />
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512"
+      height="3072" />
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4"
+      rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300" />
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
+      reflectance="0.2" />
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane" />
+    <geom pos="5.98533127759611 0.0 0.3859689788337035" type="box" size="5.0 0.75 0.05"
+      quat="0.9990482215818578 0.0 -0.043619387365336 0.0" />
+    <geom pos="5.932721173944386 -2.25 0.8190005006840412" type="box" size="5.0 0.75 0.05"
+      quat="0.9961946980917455 0.0 -0.08715574274765817 0.0" />
+    <geom pos="5.842570083700467 -4.5 1.2457989341981504" type="box" size="5.0 0.75 0.05"
+      quat="0.9914448613738104 0.0 -0.13052619222005157 0.0" />
+    <geom pos="5.715564111095826 -6.75 1.663116085589048" type="box" size="5.0 0.75 0.05"
+      quat="0.984807753012208 0.0 -0.17364817766693033 0.0" />
+    <geom pos="5.552669848270284 -9.0 2.0677759193516647" type="box" size="5.0 0.75 0.05"
+      quat="0.9762960071199334 0.0 -0.21643961393810288 0.0" />
+    <geom pos="5.355127018922194 -11.25 2.4566987298107774" type="box" size="5.0 0.75 0.05"
+      quat="0.9659258262890683 0.0 -0.25881904510252074 0.0" />
+    <geom pos="5.124439043262511 -13.5 2.8269245795407807" type="box" size="5.0 0.75 0.05"
+      quat="0.9537169507482269 0.0 -0.3007057995042731 0.0" />
+    <geom pos="4.862361596079217 -15.75 3.1756358262767472" type="box" size="5.0 0.75 0.05"
+      quat="0.9396926207859084 0.0 -0.3420201433256687 0.0" />
+    <geom pos="4.570889244992065 -18.0 3.50017856687341" type="box" size="5.0 0.75 0.05"
+      quat="0.9238795325112867 0.0 -0.3826834323650898 0.0" />
+  </worldbody>
+</mujoco>

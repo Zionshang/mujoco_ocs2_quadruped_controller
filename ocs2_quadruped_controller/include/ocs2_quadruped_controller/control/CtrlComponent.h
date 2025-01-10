@@ -14,8 +14,7 @@
 #include <ocs2_legged_robot_ros/visualization/LeggedRobotVisualizer.h>
 
 #include "TargetManager.h"
-#include "ocs2_quadruped_controller/estimator/StateEstimateBase.h"
-
+#include "ocs2_quadruped_controller/estimator/LinearKalmanFilter.h"
 struct CtrlComponent
 {
     std::vector<std::reference_wrapper<hardware_interface::LoanedCommandInterface>>
@@ -46,7 +45,7 @@ struct CtrlComponent
     ocs2::SystemObservation observation_;
     int frequency_{};
 
-    std::shared_ptr<ocs2::legged_robot::StateEstimateBase> estimator_;
+    std::shared_ptr<ocs2::legged_robot::KalmanFilterEstimate> estimator_;
     std::shared_ptr<ocs2::legged_robot::TargetManager> target_manager_;
     std::shared_ptr<ocs2::legged_robot::LeggedRobotVisualizer> visualizer_;
 

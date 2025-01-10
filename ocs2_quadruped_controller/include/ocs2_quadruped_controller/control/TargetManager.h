@@ -4,6 +4,7 @@
 #include <memory>
 #include <ocs2_mpc/SystemObservation.h>
 #include <ocs2_oc/synchronized_module/ReferenceManagerInterface.h>
+#include <ocs2_legged_robot/common/Types.h>
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp_lifecycle/lifecycle_node.hpp>
 
@@ -22,13 +23,12 @@ namespace ocs2::legged_robot
 
         ~TargetManager() = default;
 
-        void update(const rclcpp::Time &time, const rclcpp::Duration &period);
+        void update(const vector3_t &ground_euler_angle, const rclcpp::Time &time, const rclcpp::Duration &period);
 
     private:
         TargetTrajectories targetPoseToTargetTrajectories(const vector_t &targetPose,
                                                           const SystemObservation &observation,
                                                           const scalar_t &targetReachingTime);
-        void updateHeight();
         nav_msgs::msg::Odometry getOdomMsg(const ocs2::TargetTrajectories &trajectories);
         void publishMsgs(const nav_msgs::msg::Odometry &odom) const;
 

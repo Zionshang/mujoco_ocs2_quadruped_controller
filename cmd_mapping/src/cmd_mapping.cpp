@@ -32,40 +32,51 @@ private:
         switch (keyboard_input.data[0])
         {
         case 'w':
+        case 'W':
             user_cmd_.linear_x_input += 0.1;
             break;
         case 's':
-            user_cmd_.linear_x_input -= 0.1;
-            break;
-        case 'a':
-            user_cmd_.linear_y_input += 0.1;
-            break;
-        case 'd':
-            user_cmd_.linear_y_input -= 0.1;
-            break;
-        case 'i':
-            user_cmd_.angular_y_input += 0.05;
-            break;
-        case 'k':
-            user_cmd_.angular_y_input -= 0.05;
-            break;
-        case 'j':
-            user_cmd_.angular_z_input += 0.05;
-            break;
-        case 'b':
+        case 'S':
             user_cmd_.linear_x_input = 0.0;
             user_cmd_.linear_y_input = 0.0;
             user_cmd_.angular_y_input = 0.0;
             user_cmd_.angular_z_input = 0.0;
             break;
+        case 'a':
+        case 'A':
+            user_cmd_.linear_y_input += 0.1;
+            break;
+        case 'd':
+        case 'D':
+            user_cmd_.linear_y_input -= 0.1;
+            break;
+        case 'i':
+        case 'I':
+            user_cmd_.angular_y_input += 0.05;
+            break;
+        case 'k':
+        case 'K':
+            user_cmd_.angular_y_input -= 0.05;
+            break;
+        case 'j':
+        case 'J':
+            user_cmd_.angular_z_input += 0.1;
+            break;
+        case 'l':
+        case 'L':
+            user_cmd_.angular_z_input -= 0.1;
+            break;
+        case 'b':
+        case 'B':
+            user_cmd_.linear_x_input -= 0.1;
+            break;
         case 'r':
+        case 'R':
             user_cmd_.height_ratio += 0.2;
             break;
         case 'f':
+        case 'F':
             user_cmd_.height_ratio -= 0.2;
-            break;
-        case 'l':
-            user_cmd_.angular_z_input += 0.05;
             break;
         case '1':
             user_cmd_.gait_name = "stance";

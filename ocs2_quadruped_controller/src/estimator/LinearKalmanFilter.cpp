@@ -1,7 +1,3 @@
-//
-// Created by qiayuan on 2022/7/24.
-//
-
 #include <pinocchio/algorithm/frames.hpp>
 #include <pinocchio/algorithm/kinematics.hpp>
 #include <utility>
@@ -52,7 +48,7 @@ namespace ocs2::legged_robot
         ee_kinematics_->setPinocchioInterface(pinocchio_interface_);
     }
 
-    vector_t KalmanFilterEstimate::update(const contact_flag_t& contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period)
+    vector_t KalmanFilterEstimate::update(const contact_flag_t &contact_flag, const rclcpp::Time &time, const rclcpp::Duration &period)
     {
         updateJointStates();
         updateContact(contact_flag);
@@ -66,8 +62,6 @@ namespace ocs2::legged_robot
         q_.block(3, 3, 3, 3) = (dt * 9.81f / 20.f) * matrix3_t::Identity();
         q_.block(6, 6, dimContacts_, dimContacts_) = dt * matrix_t::Identity(dimContacts_, dimContacts_);
 
-        const auto &model = pinocchio_interface_.getModel();
-        auto &data = pinocchio_interface_.getData();
         size_t actuatedDofNum = info_.actuatedDofNum;
 
         vector_t qPino(info_.generalizedCoordinatesNum);
@@ -79,15 +73,16 @@ namespace ocs2::legged_robot
         vPino.setZero();
         vPino.segment<3>(3) = getEulerAnglesZyxDerivativesFromGlobalAngularVelocity<scalar_t>(
             qPino.segment<3>(3),
-            rbd_state_.segment<3>(info_.generalizedCoordinatesNum));
-        // Only set angular velocity, let linear velocity be zero
+            rbd_state_.segment<3>(info_.generalizedCoordinatesNum)); // Only set angular velocity, let linear velocity be zero
         vPino.tail(actuatedDofNum) = rbd_state_.segment(6 + info_.generalizedCoordinatesNum, actuatedDofNum);
 
+        const auto &model = pinocchio_interface_.getModel();
+        auto &data = pinocchio_interface_.getData();
         forwardKinematics(model, data, qPino, vPino);
         updateFramePlacements(model, data);
 
-        const auto eePos = ee_kinematics_->getPosition(vector_t());
-        const auto eeVel = ee_kinematics_->getVelocity(vector_t(), vector_t());
+        pos_feet2body_ = ee_kinematics_->getPosition(vector_t()); // position of foot relative to body, expressed in world frame
+        vel_feet2body_ = ee_kinematics_->getVelocity(vector_t(), vector_t());
 
         matrix_t q = matrix_t::Identity(numState_, numState_);
         q.block(0, 0, 3, 3) = q_.block(0, 0, 3, 3) * imu_process_noise_position_;
@@ -119,9 +114,9 @@ namespace ocs2::legged_robot
             r.block(rIndex2, rIndex2, 3, 3) = (isContact ? 1. : high_suspect_number) * r.block(rIndex2, rIndex2, 3, 3);
             r(rIndex3, rIndex3) = (isContact ? 1. : high_suspect_number) * r(rIndex3, rIndex3);
 
-            ps_.segment(3 * i, 3) = -eePos[i];
+            ps_.segment(3 * i, 3) = -pos_feet2body_[i];
             ps_.segment(3 * i, 3)[2] += foot_radius_;
-            vs_.segment(3 * i, 3) = -eeVel[i];
+            vs_.segment(3 * i, 3) = -vel_feet2body_[i];
         }
 
         vector3_t g(0, 0, -9.81);

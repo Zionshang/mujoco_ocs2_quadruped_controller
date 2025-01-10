@@ -26,7 +26,7 @@ namespace ocs2::legged_robot
         targetPose = vector_t::Zero(6);
     }
 
-    void TargetManager::update(const rclcpp::Time &time, const rclcpp::Duration &period)
+    void TargetManager::update(const vector3_t &ground_euler_angle_wrt_body, const rclcpp::Time &time, const rclcpp::Duration &period)
     {
         vector_t cmdGoal = vector_t::Zero(6);
         // cmdGoal[vx, vy, vz, wz] is expressed in body frame
@@ -46,8 +46,9 @@ namespace ocs2::legged_robot
         targetPose(1) = targetPose(1) + cmd_vel_rot(1) * time_step;                // y
         targetPose(2) = ctrl_component_.user_cmds_.height_ratio * command_height_; // z
         targetPose(3) = targetPose(3) + cmdGoal(3) * time_step;                    // yaw
-        targetPose(4) = 0;                                                         // pitch
-        targetPose(5) = 0;                                                         // roll
+        targetPose(4) = ground_euler_angle_wrt_body(1);                            // pitch
+        targetPose(5) = ground_euler_angle_wrt_body(2);                            // roll
+
 
         const scalar_t targetReachingTime = ctrl_component_.observation_.time + time_to_target_;
         auto trajectories = targetPoseToTargetTrajectories(targetPose, ctrl_component_.observation_, targetReachingTime);

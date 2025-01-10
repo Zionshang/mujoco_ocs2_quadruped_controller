@@ -15,6 +15,7 @@
 #include <ocs2_msgs/msg/mpc_observation.hpp>
 #include "SafetyChecker.h"
 #include "ocs2_quadruped_controller/control/CtrlComponent.h"
+#include "ocs2_quadruped_controller/estimator/TerrainEstimator.h"
 
 namespace ocs2::legged_robot
 {
@@ -128,6 +129,9 @@ namespace ocs2::legged_robot
         std::shared_ptr<MPC_MRT_Interface> mpc_mrt_interface_;
 
         std::shared_ptr<CentroidalModelRbdConversions> rbd_conversions_;
+        
+        // Terrain Estimator
+        std::shared_ptr<TerrainEstimator> terrain_estimator_;
 
     private:
         size_t planned_mode; // The mode that is active at the time the policy is evaluated at.
