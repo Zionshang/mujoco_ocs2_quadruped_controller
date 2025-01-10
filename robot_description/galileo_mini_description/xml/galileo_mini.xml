@@ -60,7 +60,7 @@
                         <!-- <geom name="FR_foot" pos="0.032939 0 -0.26149" type="mesh" rgba="1 1 1
                         1" mesh="FR_foot" /> -->
                         <geom name="FR_foot" pos="0.032939 0 -0.26149" type="sphere"
-                            rgba="1 1 1 1" size="0.03" friction="0.4 0.02 0.01" />
+                            rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
                         <site name="site_forcesensor1" pos="0.032939 0 -0.26149" />
                     </body>
                 </body>
@@ -94,7 +94,7 @@
                         <!-- <geom name="RR_foot" pos="0.032939 0 -0.26149" type="mesh" rgba="1 1 1
                         1" mesh="RR_foot" /> -->
                         <geom name="RR_foot" pos="0.032939 0 -0.26149" type="sphere"
-                            rgba="1 1 1 1" size="0.03" friction="0.4 0.02 0.01" />
+                            rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
                         <site name="site_forcesensor2" pos="0.032939 0 -0.26149" />
                     </body>
                 </body>
@@ -128,7 +128,7 @@
                         <!-- <geom name="FL_foot" pos="0.032939 0 -0.26149" type="mesh" rgba="1 1 1
                         1" mesh="FL_foot" /> -->
                         <geom name="FL_foot" pos="0.0329385 0 -0.26149" type="sphere"
-                            rgba="1 1 1 1" size="0.03" friction="0.4 0.02 0.01" />
+                            rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
                         <site name="site_forcesensor3" pos="0.032939 0 -0.26149" />
                     </body>
                 </body>
@@ -162,7 +162,7 @@
                         <!-- <geom name="RL_foot" pos="0.0329385 0 -0.261493" type="mesh" rgba="1 1
                         1 1" mesh="RL_foot" /> -->
                         <geom name="RL_foot" pos="0.0329385 0 -0.261493" type="sphere"
-                            rgba="1 1 1 1" size="0.03" friction="0.4 0.02 0.01" />
+                            rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
                         <site name="site_forcesensor4" pos="0.032939 0 -0.26149" />
                     </body>
                 </body>

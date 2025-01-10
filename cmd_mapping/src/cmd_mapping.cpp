@@ -90,6 +90,12 @@ private:
         case '4':
             user_cmd_.gait_name = "flying_trot";
             break;
+        case '5':
+            user_cmd_.gait_name = "standing_pace";
+            break;
+        case '6':
+            user_cmd_.gait_name = "dynamic_walk";
+            break;
         case ' ':
             user_cmd_.passive_enable = true;
             break;

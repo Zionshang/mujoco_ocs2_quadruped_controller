@@ -31,9 +31,9 @@ mujoco should be installed by building from source.
 
 1. Clone the mujoco repository: 
 ```
-git clone https://github.com/deepmind/mujoco.git`
+git clone https://github.com/deepmind/mujoco.git
 ```
-2. Cd in mujoco path, reate a new build directory and cd into it: `
+2. Cd in mujoco path, reate a new build directory and cd into it: 
 ```
 cd mujoco
 mkdir build && cd build

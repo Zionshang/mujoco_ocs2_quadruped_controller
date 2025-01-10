@@ -12,7 +12,7 @@ model_settings
 
   verboseCppAd                  true
   recompileLibrariesCppAd       false
-  modelFolderCppAd              /tmp/ocs2_quadruped_controller/galileo_mini; need check
+  modelFolderCppAd              tmp_cappad/tmp/galileo_mini; need check
 }
 
 swing_trajectory_config
@@ -160,16 +160,16 @@ initialState
    (11,0) 0.0     ; theta_base_x
 
    ;; Leg Joint Positions: [FL, RL, FR, RR] ;;
-   (12,0) -0.10   ; FL_hip_joint
+   (12,0)  0.00   ; FL_hip_joint
    (13,0)  0.72   ; FL_thigh_joint
    (14,0) -1.44   ; FL_calf_joint
-   (15,0)  0.10   ; RL_hip_joint
+   (15,0)  0.00   ; RL_hip_joint
    (16,0)  0.72   ; RL_thigh_joint
    (17,0) -1.44   ; RL_calf_joint
-   (18,0) -0.10   ; FR_hip_joint
+   (18,0)  0.00   ; FR_hip_joint
    (19,0)  0.72   ; FR_thigh_joint
    (20,0) -1.44   ; FR_calf_joint
-   (21,0)  0.10   ; RR_hip_joint
+   (21,0)  0.00   ; RR_hip_joint
    (22,0)  0.72   ; RR_thigh_joint
    (23,0) -1.44   ; RR_calf_joint
 }
@@ -184,28 +184,28 @@ Q
   (1,1)   15.0     ; vcom_y
   (2,2)   100.0    ; vcom_z
   (3,3)   10.0     ; L_x / robotMass
-  (4,4)   30.0     ; L_y / robotMass
-  (5,5)   30.0     ; L_z / robotMass
+  (4,4)   10.0     ; L_y / robotMass
+  (5,5)   10.0     ; L_z / robotMass
 
   ;; Base Pose: [position, orientation] ;;
   (6,6)   1000.0   ; p_base_x
   (7,7)   1000.0   ; p_base_y
-  (8,8)   1500.0   ; p_base_z
+  (8,8)   3000.0   ; p_base_z
   (9,9)   100.0    ; theta_base_z
-  (10,10) 300.0    ; theta_base_y
+  (10,10) 500.0    ; theta_base_y
   (11,11) 300.0    ; theta_base_x
 
   ;; Leg Joint Positions: [FL, RL, FR, RR] ;;
-  (12,12) 5.0     ; FL_hip_joint
+  (12,12) 40.0     ; FL_hip_joint
   (13,13) 5.0     ; FL_thigh_joint
   (14,14) 2.5     ; FL_calf_joint
-  (15,15) 5.0     ; RL_hip_joint
+  (15,15) 40.0     ; RL_hip_joint
   (16,16) 5.0     ; RL_thigh_joint
   (17,17) 2.5     ; RL_calf_joint
-  (18,18) 5.0     ; FR_hip_joint
+  (18,18) 40.0     ; FR_hip_joint
   (19,19) 5.0     ; FR_thigh_joint
   (20,20) 2.5     ; FR_calf_joint
-  (21,21) 5.0     ; RR_hip_joint
+  (21,21) 40.0     ; RR_hip_joint
   (22,22) 5.0     ; RR_thigh_joint
   (23,23) 2.5     ; RR_calf_joint
 }
@@ -246,7 +246,7 @@ R
 
 frictionConeSoftConstraint
 {
-  frictionCoefficient    0.6
+  frictionCoefficient    0.7
 
   ; relaxed log barrier parameters
   mu                     0.1
@@ -290,7 +290,7 @@ torqueLimitsTask
 
 frictionConeTask
 {
-  frictionCoefficient    0.6
+  frictionCoefficient    0.7
 }
 
 swingLegTask
