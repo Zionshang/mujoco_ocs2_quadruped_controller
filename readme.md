@@ -66,5 +66,15 @@ ros2 launch mujoco_simulator mujoco.launch.py
 ```
 2. Open a terminal to run controller
 ```
-
+ros2 launch ocs2_quadruped_controller controller.launch.py
+```
+3. Enter the control command in the terminal that receives the keyboard command
+```
+r,f : control body height
+1   : stance gait
+2   : trot gait
+3   : walk trot gait
+4   : fly trot gait
+w,a,b,d : linear velocity control
+j,l : yaw velocity control
 ```
