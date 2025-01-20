@@ -33,7 +33,7 @@ namespace ocs2::legged_robot
         cmdGoal[0] = ctrl_component_.user_cmds_.linear_x_input * target_displacement_velocity_;
         cmdGoal[1] = ctrl_component_.user_cmds_.linear_y_input * target_displacement_velocity_;
         cmdGoal[2] = 0;
-        cmdGoal[3] = -ctrl_component_.user_cmds_.angular_z_input * target_rotation_velocity_;
+        cmdGoal[3] = ctrl_component_.user_cmds_.angular_z_input * target_rotation_velocity_;
 
         const vector_t currentPose = ctrl_component_.observation_.state.segment<6>(6);
         const Eigen::Matrix<scalar_t, 3, 1> zyx = currentPose.tail(3);
