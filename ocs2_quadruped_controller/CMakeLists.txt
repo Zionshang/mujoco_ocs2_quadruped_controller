@@ -53,6 +53,7 @@ add_library(${PROJECT_NAME} SHARED
 
         src/control/GaitManager.cpp
         src/control/TargetManager.cpp
+        src/control/StandController.cpp
 
 )
 target_include_directories(${PROJECT_NAME}

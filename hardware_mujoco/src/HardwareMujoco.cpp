@@ -89,7 +89,7 @@ std::vector<hardware_interface::CommandInterface> HardwareMujoco::export_command
     for (size_t i = 0; i < info_.joints.size(); i++)
     {
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
-            info_.joints[i].name, "position", &joint_position_states_[info_.joints[i].name]));
+            info_.joints[i].name, "position", &joint_position_commands_[info_.joints[i].name]));
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
             info_.joints[i].name, "velocity", &joint_velocity_commands_[info_.joints[i].name]));
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
@@ -127,6 +127,19 @@ return_type HardwareMujoco::write(const rclcpp::Time & /*time*/, const rclcpp::D
         actuator_cmds.kd.push_back(joint_kd_commands_[info_.joints[i].name]);
     }
     actuator_cmd_publisher_->publish(actuator_cmds);
+
+    // {
+    //     auto now = std::chrono::system_clock::now();
+    //     auto now_time_t = std::chrono::system_clock::to_time_t(now);
+    //     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+    //     std::tm now_tm;
+    //     localtime_r(&now_time_t, &now_tm);
+    //     std::ostringstream oss;
+    //     oss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S") << '.'
+    //         << std::setfill('0') << std::setw(3) << now_ms.count();
+    //     RCLCPP_INFO(node_->get_logger(), "Current time: %s", oss.str().c_str());
+    // }
+
     return return_type::OK;
 }
 

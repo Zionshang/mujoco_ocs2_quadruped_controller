@@ -16,6 +16,7 @@
 #include "SafetyChecker.h"
 #include "ocs2_quadruped_controller/control/CtrlComponent.h"
 #include "ocs2_quadruped_controller/estimator/TerrainEstimator.h"
+#include "ocs2_quadruped_controller/control/StandController.h"
 
 namespace ocs2::legged_robot
 {
@@ -132,7 +133,9 @@ namespace ocs2::legged_robot
         
         // Terrain Estimator
         std::shared_ptr<TerrainEstimator> terrain_estimator_;
+        std::shared_ptr<StandController> stand_controller_;
 
+        // Stand Controller
     private:
         size_t planned_mode; // The mode that is active at the time the policy is evaluated at.
         vector_t measured_rbd_state_;
