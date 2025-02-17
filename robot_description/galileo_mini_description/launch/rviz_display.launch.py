@@ -7,7 +7,7 @@ from launch_ros.actions import Node
 
 
 package_name = "galileo_mini_description"
-urdf_name = "robot_v2.urdf"
+urdf_name = "robot.urdf"
 
 
 def generate_launch_description():

@@ -7,6 +7,18 @@
             <plugin>hardware_mujoco/HardwareMujoco</plugin>
         </hardware>
 
+        <joint name="FR_abd_joint">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <command_interface name="kp" />
+            <command_interface name="kd" />
+
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+        </joint>
+
         <joint name="FR_hip_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
@@ -19,7 +31,7 @@
             <state_interface name="effort" />
         </joint>
 
-        <joint name="FR_thigh_joint">
+        <joint name="FR_knee_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />
@@ -31,7 +43,44 @@
             <state_interface name="effort" />
         </joint>
 
-        <joint name="FR_calf_joint">
+        <joint name="HR_abd_joint">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <command_interface name="kp" />
+            <command_interface name="kd" />
+
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+        </joint>
+
+        <joint name="HR_hip_joint">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <command_interface name="kp" />
+            <command_interface name="kd" />
+
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+        </joint>
+
+        <joint name="HR_knee_joint">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <command_interface name="kp" />
+            <command_interface name="kd" />
+
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+        </joint>
+
+
+        <joint name="FL_abd_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />
@@ -55,7 +104,7 @@
             <state_interface name="effort" />
         </joint>
 
-        <joint name="FL_thigh_joint">
+        <joint name="FL_knee_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />
@@ -67,7 +116,7 @@
             <state_interface name="effort" />
         </joint>
 
-        <joint name="FL_calf_joint">
+        <joint name="HL_abd_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />
@@ -79,7 +128,7 @@
             <state_interface name="effort" />
         </joint>
 
-        <joint name="RR_hip_joint">
+        <joint name="HL_hip_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />
@@ -91,55 +140,7 @@
             <state_interface name="effort" />
         </joint>
 
-        <joint name="RR_thigh_joint">
-            <command_interface name="position" />
-            <command_interface name="velocity" />
-            <command_interface name="effort" />
-            <command_interface name="kp" />
-            <command_interface name="kd" />
-
-            <state_interface name="position" />
-            <state_interface name="velocity" />
-            <state_interface name="effort" />
-        </joint>
-
-        <joint name="RR_calf_joint">
-            <command_interface name="position" />
-            <command_interface name="velocity" />
-            <command_interface name="effort" />
-            <command_interface name="kp" />
-            <command_interface name="kd" />
-
-            <state_interface name="position" />
-            <state_interface name="velocity" />
-            <state_interface name="effort" />
-        </joint>
-
-        <joint name="RL_hip_joint">
-            <command_interface name="position" />
-            <command_interface name="velocity" />
-            <command_interface name="effort" />
-            <command_interface name="kp" />
-            <command_interface name="kd" />
-
-            <state_interface name="position" />
-            <state_interface name="velocity" />
-            <state_interface name="effort" />
-        </joint>
-
-        <joint name="RL_thigh_joint">
-            <command_interface name="position" />
-            <command_interface name="velocity" />
-            <command_interface name="effort" />
-            <command_interface name="kp" />
-            <command_interface name="kd" />
-
-            <state_interface name="position" />
-            <state_interface name="velocity" />
-            <state_interface name="effort" />
-        </joint>
-
-        <joint name="RL_calf_joint">
+        <joint name="HL_knee_joint">
             <command_interface name="position" />
             <command_interface name="velocity" />
             <command_interface name="effort" />

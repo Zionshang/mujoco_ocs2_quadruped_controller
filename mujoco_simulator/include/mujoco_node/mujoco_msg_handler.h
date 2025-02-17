@@ -53,7 +53,7 @@ namespace Galileo
     private:
         void publish_mujoco_callback();
         void imu_callback();
-        void contact_callback();
+        // void contact_callback();
         void joint_callback();
         void actuator_cmd_callback(const custom_msgs::msg::ActuatorCmds::SharedPtr msg) const;
 
@@ -61,7 +61,7 @@ namespace Galileo
         std::vector<rclcpp::TimerBase::SharedPtr> timers_;
         rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_publisher_;
         rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_state_publisher_;
-        rclcpp::Publisher<custom_msgs::msg::MujocoMsg>::SharedPtr mujoco_msg_publisher_;
+        // rclcpp::Publisher<custom_msgs::msg::MujocoMsg>::SharedPtr mujoco_msg_publisher_;
         rclcpp::Subscription<custom_msgs::msg::ActuatorCmds>::SharedPtr actuator_cmd_subscription_;
         std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
         std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_;

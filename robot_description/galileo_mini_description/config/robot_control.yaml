@@ -9,22 +9,22 @@ controller_manager:
 ocs2_quadruped_controller:
   ros__parameters:
     update_rate: 1000  # Hz
-    default_kp: 0.0
+    default_kp: 10.0
     default_kd: 5.0
 
     joints:
+      - FL_abd_joint
       - FL_hip_joint
-      - FL_thigh_joint
-      - FL_calf_joint
+      - FL_knee_joint
+      - FR_abd_joint
       - FR_hip_joint
-      - FR_thigh_joint
-      - FR_calf_joint
-      - RL_hip_joint
-      - RL_thigh_joint
-      - RL_calf_joint
-      - RR_hip_joint
-      - RR_thigh_joint
-      - RR_calf_joint
+      - FR_knee_joint
+      - HL_abd_joint
+      - HL_hip_joint
+      - HL_knee_joint
+      - HR_abd_link
+      - HR_hip_joint
+      - HR_knee_joint
 
     command_interfaces:
       - effort

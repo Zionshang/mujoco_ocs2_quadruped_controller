@@ -62,6 +62,7 @@ std::vector<hardware_interface::StateInterface> HardwareMujoco::export_state_int
             info_.joints[i].name, "velocity", &joint_velocity_states_[info_.joints[i].name]));
         state_interfaces.emplace_back(hardware_interface::StateInterface(
             info_.joints[i].name, "effort", &joint_effort_states_[info_.joints[i].name]));
+        std::cout << "joint name: " << info_.joints[i].name << std::endl;
     }
 
     // imu sensor

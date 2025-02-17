@@ -15,7 +15,7 @@ namespace Galileo
         auto qos = rclcpp::QoS(rclcpp::KeepLast(1), rmw_qos_profile_sensor_data);
         imu_publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("imu_data", qos);
         joint_state_publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", qos);
-        mujoco_msg_publisher_ = this->create_publisher<custom_msgs::msg::MujocoMsg>("mujoco_msg", qos);
+        // mujoco_msg_publisher_ = this->create_publisher<custom_msgs::msg::MujocoMsg>("mujoco_msg", qos);
 
         timers_.emplace_back(this->create_wall_timer(1ms, std::bind(&MujocoMsgHandler::publish_mujoco_callback, this)));
 
@@ -40,7 +40,7 @@ namespace Galileo
             const std::unique_lock<std::recursive_mutex> lock(sim_->mtx);
             imu_callback();
             joint_callback();
-            contact_callback();
+            // contact_callback();
         }
     }
 
@@ -76,66 +76,66 @@ namespace Galileo
         imu_publisher_->publish(message);
     }
 
-    void MujocoMsgHandler::contact_callback()
-    {
-        auto msg = custom_msgs::msg::MujocoMsg();
-        std::vector<std::string> foot_geom_names = {"FR_foot", "FL_foot", "RR_foot", "RL_foot"}; // TODO: 改成参数传递
+    // void MujocoMsgHandler::contact_callback()
+    // {
+    //     auto msg = custom_msgs::msg::MujocoMsg();
+    //     std::vector<std::string> foot_geom_names = {"FR_foot", "FL_foot", "RR_foot", "RL_foot"}; // TODO: 改成参数传递
 
-        std::vector<int> foot_geom_ids;
-        for (const auto &foot_name : foot_geom_names)
-        {
-            int geom_id = mj_name2id(sim_->m_, mjOBJ_GEOM, foot_name.c_str());
-            if (geom_id == -1)
-            {
-                std::cerr << "Geometry " << foot_name << " not found in the model!" << std::endl;
-                return;
-            }
-            foot_geom_ids.push_back(geom_id);
-        }
-        int ground_geom_id = mj_name2id(sim_->m_, mjOBJ_GEOM, "floor");
+    //     std::vector<int> foot_geom_ids;
+    //     for (const auto &foot_name : foot_geom_names)
+    //     {
+    //         int geom_id = mj_name2id(sim_->m_, mjOBJ_GEOM, foot_name.c_str());
+    //         if (geom_id == -1)
+    //         {
+    //             std::cerr << "Geometry " << foot_name << " not found in the model!" << std::endl;
+    //             return;
+    //         }
+    //         foot_geom_ids.push_back(geom_id);
+    //     }
+    //     int ground_geom_id = mj_name2id(sim_->m_, mjOBJ_GEOM, "floor");
 
-        // 初始化接触状态数组，默认值为 0（未接触）
-        int contact_state[4] = {0, 0, 0, 0};
-        // 初始化12维接触力向量,每条腿3维力
-        std::vector<double> contact_forces(12, 0.0);
+    //     // 初始化接触状态数组，默认值为 0（未接触）
+    //     int contact_state[4] = {0, 0, 0, 0};
+    //     // 初始化12维接触力向量,每条腿3维力
+    //     std::vector<double> contact_forces(12, 0.0);
 
-        for (int i = 0; i < sim_->d_->ncon; ++i)
-        {
-            const mjContact &contact = sim_->d_->contact[i];
+    //     for (int i = 0; i < sim_->d_->ncon; ++i)
+    //     {
+    //         const mjContact &contact = sim_->d_->contact[i];
 
-            // 遍历所有足端
-            for (size_t foot_idx = 0; foot_idx < foot_geom_ids.size(); ++foot_idx)
-            {
-                int foot_geom_id = foot_geom_ids[foot_idx];
+    //         // 遍历所有足端
+    //         for (size_t foot_idx = 0; foot_idx < foot_geom_ids.size(); ++foot_idx)
+    //         {
+    //             int foot_geom_id = foot_geom_ids[foot_idx];
 
-                // 检查是否是足端与地面的接触
-                if ((contact.geom1 == foot_geom_id && contact.geom2 == ground_geom_id) ||
-                    (contact.geom1 == ground_geom_id && contact.geom2 == foot_geom_id))
-                {
-                    // 如果发生接触，标记对应的接触状态为 1
-                    contact_state[foot_idx] = 1;
+    //             // 检查是否是足端与地面的接触
+    //             if ((contact.geom1 == foot_geom_id && contact.geom2 == ground_geom_id) ||
+    //                 (contact.geom1 == ground_geom_id && contact.geom2 == foot_geom_id))
+    //             {
+    //                 // 如果发生接触，标记对应的接触状态为 1
+    //                 contact_state[foot_idx] = 1;
 
-                    // 提取接触力
-                    mjtNum force[6]; // 包含法向力和摩擦力的 6D 力
-                    mj_contactForce(sim_->m_, sim_->d_, i, force);
+    //                 // 提取接触力
+    //                 mjtNum force[6]; // 包含法向力和摩擦力的 6D 力
+    //                 mj_contactForce(sim_->m_, sim_->d_, i, force);
 
-                    // 将接触力存入对应腿的位置(每条腿3维力)
-                    contact_forces[foot_idx * 3] = force[0];
-                    contact_forces[foot_idx * 3 + 1] = force[1];
-                    contact_forces[foot_idx * 3 + 2] = force[2];
-                }
-            }
-        }
+    //                 // 将接触力存入对应腿的位置(每条腿3维力)
+    //                 contact_forces[foot_idx * 3] = force[0];
+    //                 contact_forces[foot_idx * 3 + 1] = force[1];
+    //                 contact_forces[foot_idx * 3 + 2] = force[2];
+    //             }
+    //         }
+    //     }
 
-        // 将接触力和接触状态填入消息
-        msg.ground_reaction_force = contact_forces;
-        for (int i = 0; i < 4; i++)
-        {
-            msg.contact_state[i] = contact_state[i];
-        }
+    //     // 将接触力和接触状态填入消息
+    //     msg.ground_reaction_force = contact_forces;
+    //     for (int i = 0; i < 4; i++)
+    //     {
+    //         msg.contact_state[i] = contact_state[i];
+    //     }
 
-        mujoco_msg_publisher_->publish(msg);
-    }
+    //     mujoco_msg_publisher_->publish(msg);
+    // }
 
     void MujocoMsgHandler::joint_callback()
     {

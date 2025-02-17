@@ -160,18 +160,18 @@ initialState
    (11,0) 0.0     ; theta_base_x
 
    ;; Leg Joint Positions: [FL, RL, FR, RR] ;;
-   (12,0)  0.00   ; FL_hip_joint
-   (13,0)  0.72   ; FL_thigh_joint
-   (14,0) -1.44   ; FL_calf_joint
-   (15,0)  0.00   ; RL_hip_joint
-   (16,0)  0.72   ; RL_thigh_joint
-   (17,0) -1.44   ; RL_calf_joint
-   (18,0)  0.00   ; FR_hip_joint
-   (19,0)  0.72   ; FR_thigh_joint
-   (20,0) -1.44   ; FR_calf_joint
-   (21,0)  0.00   ; RR_hip_joint
-   (22,0)  0.72   ; RR_thigh_joint
-   (23,0) -1.44   ; RR_calf_joint
+   (12,0)  0.00   ; FL_abd_joint
+   (13,0)  0.72   ; FL_hip_joint
+   (14,0) -1.44   ; FL_knee_joint
+   (15,0)  0.00   ; RL_abd_joint
+   (16,0)  0.72   ; RL_hip_joint
+   (17,0) -1.44   ; RL_knee_joint
+   (18,0)  0.00   ; FR_abd_joint
+   (19,0)  0.72   ; FR_hip_joint
+   (20,0) -1.44   ; FR_knee_joint
+   (21,0)  0.00   ; RR_abd_joint
+   (22,0)  0.72   ; RR_hip_joint
+   (23,0) -1.44   ; RR_knee_joint
 }
 
 ; standard state weight matrix
@@ -196,18 +196,18 @@ Q
   (11,11) 300.0    ; theta_base_x
 
   ;; Leg Joint Positions: [FL, RL, FR, RR] ;;
-  (12,12) 5.0     ; FL_hip_joint
-  (13,13) 5.0     ; FL_thigh_joint
-  (14,14) 2.5     ; FL_calf_joint
-  (15,15) 5.0     ; RL_hip_joint
-  (16,16) 5.0     ; RL_thigh_joint
-  (17,17) 2.5     ; RL_calf_joint
-  (18,18) 5.0     ; FR_hip_joint
-  (19,19) 5.0     ; FR_thigh_joint
-  (20,20) 2.5     ; FR_calf_joint
-  (21,21) 5.0     ; RR_hip_joint
-  (22,22) 5.0     ; RR_thigh_joint
-  (23,23) 2.5     ; RR_calf_joint
+  (12,12) 5.0     ; FL_abd_joint
+  (13,13) 5.0     ; FL_hip_joint
+  (14,14) 2.5     ; FL_knee_joint
+  (15,15) 5.0     ; RL_abd_joint
+  (16,16) 5.0     ; RL_hip_joint
+  (17,17) 2.5     ; RL_knee_joint
+  (18,18) 5.0     ; FR_abd_joint
+  (19,19) 5.0     ; FR_hip_joint
+  (20,20) 2.5     ; FR_knee_joint
+  (21,21) 5.0     ; RR_abd_joint
+  (22,22) 5.0     ; RR_hip_joint
+  (23,23) 2.5     ; RR_knee_joint
 }
 
 ; control weight matrix
@@ -263,14 +263,14 @@ selfCollision
   ; Self Collision pairs
   collisionLinkPairs
   {
-    [0] "FL_calf, FR_calf"
-    [1] "RL_calf, RR_calf"
-    [2] "FL_calf, RL_calf"
-    [3] "FR_calf, RR_calf"
-    [4] "FL_foot, FR_foot"
-    [5] "RL_foot, RR_foot"
-    [6] "FL_foot, RL_foot"
-    [7] "FR_foot, RR_foot"
+    [0] "FL_knee_link, FR_knee_link"
+    [1] "RL_knee_link, RR_knee_link"
+    [2] "FL_knee_link, RL_knee_link"
+    [3] "FR_knee_link, RR_knee_link"
+    [4] "FL_foot_link, FR_foot_link"
+    [5] "RL_foot_link, RR_foot_link"
+    [6] "FL_foot_link, RL_foot_link"
+    [7] "FR_foot_link, RR_foot_link"
   }
 
   minimumDistance  0.05
