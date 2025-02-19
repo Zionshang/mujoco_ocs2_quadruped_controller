@@ -100,6 +100,7 @@ def launch_setup(context, *args, **kwargs):
             "ocs2_quadruped_controller",
             "--controller-manager",
             "/controller_manager",
+            "--inactive",
         ],
     )
 
