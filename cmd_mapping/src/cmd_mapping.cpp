@@ -1,6 +1,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <custom_msgs/msg/user_cmds.hpp>
 #include <std_msgs/msg/string.hpp>
+#include <controller_manager_msgs/srv/switch_controller.hpp>
 
 using namespace std::chrono_literals;
 
@@ -16,6 +17,9 @@ public:
             "keyboard_input", 10, std::bind(&CmdMapping::cmdMappingCallback, this, _1));
         cmd_publisher = this->create_publisher<custom_msgs::msg::UserCmds>("user_cmd", 10);
 
+        switch_controller_client = this->create_client<controller_manager_msgs::srv::SwitchController>(
+            "/controller_manager/switch_controller");
+
         initUserCmd();
         RCLCPP_INFO(this->get_logger(), "Command mapping node started in 50ms.");
     }
@@ -26,6 +30,8 @@ private:
 
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr keyboard_subscriptor;
     rclcpp::Publisher<custom_msgs::msg::UserCmds>::SharedPtr cmd_publisher;
+
+    rclcpp::Client<controller_manager_msgs::srv::SwitchController>::SharedPtr switch_controller_client;
 
     void cmdMappingCallback(const std_msgs::msg::String keyboard_input)
     {
@@ -99,6 +105,9 @@ private:
         case ' ':
             user_cmd_.passive_enable = true;
             break;
+        case '9':
+            handleSwitchController();
+            break;
         }
 
         user_cmd_.height_ratio = std::clamp(user_cmd_.height_ratio, 0.0, 1.0);
@@ -113,8 +122,24 @@ private:
         user_cmd_.angular_y_input = 0.0;
         user_cmd_.angular_z_input = 0.0;
 
+        user_cmd_.height_ratio = 0.2;
         user_cmd_.gait_name = "stance";
         user_cmd_.passive_enable = false;
+    }
+
+    void handleSwitchController()
+    {
+        if (!switch_controller_client->wait_for_service(1s))
+        {
+            RCLCPP_ERROR(this->get_logger(), "Service not available after waiting");
+            return;
+        }
+
+        auto request = std::make_shared<controller_manager_msgs::srv::SwitchController::Request>();
+        request->activate_controllers.push_back("ocs2_quadruped_controller");
+
+        switch_controller_client->async_send_request(request);
+        RCLCPP_ERROR(this->get_logger(), "Request to activate the controller: ocs2_quadruped_controller");
     }
 };
 

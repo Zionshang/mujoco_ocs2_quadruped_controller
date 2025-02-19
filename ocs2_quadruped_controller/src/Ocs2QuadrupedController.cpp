@@ -129,6 +129,7 @@ namespace ocs2::legged_robot
         observation_publisher_->publish(ros_msg_conversions::createObservationMsg(ctrl_comp_.observation_));
 
         // /******************************************位置环复位******************************************/
+        // updateStateEstimation(modeNumber2StanceLeg(planned_mode), time, period);
         // std::vector<double> target_position(12, 0.0);
         // for (int i = 0; i < joint_names_.size(); i++)
         // {
@@ -139,6 +140,7 @@ namespace ocs2::legged_robot
         //     ctrl_comp_.joint_velocity_command_interface_[i].get().set_value(0);
         //     ctrl_comp_.joint_kp_command_interface_[i].get().set_value(250);
         //     ctrl_comp_.joint_kd_command_interface_[i].get().set_value(25);
+
         // }
         return controller_interface::return_type::OK;
     }
@@ -336,6 +338,8 @@ namespace ocs2::legged_robot
             init_joint_pos[i] = ctrl_comp_.joint_position_state_interface_[i].get().get_value();
         }
         stand_controller_->setInitPosition(init_joint_pos);
+
+        RCLCPP_INFO(get_node()->get_logger(), "Successfully activated the controller.");
 
         return CallbackReturn::SUCCESS;
     }

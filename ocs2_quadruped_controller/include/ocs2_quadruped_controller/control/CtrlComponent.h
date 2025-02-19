@@ -55,7 +55,7 @@ struct CtrlComponent
         user_cmds_.linear_y_input = 0.0;
         user_cmds_.angular_y_input = 0.0;
         user_cmds_.angular_z_input = 0.0;
-        user_cmds_.height_ratio = 0.0;
+        user_cmds_.height_ratio = 0.2;
         user_cmds_.gait_name = "stance";
         user_cmds_.passive_enable = false;
     }

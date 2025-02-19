@@ -86,6 +86,7 @@ namespace ocs2::legged_robot
 
         matrix_t q = matrix_t::Identity(numState_, numState_);
         q.block(0, 0, 3, 3) = q_.block(0, 0, 3, 3) * imu_process_noise_position_;
+        q(2, 2) = 10000; // position Z
         q.block(3, 3, 3, 3) = q_.block(3, 3, 3, 3) * imu_process_noise_velocity_;
         q.block(6, 6, dimContacts_, dimContacts_) =
             q_.block(6, 6, dimContacts_, dimContacts_) * footProcessNoisePosition_;
