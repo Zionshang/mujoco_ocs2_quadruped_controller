@@ -122,11 +122,11 @@ namespace ocs2::legged_robot
             ctrl_comp_.joint_kd_command_interface_[i].get().set_value(default_kd_);
         }
 
-        // Visualization
-        ctrl_comp_.visualizer_->update(ctrl_comp_.observation_, mpc_mrt_interface_->getPolicy(),
-                                       mpc_mrt_interface_->getCommand());
+        // // Visualization
+        // ctrl_comp_.visualizer_->update(ctrl_comp_.observation_, mpc_mrt_interface_->getPolicy(),
+        //                                mpc_mrt_interface_->getCommand());
 
-        observation_publisher_->publish(ros_msg_conversions::createObservationMsg(ctrl_comp_.observation_));
+        // observation_publisher_->publish(ros_msg_conversions::createObservationMsg(ctrl_comp_.observation_));
 
         // /******************************************位置环复位******************************************/
         // updateStateEstimation(modeNumber2StanceLeg(planned_mode), time, period);
@@ -181,15 +181,15 @@ namespace ocs2::legged_robot
         setupMpc();
         setupMrt();
 
-        // Visualization
         CentroidalModelPinocchioMapping pinocchio_mapping(legged_interface_->getCentroidalModelInfo());
         eeKinematicsPtr_ = std::make_shared<PinocchioEndEffectorKinematics>(
             legged_interface_->getPinocchioInterface(), pinocchio_mapping,
             legged_interface_->modelSettings().contactNames3DoF);
 
-        ctrl_comp_.visualizer_ = std::make_shared<LeggedRobotVisualizer>(
-            legged_interface_->getPinocchioInterface(), legged_interface_->getCentroidalModelInfo(), *eeKinematicsPtr_,
-            get_node());
+        // // Visualization
+        // ctrl_comp_.visualizer_ = std::make_shared<LeggedRobotVisualizer>(
+        //     legged_interface_->getPinocchioInterface(), legged_interface_->getCentroidalModelInfo(), *eeKinematicsPtr_,
+        //     get_node());
 
         // selfCollisionVisualization_.reset(new LeggedSelfCollisionVisualization(leggedInterface_->getPinocchioInterface(),
         //                                                                        leggedInterface_->getGeometryInterface(), pinocchioMapping, nh));

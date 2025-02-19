@@ -68,7 +68,7 @@ ros2 launch mujoco_simulator mujoco.launch.py
 ```
 ros2 launch ocs2_quadruped_controller controller.launch.py
 ```
-3. Enter the control command in the terminal that receives the keyboard command
+3. Enter the control command in the terminal that receives the keyboard command. You should input `9` first
 ```
 r,f : control body height
 1   : stance gait
@@ -77,4 +77,5 @@ r,f : control body height
 4   : fly trot gait
 w,a,b,d : linear velocity control
 j,l : yaw velocity control
+9   : activate the controller
 ```

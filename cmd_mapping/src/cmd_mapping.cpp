@@ -139,7 +139,7 @@ private:
         request->activate_controllers.push_back("ocs2_quadruped_controller");
 
         switch_controller_client->async_send_request(request);
-        RCLCPP_ERROR(this->get_logger(), "Request to activate the controller: ocs2_quadruped_controller");
+        RCLCPP_INFO(this->get_logger(), "Request to activate the controller: ocs2_quadruped_controller");
     }
 };
 

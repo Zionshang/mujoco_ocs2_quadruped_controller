@@ -47,7 +47,7 @@ struct CtrlComponent
 
     std::shared_ptr<ocs2::legged_robot::KalmanFilterEstimate> estimator_;
     std::shared_ptr<ocs2::legged_robot::TargetManager> target_manager_;
-    std::shared_ptr<ocs2::legged_robot::LeggedRobotVisualizer> visualizer_;
+    // std::shared_ptr<ocs2::legged_robot::LeggedRobotVisualizer> visualizer_;
 
     CtrlComponent()
     {
