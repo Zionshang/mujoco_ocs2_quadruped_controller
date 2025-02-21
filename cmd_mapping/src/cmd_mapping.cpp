@@ -102,6 +102,9 @@ private:
         case '6':
             user_cmd_.gait_name = "dynamic_walk";
             break;
+        case '7':
+            user_cmd_.gait_name = "bound";
+            break;
         case ' ':
             user_cmd_.passive_enable = true;
             break;
