@@ -255,11 +255,11 @@ if __name__ == "__main__":
 
     # Stairs
     width = 0.3
-    height = 0.15
+    height = 0.20
     length = 1.25
     stair_nums = 6
     tg.AddStairs(
-        init_pos=[1.0, 0.0, 0.0],
+        init_pos=[1.0, -2.0, 0.0],
         yaw=0.0,
         width=0.3,
         height=height,
@@ -267,7 +267,7 @@ if __name__ == "__main__":
         stair_nums=6,
     )
     tg.AddStairs(
-        init_pos=[5.5, 0.0, 0.0],
+        init_pos=[5.5, -2.0, 0.0],
         yaw=math.pi,
         width=0.3,
         height=height,
@@ -275,7 +275,7 @@ if __name__ == "__main__":
         stair_nums=6,
     )
     tg.AddBox(
-        position=[3.25, 0.0, (stair_nums - 0.5) * height],
+        position=[3.25, -2.0, (stair_nums - 0.5) * height],
         euler=[0, 0, 0.0],
         size=[0.6, 1.25, height],
     )
