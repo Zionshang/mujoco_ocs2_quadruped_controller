@@ -227,33 +227,58 @@ if __name__ == "__main__":
     #     size=[length, width, thickness],
     # )
 
-    length = 10
-    width = 1.5
-    thickness = 0.1
-    initial_degree = 5 / 180 * math.pi
-    bottom_x = 1.0
-    bottom_y = 0.0
+    # # 循环增加一堆台阶
+    # length = 10
+    # width = 1.5
+    # thickness = 0.1
+    # initial_degree = 5 / 180 * math.pi
+    # bottom_x = 1.0
+    # bottom_y = 0.0
 
-    # 循环次数
-    num_iterations = 9
+    # # 循环次数
+    # num_iterations = 9
 
-    for i in range(num_iterations):
-        degree = initial_degree + (5 / 180 * math.pi) * i  # 每次增加 5 度
-        tg.AddBox(
-            position=[
-                bottom_x
-                + length / 2 * math.cos(degree)
-                + thickness / 2 * math.sin(degree),
-                bottom_y - 1.5 * width * i,  # 每次增加 1.5 倍的 width
-                length / 2 * math.sin(degree) - thickness / 2 * math.cos(degree),
-            ],
-            euler=[0.0, -degree, 0.0],
-            size=[length, width, thickness],
-        )
-        print(degree / math.pi * 180)
+    # for i in range(num_iterations):
+    #     degree = initial_degree + (5 / 180 * math.pi) * i  # 每次增加 5 度
+    #     tg.AddBox(
+    #         position=[
+    #             bottom_x
+    #             + length / 2 * math.cos(degree)
+    #             + thickness / 2 * math.sin(degree),
+    #             bottom_y - 1.5 * width * i,  # 每次增加 1.5 倍的 width
+    #             length / 2 * math.sin(degree) - thickness / 2 * math.cos(degree),
+    #         ],
+    #         euler=[0.0, -degree, 0.0],
+    #         size=[length, width, thickness],
+    #     )
+    #     print(degree / math.pi * 180)
 
-    # # Stairs
-    # tg.AddStairs(init_pos=[1.0, 4.0, 0.0], yaw=0.0)
+    # Stairs
+    width = 0.3
+    height = 0.15
+    length = 1.25
+    stair_nums = 6
+    tg.AddStairs(
+        init_pos=[1.0, 0.0, 0.0],
+        yaw=0.0,
+        width=0.3,
+        height=height,
+        length=1.25,
+        stair_nums=6,
+    )
+    tg.AddStairs(
+        init_pos=[5.5, 0.0, 0.0],
+        yaw=math.pi,
+        width=0.3,
+        height=height,
+        length=1.25,
+        stair_nums=6,
+    )
+    tg.AddBox(
+        position=[3.25, 0.0, (stair_nums - 0.5) * height],
+        euler=[0, 0, 0.0],
+        size=[0.6, 1.25, height],
+    )
 
     # # Suspend stairs
     # tg.AddSuspendStairs(init_pos=[1.0, 6.0, 0.0], yaw=0.0)
