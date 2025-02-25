@@ -4,7 +4,7 @@ project(galileo_mini_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-		DIRECTORY config launch meshes urdf xacro xml
+		DIRECTORY config launch meshes urdf xml
 		DESTINATION share/${PROJECT_NAME}/
 )
 
