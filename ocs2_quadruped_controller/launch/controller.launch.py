@@ -1,5 +1,4 @@
 import os
-import xacro
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
@@ -13,17 +12,10 @@ package_controller = "ocs2_quadruped_controller"
 
 def launch_setup(context, *args, **kwargs):
     robot_pkg = context.launch_configurations["robot_pkg"]
-    rviz_enable = context.launch_configurations["rviz_enable"]
-
     pkg_path = os.path.join(get_package_share_directory(robot_pkg))
-    xacro_file = os.path.join(pkg_path, "xacro", "robot.xacro")
-    rviz_config_file = os.path.join(
-        get_package_share_directory("ocs2_quadruped_controller"),
-        "config",
-        "visualize_ocs2.rviz",
-    )
+    urdf_file = os.path.join(pkg_path, "urdf", "robot.urdf")
 
-    robot_controllers = PathJoinSubstitution(
+    robot_config_file = PathJoinSubstitution(
         [
             FindPackageShare(robot_pkg),
             "config",
@@ -31,16 +23,9 @@ def launch_setup(context, *args, **kwargs):
         ]
     )
 
-    if rviz_enable == "true":
-        rviz = Node(
-            package="rviz2",
-            executable="rviz2",
-            name="rviz_ocs2",
-            output="screen",
-            arguments=["-d", rviz_config_file],
-        )
-    else:
-        rviz = None
+    # change urdf file to string
+    with open(urdf_file, "r") as f:
+        robot_desc = f.read()
 
     robot_state_publisher = Node(
         package="robot_state_publisher",
@@ -48,9 +33,8 @@ def launch_setup(context, *args, **kwargs):
         name="robot_state_publisher",
         parameters=[
             {
-                "publish_frequency": 20.0,
                 "use_tf_static": True,
-                "robot_description": xacro.process_file(xacro_file).toxml(),
+                "robot_description": robot_desc,
                 "ignore_timestamp": True,
             }
         ],
@@ -60,13 +44,9 @@ def launch_setup(context, *args, **kwargs):
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[
-            robot_controllers,
+            robot_config_file,
             {
-                "urdf_file": os.path.join(
-                    pkg_path,
-                    "urdf",
-                    "robot.urdf",
-                ),
+                "urdf_file": urdf_file,
                 "task_file": os.path.join(
                     pkg_path,
                     "config",
@@ -112,7 +92,6 @@ def launch_setup(context, *args, **kwargs):
         node
         for node in [
             cmd_mapping,
-            rviz,
             robot_state_publisher,
             controller_manager,
             ocs2_controller,
