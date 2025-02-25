@@ -13,18 +13,18 @@ ocs2_quadruped_controller:
     default_kd: 5.0
 
     joints:
+      - FL_abd_joint
       - FL_hip_joint
-      - FL_thigh_joint
-      - FL_calf_joint
+      - FL_knee_joint
+      - FR_abd_joint
       - FR_hip_joint
-      - FR_thigh_joint
-      - FR_calf_joint
-      - RL_hip_joint
-      - RL_thigh_joint
-      - RL_calf_joint
-      - RR_hip_joint
-      - RR_thigh_joint
-      - RR_calf_joint
+      - FR_knee_joint
+      - HL_abd_joint
+      - HL_hip_joint
+      - HL_knee_joint
+      - HR_abd_joint
+      - HR_hip_joint
+      - HR_knee_joint
 
     command_interfaces:
       - effort
@@ -39,13 +39,13 @@ ocs2_quadruped_controller:
       - velocity
 
     feet:
-      - FL_foot
-      - FR_foot
-      - RL_foot
-      - RR_foot
+      - FL_foot_link
+      - FR_foot_link
+      - HL_foot_link
+      - HR_foot_link
 
     imu_name: "imu_sensor"
-    base_name: "trunk"
+    base_name: "base_link"
 
     imu_interfaces:
       - orientation.w
@@ -61,7 +61,7 @@ ocs2_quadruped_controller:
 
     # foot_force_name: "foot_contact_sensor"
     # foot_force_interfaces:
-    #   - FL_foot
-    #   - RL_foot
-    #   - FR_foot
-    #   - RR_foot
+    #   - FL_foot_link
+    #   - HL_foot_link
+    #   - FR_foot_link
+    #   - HR_foot_link

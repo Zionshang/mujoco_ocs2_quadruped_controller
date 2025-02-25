@@ -79,7 +79,7 @@ namespace Galileo
     void MujocoMsgHandler::contact_callback()
     {
         auto msg = custom_msgs::msg::MujocoMsg();
-        std::vector<std::string> foot_geom_names = {"FR_foot", "FL_foot", "RR_foot", "RL_foot"}; // TODO: 改成参数传递
+        std::vector<std::string> foot_geom_names = {"FR_foot_link", "FL_foot_link", "HR_foot_link", "HL_foot_link"}; // TODO: 改成参数传递
 
         std::vector<int> foot_geom_ids;
         for (const auto &foot_name : foot_geom_names)

@@ -4,9 +4,9 @@
   <joint name="floating_base_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="world" />
-    <child link="trunk" />
+    <child link="base_link" />
   </joint>
-  <link name="trunk">
+  <link name="base_link">
     <inertial>
       <origin
         xyz="0.03738 -0.0065903 0.0057934"
@@ -27,7 +27,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/trunk.STL" />
+          filename="package://galileo_mini_description/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -45,7 +45,7 @@
     </collision>
   </link>
 
-  <link name="FL_hip">
+  <link name="FL_abd_link">
     <inertial>
       <origin
         xyz="0.067568 0.0095934 1.3738E-05"
@@ -66,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/FL_hip.STL" />
+          filename="package://galileo_mini_description/meshes/FL_abd_link.STL" />
       </geometry>
       <material
         name="">
@@ -83,14 +83,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="FL_hip_joint" type="revolute">
+  <joint name="FL_abd_joint" type="revolute">
     <origin
       xyz="0.2015 0.08 0"
       rpy="0 0 0" />
     <parent
-      link="trunk" />
+      link="base_link" />
     <child
-      link="FL_hip" />
+      link="FL_abd_link" />
     <axis
       xyz="1 0 0" />
     <limit
@@ -100,7 +100,7 @@
       velocity="21" />
   </joint>
 
-  <link name="FL_thigh">
+  <link name="FL_hip_link">
     <inertial>
       <origin
         xyz="-0.0090988 -0.0065295 -0.0688"
@@ -121,7 +121,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/FL_thigh.STL" />
+          filename="package://galileo_mini_description/meshes/FL_hip_link.STL" />
       </geometry>
       <material
         name="">
@@ -138,14 +138,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="FL_thigh_joint" type="revolute">
+  <joint name="FL_hip_joint" type="revolute">
     <origin
       xyz="0.1 0.1065 0"
       rpy="0 0 0" />
     <parent
-      link="FL_hip" />
+      link="FL_abd_link" />
     <child
-      link="FL_thigh" />
+      link="FL_hip_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -154,7 +154,7 @@
       effort="100"
       velocity="21" />
   </joint>
-  <link name="FL_calf">
+  <link name="FL_knee_link">
     <inertial>
       <origin
         xyz="0.017829 -1.577E-05 -0.099213"
@@ -175,7 +175,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/FL_calf.STL" />
+          filename="package://galileo_mini_description/meshes/FL_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -192,14 +192,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="FL_calf_joint" type="revolute">
+  <joint name="FL_knee_joint" type="revolute">
     <origin
       xyz="0 0 -0.26"
       rpy="0 0 0" />
     <parent
-      link="FL_thigh" />
+      link="FL_hip_link" />
     <child
-      link="FL_calf" />
+      link="FL_knee_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -208,7 +208,7 @@
       effort="150"
       velocity="21" />
   </joint>
-  <link name="FL_foot">
+  <link name="FL_foot_link">
     <inertial>
       <origin
         xyz="-5.5511E-17 0 0"
@@ -250,21 +250,21 @@
       xyz="0.032939 0 -0.26149"
       rpy="0 0 0" />
     <parent
-      link="FL_calf" />
+      link="FL_knee_link" />
     <child
-      link="FL_foot" />
+      link="FL_foot_link" />
     <axis
       xyz="0 0 0" />
   </joint>
 
-  <joint name="FR_hip_joint" type="revolute">
+  <joint name="FR_abd_joint" type="revolute">
     <origin
       xyz="0.2015 -0.08 0"
       rpy="0 0 0" />
     <parent
-      link="trunk" />
+      link="base_link" />
     <child
-      link="FR_hip" />
+      link="FR_abd_link" />
     <axis
       xyz="1 0 0" />
     <limit
@@ -273,7 +273,7 @@
       effort="100"
       velocity="21" />
   </joint>
-  <link name="FR_hip">
+  <link name="FR_abd_link">
     <inertial>
       <origin
         xyz="0.067568 -0.0091759 -0.00023747"
@@ -294,7 +294,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/FR_hip.STL" />
+          filename="package://galileo_mini_description/meshes/FR_abd_link.STL" />
       </geometry>
       <material
         name="">
@@ -311,14 +311,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="FR_thigh_joint" type="revolute">
+  <joint name="FR_hip_joint" type="revolute">
     <origin
       xyz="0.1 -0.10685 0"
       rpy="0 0 0" />
     <parent
-      link="FR_hip" />
+      link="FR_abd_link" />
     <child
-      link="FR_thigh" />
+      link="FR_hip_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -327,7 +327,7 @@
       effort="100"
       velocity="21" />
   </joint>
-  <link name="FR_thigh">
+  <link name="FR_hip_link">
     <inertial>
       <origin
         xyz="-0.0095338 0.026092 -0.067392"
@@ -348,7 +348,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/FR_thigh.STL" />
+          filename="package://galileo_mini_description/meshes/FR_hip_link.STL" />
       </geometry>
       <material
         name="">
@@ -365,14 +365,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="FR_calf_joint" type="revolute">
+  <joint name="FR_knee_joint" type="revolute">
     <origin
       xyz="0 0 -0.26"
       rpy="0 0 0" />
     <parent
-      link="FR_thigh" />
+      link="FR_hip_link" />
     <child
-      link="FR_calf" />
+      link="FR_knee_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -381,7 +381,7 @@
       effort="150"
       velocity="21" />
   </joint>
-  <link name="FR_calf">
+  <link name="FR_knee_link">
     <inertial>
       <origin
         xyz="0.017829 -1.577E-05 -0.099213"
@@ -402,7 +402,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/FR_calf.STL" />
+          filename="package://galileo_mini_description/meshes/FR_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -424,13 +424,13 @@
       xyz="0.032939 0 -0.26149"
       rpy="0 0 0" />
     <parent
-      link="FR_calf" />
+      link="FR_knee_link" />
     <child
-      link="FR_foot" />
+      link="FR_foot_link" />
     <axis
       xyz="0 0 0" />
   </joint>
-  <link name="FR_foot">
+  <link name="FR_foot_link">
     <inertial>
       <origin
         xyz="0 0 0"
@@ -468,14 +468,14 @@
     </collision>
   </link>
 
-  <joint name="RR_hip_joint" type="revolute">
+  <joint name="HR_abd_joint" type="revolute">
     <origin
       xyz="-0.2015 -0.08 0"
       rpy="0 0 0" />
     <parent
-      link="trunk" />
+      link="base_link" />
     <child
-      link="RR_hip" />
+      link="HR_abd_link" />
     <axis
       xyz="1 0 0" />
     <limit
@@ -484,7 +484,7 @@
       effort="100"
       velocity="21" />
   </joint>
-  <link name="RR_hip">
+  <link name="HR_abd_link">
     <inertial>
       <origin
         xyz="-0.067556 -0.0095934 -1.7463E-05"
@@ -505,7 +505,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/RR_hip.STL" />
+          filename="package://galileo_mini_description/meshes/HR_abd_link.STL" />
       </geometry>
       <material
         name="">
@@ -522,14 +522,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="RR_thigh_joint" type="revolute">
+  <joint name="HR_hip_joint" type="revolute">
     <origin
       xyz="-0.1 -0.10685 0"
       rpy="0 0 0" />
     <parent
-      link="RR_hip" />
+      link="HR_abd_link" />
     <child
-      link="RR_thigh" />
+      link="HR_hip_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -538,7 +538,7 @@
       effort="100"
       velocity="21" />
   </joint>
-  <link name="RR_thigh">
+  <link name="HR_hip_link">
     <inertial>
       <origin
         xyz="-0.0098055 0.020667 -0.067167"
@@ -559,7 +559,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/RR_thigh.STL" />
+          filename="package://galileo_mini_description/meshes/HR_hip_link.STL" />
       </geometry>
       <material
         name="">
@@ -576,14 +576,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="RR_calf_joint" type="revolute">
+  <joint name="HR_knee_joint" type="revolute">
     <origin
       xyz="0 0 -0.26"
       rpy="0 0 0" />
     <parent
-      link="RR_thigh" />
+      link="HR_hip_link" />
     <child
-      link="RR_calf" />
+      link="HR_knee_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -592,7 +592,7 @@
       effort="150"
       velocity="21" />
   </joint>
-  <link name="RR_calf">
+  <link name="HR_knee_link">
     <inertial>
       <origin
         xyz="0.017829 -1.577E-05 -0.099213"
@@ -613,7 +613,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/RR_calf.STL" />
+          filename="package://galileo_mini_description/meshes/HR_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -635,13 +635,13 @@
       xyz="0.032939 0 -0.26149"
       rpy="0 0 0" />
     <parent
-      link="RR_calf" />
+      link="HR_knee_link" />
     <child
-      link="RR_foot" />
+      link="HR_foot_link" />
     <axis
       xyz="0 0 0" />
   </joint>
-  <link name="RR_foot">
+  <link name="HR_foot_link">
     <inertial>
       <origin
         xyz="0 0 0"
@@ -679,14 +679,14 @@
     </collision>
   </link>
 
-  <joint name="RL_hip_joint" type="revolute">
+  <joint name="HL_abd_joint" type="revolute">
     <origin
       xyz="-0.2015 0.08 0"
       rpy="0 0 0" />
     <parent
-      link="trunk" />
+      link="base_link" />
     <child
-      link="RL_hip" />
+      link="HL_abd_link" />
     <axis
       xyz="1 0 0" />
     <limit
@@ -695,7 +695,7 @@
       effort="100"
       velocity="21" />
   </joint>
-  <link name="RL_hip">
+  <link name="HL_abd_link">
     <inertial>
       <origin
         xyz="-0.06741 0.0095934 7.3103E-05"
@@ -716,7 +716,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/RL_hip.STL" />
+          filename="package://galileo_mini_description/meshes/HL_abd_link.STL" />
       </geometry>
       <material
         name="">
@@ -733,14 +733,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="RL_thigh_joint" type="revolute">
+  <joint name="HL_hip_joint" type="revolute">
     <origin
       xyz="-0.1 0.1065 0"
       rpy="0 0 0" />
     <parent
-      link="RL_hip" />
+      link="HL_abd_link" />
     <child
-      link="RL_thigh" />
+      link="HL_hip_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -749,7 +749,7 @@
       effort="100"
       velocity="21" />
   </joint>
-  <link name="RL_thigh">
+  <link name="HL_hip_link">
     <inertial>
       <origin
         xyz="-0.0090357 -0.0065295 -0.0688"
@@ -770,7 +770,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/RL_thigh.STL" />
+          filename="package://galileo_mini_description/meshes/HL_hip_link.STL" />
       </geometry>
       <material
         name="">
@@ -787,14 +787,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="RL_calf_joint" type="revolute">
+  <joint name="HL_knee_joint" type="revolute">
     <origin
       xyz="6.3209E-05 0 -0.26"
       rpy="0 0 0" />
     <parent
-      link="RL_thigh" />
+      link="HL_hip_link" />
     <child
-      link="RL_calf" />
+      link="HL_knee_link" />
     <axis
       xyz="0 1 0" />
     <limit
@@ -803,7 +803,7 @@
       effort="150"
       velocity="21" />
   </joint>
-  <link name="RL_calf">
+  <link name="HL_knee_link">
     <inertial>
       <origin
         xyz="0.017829 -1.577E-05 -0.099213"
@@ -824,7 +824,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://galileo_mini_description/meshes/RL_calf.STL" />
+          filename="package://galileo_mini_description/meshes/HL_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -841,18 +841,18 @@
       </geometry>
     </collision>
   </link>
-  <joint name="RL_foot_joint" type="fixed">
+  <joint name="HL_foot_link" type="fixed">
     <origin
       xyz="0.0329385085367515 0 -0.261492891464613"
       rpy="0 0 0" />
     <parent
-      link="RL_calf" />
+      link="HL_knee_link" />
     <child
-      link="RL_foot" />
+      link="HL_foot_link" />
     <axis
       xyz="0 0 0" />
   </joint>
-  <link name="RL_foot">
+  <link name="HL_foot_link">
     <inertial>
       <origin
         xyz="0 5.55111512312578E-17 0"

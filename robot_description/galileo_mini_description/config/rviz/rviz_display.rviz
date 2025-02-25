@@ -47,7 +47,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 10
-      Reference Frame: trunk
+      Reference Frame: base_link
       Value: true
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
@@ -66,88 +66,88 @@ Visualization Manager:
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
-        FL_calf:
+        FL_knee_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        FL_foot:
+        FL_foot_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        FL_hip:
+        FL_abd_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        FL_thigh:
+        FL_hip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        FR_calf:
+        FR_knee_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        FR_foot:
+        FR_foot_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        FR_hip:
+        FR_abd_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        FR_thigh:
+        FR_hip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
         Link Tree Style: Links in Alphabetic Order
-        RL_calf:
+        HL_knee_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        RL_foot:
+        HL_foot_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        RL_hip:
+        HL_abd_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        RL_thigh:
+        HL_hip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        RR_calf:
+        HR_knee_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        RR_foot:
+        HR_foot_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        RR_hip:
+        HR_abd_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        RR_thigh:
+        HR_hip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        trunk:
+        base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -163,7 +163,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: trunk
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
