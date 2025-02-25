@@ -89,7 +89,7 @@ std::vector<hardware_interface::CommandInterface> HardwareMujoco::export_command
     for (size_t i = 0; i < info_.joints.size(); i++)
     {
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
-            info_.joints[i].name, "position", &joint_position_states_[info_.joints[i].name]));
+            info_.joints[i].name, "position", &joint_position_commands_[info_.joints[i].name]));
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
             info_.joints[i].name, "velocity", &joint_velocity_commands_[info_.joints[i].name]));
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
