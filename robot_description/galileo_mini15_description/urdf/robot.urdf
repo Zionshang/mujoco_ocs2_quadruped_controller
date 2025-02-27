@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<robot name="JLL_ROBOT">
+<robot name="galileo_mini15" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <link name="base_link">
     <inertial>
-      <origin xyz="0.04811 0.0070863 0.010607" rpy="0 0 0" />
-      <mass value="9.2006" />
-      <inertia ixx="0.049689" iyy="0.11274" izz="0.13302" ixy="0.00053321" ixz="-0.0010827"
-        iyz="-6.3635e-05" />
+      <origin xyz="0.01435 0.0040863 0.0010607" rpy="0 0 0" />
+      <mass value="16.057" />
+      <inertia
+        ixx="0.082348"
+        iyy="0.407373"
+        izz="0.445820"
+        ixy="0.000713"
+        ixz="0.022641"
+        iyz="-0.000244" />
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/trunk.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/trunk.STL" scale="1 1 1" />
       </geometry>
       <material name="">
         <color rgba="0.8 0.4 0 1" />
@@ -20,7 +25,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/trunk.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/trunk.STL" scale="1 1 1" />
       </geometry>
     </collision>
   </link>
@@ -37,7 +42,8 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_abd_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_abd_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
       <material name="">
         <color rgba="1 0.4 0.4 1" />
@@ -46,7 +52,8 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_abd_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_abd_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
     </collision>
   </link>
@@ -69,7 +76,8 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_hip_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_hip_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
       <material name="">
         <color rgba="1 1 0.4 1" />
@@ -78,7 +86,8 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_hip_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_hip_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
     </collision>
   </link>
@@ -101,7 +110,8 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_knee_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_knee_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
       <material name="">
         <color rgba="0.4 1 0.4 1" />
@@ -110,7 +120,8 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_knee_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_knee_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
     </collision>
   </link>
@@ -172,7 +183,8 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_abd_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_abd_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
       <material name="">
         <color rgba="0.8 1.0 0.8 1" />
@@ -181,7 +193,8 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_abd_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_abd_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
     </collision>
   </link>
@@ -204,7 +217,8 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_hip_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_hip_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
       <material name="">
         <color rgba="1 0.5 1 1" />
@@ -213,7 +227,8 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_hip_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_hip_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
     </collision>
   </link>
@@ -236,7 +251,8 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_knee_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_knee_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
       <material name="">
         <color rgba="1 0.4 0.4 1" />
@@ -245,7 +261,8 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_knee_link.STL" scale="1.0 -1.0 1.0" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_knee_link.STL"
+          scale="1.0 -1.0 1.0" />
       </geometry>
     </collision>
   </link>
@@ -308,7 +325,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_abd_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_abd_link.STL" scale="1 1 1" />
       </geometry>
       <material name="">
         <color rgba="1 0.4 0.4 1" />
@@ -317,7 +334,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_abd_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_abd_link.STL" scale="1 1 1" />
       </geometry>
     </collision>
   </link>
@@ -340,7 +357,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_hip_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_hip_link.STL" scale="1 1 1" />
       </geometry>
       <material name="">
         <color rgba="1 1 0.4 1" />
@@ -349,7 +366,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_hip_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_hip_link.STL" scale="1 1 1" />
       </geometry>
     </collision>
   </link>
@@ -372,7 +389,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_knee_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_knee_link.STL" scale="1 1 1" />
       </geometry>
       <material name="">
         <color rgba="0.4 1 0.4 1" />
@@ -381,7 +398,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/FL_knee_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/FL_knee_link.STL" scale="1 1 1" />
       </geometry>
     </collision>
   </link>
@@ -444,7 +461,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_abd_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_abd_link.STL" scale="1 1 1" />
       </geometry>
       <material name="">
         <color rgba="0.8 1.0 0.8 1" />
@@ -453,7 +470,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_abd_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_abd_link.STL" scale="1 1 1" />
       </geometry>
     </collision>
   </link>
@@ -476,7 +493,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_hip_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_hip_link.STL" scale="1 1 1" />
       </geometry>
       <material name="">
         <color rgba="1 0.5 1 1" />
@@ -485,7 +502,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_hip_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_hip_link.STL" scale="1 1 1" />
       </geometry>
     </collision>
   </link>
@@ -508,7 +525,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_knee_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_knee_link.STL" scale="1 1 1" />
       </geometry>
       <material name="">
         <color rgba="1 0.4 0.4 1" />
@@ -517,7 +534,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/RL_knee_link.STL" scale="1 1 1" />
+        <mesh filename="package://galileo_mini15_description/meshes/RL_knee_link.STL" scale="1 1 1" />
       </geometry>
     </collision>
   </link>
@@ -568,5 +585,163 @@
     <limit lower="0" upper="0" effort="0" velocity="0" />
   </joint>
 
-  <!-- urdf auto generate tool -->
+  <!-- ros2 control -->
+  <ros2_control name="GalileoMiniSystem" type="system">
+    <hardware>
+      <plugin>hardware_mujoco/HardwareMujoco</plugin>
+    </hardware>
+
+    <joint name="FL_abd_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="FL_hip_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="FL_knee_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="FR_abd_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="FR_hip_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="FR_knee_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="HL_abd_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="HL_hip_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="HL_knee_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="HR_abd_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="HR_hip_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <joint name="HR_knee_joint">
+      <command_interface name="position" />
+      <command_interface name="velocity" />
+      <command_interface name="effort" />
+      <command_interface name="kp" />
+      <command_interface name="kd" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+
+    <sensor name="imu_sensor">
+      <state_interface name="orientation.w" />
+      <state_interface name="orientation.x" />
+      <state_interface name="orientation.y" />
+      <state_interface name="orientation.z" />
+      <state_interface name="angular_velocity.x" />
+      <state_interface name="angular_velocity.y" />
+      <state_interface name="angular_velocity.z" />
+      <state_interface name="linear_acceleration.x" />
+      <state_interface name="linear_acceleration.y" />
+      <state_interface name="linear_acceleration.z" />
+    </sensor>
+
+    <!-- <sensor name="foot_contact_sensor">
+            <state_interface name="FR_foot_link" />
+            <state_interface name="FL_foot_link" />
+            <state_interface name="HR_foot_link" />
+            <state_interface name="HL_foot_link" />
+        </sensor> -->
+
+  </ros2_control>
 </robot>

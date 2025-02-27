@@ -184,13 +184,13 @@ Q
   (1,1)   15.0     ; vcom_y
   (2,2)   100.0    ; vcom_z
   (3,3)   10.0     ; L_x / robotMass
-  (4,4)   10.0     ; L_y / robotMass
+  (4,4)   20.0     ; L_y / robotMass
   (5,5)   10.0     ; L_z / robotMass
 
   ;; Base Pose: [position, orientation] ;;
   (6,6)   1000.0   ; p_base_x
   (7,7)   1000.0   ; p_base_y
-  (8,8)   3000.0   ; p_base_z
+  (8,8)   2000.0   ; p_base_z
   (9,9)   100.0    ; theta_base_z
   (10,10) 500.0    ; theta_base_y
   (11,11) 300.0    ; theta_base_x
@@ -198,16 +198,16 @@ Q
   ;; Leg Joint Positions: [FL, RL, FR, RR] ;;
   (12,12) 5.0     ; FL_abd_joint
   (13,13) 5.0     ; FL_hip_joint
-  (14,14) 2.5     ; FL_knee_joint
+  (14,14) 5.0     ; FL_knee_joint
   (15,15) 5.0     ; HL_abd_joint
   (16,16) 5.0     ; HL_hip_joint
-  (17,17) 2.5     ; HL_knee_joint
+  (17,17) 5.0     ; HL_knee_joint
   (18,18) 5.0     ; FR_abd_joint
   (19,19) 5.0     ; FR_hip_joint
-  (20,20) 2.5     ; FR_knee_joint
+  (20,20) 5.0     ; FR_knee_joint
   (21,21) 5.0     ; HR_abd_joint
   (22,22) 5.0     ; HR_hip_joint
-  (23,23) 2.5     ; HR_knee_joint
+  (23,23) 5.0     ; HR_knee_joint
 }
 
 ; control weight matrix

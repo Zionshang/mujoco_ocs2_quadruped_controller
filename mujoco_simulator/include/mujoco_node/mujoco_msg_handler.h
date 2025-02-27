@@ -53,7 +53,7 @@ namespace Galileo
     private:
         void publish_mujoco_callback();
         void imu_callback();
-        void contact_callback();
+        // void contact_callback();
         void joint_callback();
         void actuator_cmd_callback(const custom_msgs::msg::ActuatorCmds::SharedPtr msg) const;
 
