@@ -1,0 +1,382 @@
+<mujoco model="galileo_mini15">
+    <compiler angle='radian' eulerseq="XYZ" meshdir="../meshes/" autolimits="true" />
+
+    <default>
+        <geom contype="0" conaffinity="0" solref="0.005 1" condim="3" friction="1 1" />
+        <equality solref="0.005 1" />
+        <default class="collision">
+            <geom contype="1" group="3" type="capsule" />
+            <default class="collision-left">
+                <geom contype="2" conaffinity="4" />
+            </default>
+            <default class="collision-right">
+                <geom contype="4" conaffinity="2" />
+            </default>
+        </default>
+    </default>
+
+    <asset>
+        <mesh name="base_link_mesh_visual" file="trunk.STL" scale='1 1 1' />
+        <mesh name="base_link_mesh_collision" file="trunk.STL" scale='1 1 1' />
+        <mesh name="left_front_abad_mesh_visual" file="FL_abd_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_front_abad_mesh_collision" file="FL_abd_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_front_hip_mesh_visual" file="FL_hip_link.STL" scale='1 1 1' />
+        <mesh name="left_front_hip_mesh_collision" file="FL_hip_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_front_knee_mesh_visual" file="FL_knee_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_front_knee_mesh_collision" file="FL_knee_link.STL"
+            scale='1 1 1' />
+        <!-- <mesh name="left_front_foot_mesh_visual" file="FL_foot_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_front_foot_mesh_collision" file="FL_foot_link.STL"
+            scale='1 1 1' /> -->
+        <mesh name="left_rear_abad_mesh_visual" file="RL_abd_link.STL" scale='1 1 1' />
+        <mesh name="left_rear_abad_mesh_collision" file="RL_abd_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_rear_hip_mesh_visual" file="RL_hip_link.STL" scale='1 1 1' />
+        <mesh name="left_rear_hip_mesh_collision" file="RL_hip_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_rear_knee_mesh_visual" file="RL_knee_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_rear_knee_mesh_collision" file="RL_knee_link.STL"
+            scale='1 1 1' />
+        <!-- <mesh name="left_rear_foot_mesh_visual" file="RL_foot_link.STL"
+            scale='1 1 1' />
+        <mesh name="left_rear_foot_mesh_collision" file="RL_foot_link.STL"
+            scale='1 1 1' /> -->
+        <mesh name="right_front_abad_mesh_visual" file="FL_abd_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_front_abad_mesh_collision" file="FL_abd_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_front_hip_mesh_visual" file="FL_hip_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_front_hip_mesh_collision" file="FL_hip_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_front_knee_mesh_visual" file="FL_knee_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_front_knee_mesh_collision" file="FL_knee_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <!-- <mesh name="right_front_foot_mesh_visual" file="FL_foot_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_front_foot_mesh_collision" file="FL_foot_link.STL"
+            scale='1.0 -1.0 1.0' /> -->
+        <mesh name="right_rear_abad_mesh_visual" file="RL_abd_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_rear_abad_mesh_collision" file="RL_abd_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_rear_hip_mesh_visual" file="RL_hip_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_rear_hip_mesh_collision" file="RL_hip_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_rear_knee_mesh_visual" file="RL_knee_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_rear_knee_mesh_collision" file="RL_knee_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <!-- <mesh name="right_rear_foot_mesh_visual" file="RL_foot_link.STL"
+            scale='1.0 -1.0 1.0' />
+        <mesh name="right_rear_foot_mesh_collision" file="RL_foot_link.STL"
+            scale='1.0 -1.0 1.0' /> -->
+        <!-- asset auto generate -->
+    </asset>
+
+    <worldbody>
+        <body name='base_link' pos='0 0 2' euler='0 0 0'>
+            <inertial pos="0.04811 0.0070863 0.010607" mass="9.2006"
+                fullinertia="0.049689 0.11274 0.13302 0.00053321 -0.0010827 -6.3635e-05" />
+            <freejoint />
+            <site name="imu" size="0.01" pos="0 0 0" />
+            <geom type='mesh' mesh='base_link_mesh_visual' pos='0 0 0' euler='0 0 0'
+                rgba="0.8 0.4 0 1" />
+            <geom type='mesh' mesh='base_link_mesh_collision' pos='0 0 0' euler='0 0 0'
+                class="collision" />
+            <!-- base_link site geom -->
+
+            <body name='left_front_abad' pos='0.2065 0.065 0' euler='0 0 0'>
+                <inertial pos="0.074261 0.010662 0.00797" mass="1.748"
+                    fullinertia="0.000667447 0.00144482 0.00107312 -7.2909e-05 -1.0214e-05 5.08e-08" />
+                <joint name='idx01_left_front_abad' type='hinge' axis='1 0 0' limited='true'
+                    range='-0.80285 0.80285' damping='1' />
+                <geom type='mesh' mesh='left_front_abad_mesh_visual' pos='0 0 0' euler='0 0 0'
+                    rgba="1 0.4 0.4 1" />
+                <geom type='mesh' mesh='left_front_abad_mesh_collision' pos='0 0 0' euler='0 0 0'
+                    class="collision" />
+                <!-- left_front_abad site geom -->
+
+                <body name='left_front_hip' pos='0.08 0.119 0' euler='0 0 0'>
+                    <inertial pos="-0.0014 -0.0344 -0.0174" mass="2.22606"
+                        fullinertia="0.009416249 0.0090907891 0.0023041271 0.0001223515 -0.0004705786 0.0013313752" />
+                    <joint name='idx02_left_front_hip' type='hinge' axis='0 1 0' limited='true'
+                        range='-1.0472 4.1888' damping='1' />
+                    <geom type='mesh' mesh='left_front_hip_mesh_visual' pos='0 0 0' euler='0 0 0'
+                        rgba="1 1 0.4 1" />
+                    <geom type='mesh' mesh='left_front_hip_mesh_collision' pos='0 0 0' euler='0 0 0'
+                        class="collision" />
+                    <!-- left_front_hip site geom -->
+
+                    <body name='left_front_knee' pos='0 0.01 -0.26' euler='0 0 0'>
+                        <inertial pos="0.0034 -0.0105 -0.13" mass="0.3261"
+                            fullinertia="0.0046064111 0.0046485626 8.17992e-05 -9.9e-09 1.8937e-06 -4.4248e-06" />
+                        <joint name='idx03_left_front_knee' type='hinge' axis='0 1 0' limited='true'
+                            range='-2.6965 -0.9163' damping='1' />
+                        <geom type='mesh' mesh='left_front_knee_mesh_visual' pos='0 0 0'
+                            euler='0 0 0' rgba="0.4 1 0.4 1" />
+                        <geom type='mesh' mesh='left_front_knee_mesh_collision' pos='0 0 0'
+                            euler='0 0 0' class="collision" />
+                        <!-- left_front_knee site geom -->
+
+                        <body name='left_front_foot' pos='0.032939 0 -0.26149' euler='0 0 0'>
+                            <inertial pos="0 0 0" mass="0.000204873572147578"
+                                fullinertia="1.09600066619755e-09 1.09600066619755e-09 1.09600066619755e-09 0 0 0" />
+                            <!-- left_front_foot joint -->
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' rgba="0 0.5 1 1" />
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' class="collision" />
+                            <!-- left_front_foot site geom -->
+                            <!-- left_front_foot child body -->
+                        </body>
+                        <!-- left_front_knee child body -->
+                    </body>
+                    <!-- left_front_hip child body -->
+                </body>
+                <!-- left_front_abad child body -->
+            </body>
+
+            <body name='left_rear_abad' pos='-0.2065 0.065 0' euler='0 0 0'>
+                <inertial pos="0.074261 0.010662 0.00797" mass="1.748"
+                    fullinertia="0.000667447 0.00144482 0.00107312 7.2909e-05 1.0214e-05 5.08e-08" />
+                <joint name='idx05_left_rear_abad' type='hinge' axis='1 0 0' limited='true'
+                    range='-0.80285 0.80285' damping='1' />
+                <geom type='mesh' mesh='left_rear_abad_mesh_visual' pos='0 0 0' euler='0 0 0'
+                    rgba="0.8 1.0 0.8 1" />
+                <geom type='mesh' mesh='left_rear_abad_mesh_collision' pos='0 0 0' euler='0 0 0'
+                    class="collision" />
+                <!-- left_rear_abad site geom -->
+
+                <body name='left_rear_hip' pos='-0.08 0.119 0' euler='0 0 0'>
+                    <inertial pos="-0.0014 -0.0344 -0.0174" mass="2.22606"
+                        fullinertia="0.009416249 0.0090907891 0.0023041271 0.0001223515 -0.0004705786 0.0013313752" />
+                    <joint name='idx06_left_rear_hip' type='hinge' axis='0 1 0' limited='true'
+                        range='-1.0472 4.1888' damping='1' />
+                    <geom type='mesh' mesh='left_rear_hip_mesh_visual' pos='0 0 0' euler='0 0 0'
+                        rgba="1 0.5 1 1" />
+                    <geom type='mesh' mesh='left_rear_hip_mesh_collision' pos='0 0 0' euler='0 0 0'
+                        class="collision" />
+                    <!-- left_rear_hip site geom -->
+
+                    <body name='left_rear_knee' pos='0 0.01 -0.26' euler='0 0 0'>
+                        <inertial pos="0.0034 -0.0105 -0.13" mass="0.3261"
+                            fullinertia="0.0046064111 0.0046485626 8.17992e-05 -9.9e-09 1.8937e-06 -4.4248e-06" />
+                        <joint name='idx07_left_rear_knee' type='hinge' axis='0 1 0' limited='true'
+                            range='-2.6965 -0.9163' damping='1' />
+                        <geom type='mesh' mesh='left_rear_knee_mesh_visual' pos='0 0 0'
+                            euler='0 0 0' rgba="1 0.4 0.4 1" />
+                        <geom type='mesh' mesh='left_rear_knee_mesh_collision' pos='0 0 0'
+                            euler='0 0 0' class="collision" />
+                        <!-- left_rear_knee site geom -->
+
+                        <body name='left_rear_foot' pos='0.032939 0 -0.26149' euler='0 0 0'>
+                            <inertial pos="0 0 0" mass="0.000204873572147578"
+                                fullinertia="1.09600066619755e-09 1.09600066619755e-09 1.09600066619755e-09 0 0 0" />
+                            <!-- left_rear_foot joint -->
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' rgba="0 0.5 1 1" />
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' class="collision" />
+                            <!-- left_rear_foot site geom -->
+                            <!-- left_rear_foot child body -->
+                        </body>
+                        <!-- left_rear_knee child body -->
+                    </body>
+                    <!-- left_rear_hip child body -->
+                </body>
+                <!-- left_rear_abad child body -->
+            </body>
+
+            <body name='right_front_abad' pos='0.2065 -0.065 0.0' euler='-0.0 0.0 -0.0'>
+                <inertial pos="0.074261 -0.010662 0.00797" mass="1.748"
+                    fullinertia="0.000667447 0.00144482 0.00107312 7.2909e-05 -1.0214e-05 -5.08e-08" />
+                <joint name='idx09_right_front_abad' type='hinge' axis='1 0 0' limited='true'
+                    range='-0.80285 0.80285' damping='1' />
+                <geom type='mesh' mesh='right_front_abad_mesh_visual' pos='0 0 0' euler='0 0 0'
+                    rgba="1 0.4 0.4 1" />
+                <geom type='mesh' mesh='right_front_abad_mesh_collision' pos='0 0 0' euler='0 0 0'
+                    class="collision" />
+                <!-- right_front_abad site geom -->
+
+                <body name='right_front_hip' pos='0.08 -0.119 0.0' euler='-0.0 0.0 -0.0'>
+                    <inertial pos="-0.0014 0.0344 -0.0174" mass="2.22606"
+                        fullinertia="0.009416249 0.0090907891 0.0023041271 -0.0001223515 -0.0004705786 -0.0013313752" />
+                    <joint name='idx10_right_front_hip' type='hinge' axis='0 1 0' limited='true'
+                        range='-1.0472 4.1888' damping='1' />
+                    <geom type='mesh' mesh='right_front_hip_mesh_visual' pos='0 0 0' euler='0 0 0'
+                        rgba="1 1 0.4 1" />
+                    <geom type='mesh' mesh='right_front_hip_mesh_collision' pos='0 0 0'
+                        euler='0 0 0' class="collision" />
+                    <!-- right_front_hip site geom -->
+
+                    <body name='right_front_knee' pos='0.0 -0.01 -0.26' euler='-0.0 0.0 -0.0'>
+                        <inertial pos="0.0034 0.0105 -0.13" mass="0.3261"
+                            fullinertia="0.0046064111 0.0046485626 8.17992e-05 9.9e-09 1.8937e-06 4.4248e-06" />
+                        <joint name='idx11_right_front_knee' type='hinge' axis='0 1 0'
+                            limited='true' range='-2.6965 -0.9163' damping='1' />
+                        <geom type='mesh' mesh='right_front_knee_mesh_visual' pos='0 0 0'
+                            euler='0 0 0' rgba="0.4 1 0.4 1" />
+                        <geom type='mesh' mesh='right_front_knee_mesh_collision' pos='0 0 0'
+                            euler='0 0 0' class="collision" />
+                        <!-- right_front_knee site geom -->
+
+                        <body name='right_front_foot' pos='0.032939 -0.0 -0.26149'
+                            euler='-0.0 0.0 -0.0'>
+                            <inertial pos="0.0 -0.0 0.0" mass="0.000204873572147578"
+                                fullinertia="1.09600066619755e-09 1.09600066619755e-09 1.09600066619755e-09 -0.0 0.0 -0.0" />
+                            <!-- right_front_foot joint -->
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' rgba="0 0.5 1 1" />
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' class="collision" />
+                            <!-- right_front_foot site geom -->
+                            <!-- right_front_foot child body -->
+                        </body>
+                        <!-- right_front_knee child body -->
+                    </body>
+                    <!-- right_front_hip child body -->
+                </body>
+                <!-- right_front_abad child body -->
+            </body>
+
+            <body name='right_rear_abad' pos='-0.2065 -0.065 0.0' euler='-0.0 0.0 -0.0'>
+                <inertial pos="0.074261 -0.010662 0.00797" mass="1.748"
+                    fullinertia="0.000667447 0.00144482 0.00107312 -7.2909e-05 1.0214e-05 -5.08e-08" />
+                <joint name='idx13_right_rear_abad' type='hinge' axis='1 0 0' limited='true'
+                    range='-0.80285 0.80285' damping='1' />
+                <geom type='mesh' mesh='right_rear_abad_mesh_visual' pos='0 0 0' euler='0 0 0'
+                    rgba="0.8 1.0 0.8 1" />
+                <geom type='mesh' mesh='right_rear_abad_mesh_collision' pos='0 0 0' euler='0 0 0'
+                    class="collision" />
+                <!-- right_rear_abad site geom -->
+
+                <body name='right_rear_hip' pos='-0.08 -0.119 0.0' euler='-0.0 0.0 -0.0'>
+                    <inertial pos="-0.0014 0.0344 -0.0174" mass="2.22606"
+                        fullinertia="0.009416249 0.0090907891 0.0023041271 -0.0001223515 -0.0004705786 -0.0013313752" />
+                    <joint name='idx14_right_rear_hip' type='hinge' axis='0 1 0' limited='true'
+                        range='-1.0472 4.1888' damping='1' />
+                    <geom type='mesh' mesh='right_rear_hip_mesh_visual' pos='0 0 0' euler='0 0 0'
+                        rgba="1 0.5 1 1" />
+                    <geom type='mesh' mesh='right_rear_hip_mesh_collision' pos='0 0 0' euler='0 0 0'
+                        class="collision" />
+                    <!-- right_rear_hip site geom -->
+
+                    <body name='right_rear_knee' pos='0.0 -0.01 -0.26' euler='-0.0 0.0 -0.0'>
+                        <inertial pos="0.0034 0.0105 -0.13" mass="0.3261"
+                            fullinertia="0.0046064111 0.0046485626 8.17992e-05 9.9e-09 1.8937e-06 4.4248e-06" />
+                        <joint name='idx15_right_rear_knee' type='hinge' axis='0 1 0' limited='true'
+                            range='-2.6965 -0.9163' damping='1' />
+                        <geom type='mesh' mesh='right_rear_knee_mesh_visual' pos='0 0 0'
+                            euler='0 0 0' rgba="1 0.4 0.4 1" />
+                        <geom type='mesh' mesh='right_rear_knee_mesh_collision' pos='0 0 0'
+                            euler='0 0 0' class="collision" />
+                        <!-- right_rear_knee site geom -->
+
+                        <body name='right_rear_foot' pos='0.032939 -0.0 -0.26149'
+                            euler='-0.0 0.0 -0.0'>
+                            <inertial pos="0.0 -0.0 0.0" mass="0.000204873572147578"
+                                fullinertia="1.09600066619755e-09 1.09600066619755e-09 1.09600066619755e-09 -0.0 0.0 -0.0" />
+                            <!-- right_rear_foot joint -->
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' rgba="0 0.5 1 1" />
+                            <geom type="sphere" size="0.025" pos='0 0 0'
+                                euler='0 0 0' class="collision" />
+                            <!-- right_rear_foot site geom -->
+                            <!-- right_rear_foot child body -->
+                        </body>
+                        <!-- right_rear_knee child body -->
+                    </body>
+                    <!-- right_rear_hip child body -->
+                </body>
+                <!-- right_rear_abad child body -->
+            </body>
+            <!-- base_link child body -->
+        </body>
+        <!-- world child body -->
+    </worldbody>
+
+    <actuator>
+        <motor name='motor_idx01_left_front_abad' joint='idx01_left_front_abad' ctrlrange='-100 100' />
+        <motor name='motor_idx02_left_front_hip' joint='idx02_left_front_hip' ctrlrange='-100 100' />
+        <motor name='motor_idx03_left_front_knee' joint='idx03_left_front_knee' ctrlrange='-150 150' />
+        <motor name='motor_idx05_left_rear_abad' joint='idx05_left_rear_abad' ctrlrange='-100 100' />
+        <motor name='motor_idx06_left_rear_hip' joint='idx06_left_rear_hip' ctrlrange='-100 100' />
+        <motor name='motor_idx07_left_rear_knee' joint='idx07_left_rear_knee' ctrlrange='-150 150' />
+        <motor name='motor_idx09_right_front_abad' joint='idx09_right_front_abad'
+            ctrlrange='-100 100' />
+        <motor name='motor_idx10_right_front_hip' joint='idx10_right_front_hip' ctrlrange='-100 100' />
+        <motor name='motor_idx11_right_front_knee' joint='idx11_right_front_knee'
+            ctrlrange='-150 150' />
+        <motor name='motor_idx13_right_rear_abad' joint='idx13_right_rear_abad' ctrlrange='-100 100' />
+        <motor name='motor_idx14_right_rear_hip' joint='idx14_right_rear_hip' ctrlrange='-100 100' />
+        <motor name='motor_idx15_right_rear_knee' joint='idx15_right_rear_knee' ctrlrange='-150 150' />
+        <!-- actuator auto generate -->
+    </actuator>
+
+    <sensor>
+        <jointpos name='jointpos_idx01_left_front_abad' joint='idx01_left_front_abad' />
+        <jointvel name='jointvel_idx01_left_front_abad' joint='idx01_left_front_abad' />
+
+        <jointpos name='jointpos_idx02_left_front_hip' joint='idx02_left_front_hip' />
+        <jointvel name='jointvel_idx02_left_front_hip' joint='idx02_left_front_hip' />
+
+        <jointpos name='jointpos_idx03_left_front_knee' joint='idx03_left_front_knee' />
+        <jointvel name='jointvel_idx03_left_front_knee' joint='idx03_left_front_knee' />
+
+        <jointpos name='jointpos_idx05_left_rear_abad' joint='idx05_left_rear_abad' />
+        <jointvel name='jointvel_idx05_left_rear_abad' joint='idx05_left_rear_abad' />
+
+        <jointpos name='jointpos_idx06_left_rear_hip' joint='idx06_left_rear_hip' />
+        <jointvel name='jointvel_idx06_left_rear_hip' joint='idx06_left_rear_hip' />
+
+        <jointpos name='jointpos_idx07_left_rear_knee' joint='idx07_left_rear_knee' />
+        <jointvel name='jointvel_idx07_left_rear_knee' joint='idx07_left_rear_knee' />
+
+        <jointpos name='jointpos_idx09_right_front_abad' joint='idx09_right_front_abad' />
+        <jointvel name='jointvel_idx09_right_front_abad' joint='idx09_right_front_abad' />
+
+        <jointpos name='jointpos_idx10_right_front_hip' joint='idx10_right_front_hip' />
+        <jointvel name='jointvel_idx10_right_front_hip' joint='idx10_right_front_hip' />
+
+        <jointpos name='jointpos_idx11_right_front_knee' joint='idx11_right_front_knee' />
+        <jointvel name='jointvel_idx11_right_front_knee' joint='idx11_right_front_knee' />
+
+        <jointpos name='jointpos_idx13_right_rear_abad' joint='idx13_right_rear_abad' />
+        <jointvel name='jointvel_idx13_right_rear_abad' joint='idx13_right_rear_abad' />
+
+        <jointpos name='jointpos_idx14_right_rear_hip' joint='idx14_right_rear_hip' />
+        <jointvel name='jointvel_idx14_right_rear_hip' joint='idx14_right_rear_hip' />
+
+        <jointpos name='jointpos_idx15_right_rear_knee' joint='idx15_right_rear_knee' />
+        <jointvel name='jointvel_idx15_right_rear_knee' joint='idx15_right_rear_knee' />
+
+        <!-- sensor auto generate -->
+    </sensor>
+    <!--
+    <equality>
+        <connect name = '' body1 = '' body2 = '' solimp = '0.9999 0.9999 0.001 0.5 2' anchor = '0 0 0' />
+    </equality>
+    -->
+    <sensor>
+        <framequat name="body-orientation" objtype="site" objname="imu" />
+        <gyro name="body-angular-velocity" site="imu" />
+        <framepos name="body-linear-pos" objtype="site" objname="imu" />
+        <velocimeter name="body-linear-vel" site="imu" />
+        <accelerometer name="body-linear-acceleration" site="imu" />
+    </sensor>
+
+    <!--
+    <keyframe>
+        <key name = "default" qpos = "" />
+    </keyframe>
+    -->
+</mujoco>

@@ -5,7 +5,7 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.actions import Node
 from launch.actions import ExecuteProcess
 
-robot_pkg_name = "galileo_mini_description"
+robot_pkg_name = "galileo_mini15_description"
 
 def generate_launch_description():
 
