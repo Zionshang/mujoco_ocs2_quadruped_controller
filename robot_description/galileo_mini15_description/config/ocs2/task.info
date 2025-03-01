@@ -190,7 +190,7 @@ Q
   ;; Base Pose: [position, orientation] ;;
   (6,6)   1000.0   ; p_base_x
   (7,7)   1000.0   ; p_base_y
-  (8,8)   2000.0   ; p_base_z
+  (8,8)   3000.0   ; p_base_z
   (9,9)   100.0    ; theta_base_z
   (10,10) 400.0    ; theta_base_y
   (11,11) 300.0    ; theta_base_x
@@ -263,14 +263,6 @@ selfCollision
   ; Self Collision pairs
   collisionLinkPairs
   {
-    [0] "FL_knee_link, FR_knee_link"
-    [1] "HL_knee_link, HR_knee_link"
-    [2] "FL_knee_link, HL_knee_link"
-    [3] "FR_knee_link, HR_knee_link"
-    [4] "FL_foot_link, FR_foot_link"
-    [5] "HL_foot_link, HR_foot_link"
-    [6] "FL_foot_link, HL_foot_link"
-    [7] "FR_foot_link, HR_foot_link"
   }
 
   minimumDistance  0.05

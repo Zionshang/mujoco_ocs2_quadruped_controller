@@ -1,0 +1,108 @@
+<mujoco model="galileo_mini15">
+  <compiler angle="radian" meshdir="../meshes/"/>
+
+  <asset>
+    <mesh name="trunk" file="trunk.STL"/>
+    <mesh name="FL_abd_link" file="FL_abd_link.STL" scale="1 -1 1"/>
+    <mesh name="FL_hip_link" file="FL_hip_link.STL" scale="1 -1 1"/>
+    <mesh name="FL_knee_link" file="FL_knee_link.STL" scale="1 -1 1"/>
+    <mesh name="RL_abd_link" file="RL_abd_link.STL" scale="1 -1 1"/>
+    <mesh name="RL_hip_link" file="RL_hip_link.STL" scale="1 -1 1"/>
+    <mesh name="RL_knee_link" file="RL_knee_link.STL" scale="1 -1 1"/>
+    <mesh name="FL_abd_link1" file="FL_abd_link.STL"/>
+    <mesh name="FL_hip_link1" file="FL_hip_link.STL"/>
+    <mesh name="FL_knee_link1" file="FL_knee_link.STL"/>
+    <mesh name="RL_abd_link1" file="RL_abd_link.STL"/>
+    <mesh name="RL_hip_link1" file="RL_hip_link.STL"/>
+    <mesh name="RL_knee_link1" file="RL_knee_link.STL"/>
+  </asset>
+
+  <worldbody>
+    <body name="base_link">
+      <inertial pos="0.01435 0.0040863 0.0010607" quat="-0.000902013 0.728669 -0.0025851 0.68486" mass="16.057" diaginertia="0.447226 0.407374 0.0809415"/>
+      <joint name="floating_base_joint" type="free" limited="false" actuatorfrclimited="false"/>
+      <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.8 0.4 0 1" mesh="trunk"/>
+      <geom type="mesh" rgba="0.8 0.4 0 1" mesh="trunk"/>
+      <body name="FR_abd_link" pos="0.2065 -0.065 0">
+        <inertial pos="0.074261 -0.010662 0.00797" quat="0.529655 0.515531 0.47108 0.481433" mass="1.748" diaginertia="0.0014516 0.00107337 0.000660418"/>
+        <joint name="FR_abd_joint" pos="0 0 0" axis="1 0 0" range="-0.80285 0.80285" actuatorfrcrange="-100 100"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 0.4 0.4 1" mesh="FL_abd_link"/>
+        <geom type="mesh" rgba="1 0.4 0.4 1" mesh="FL_abd_link"/>
+        <body name="FR_hip_link" pos="0.08 -0.119 0">
+          <inertial pos="-0.0014 0.0344 -0.0174" quat="0.985102 -0.0970444 0.0193668 -0.140648" mass="2.22606" diaginertia="0.00945738 0.00933332 0.00202047"/>
+          <joint name="FR_hip_joint" pos="0 0 0" axis="0 1 0" range="-1.0472 4.1888" actuatorfrcrange="-100 100"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 0.4 1" mesh="FL_hip_link"/>
+          <geom type="mesh" rgba="1 1 0.4 1" mesh="FL_hip_link"/>
+          <body name="FR_knee_link" pos="0 -0.01 -0.26">
+            <inertial pos="0.00432668 0.0101814 -0.133929" quat="0.728618 -0.00369805 -0.00253684 0.684905" mass="0.336305" diaginertia="0.00482398 0.00477364 9.17969e-05"/>
+            <joint name="FR_knee_joint" pos="0 0 0" axis="0 1 0" range="-2.6965 -0.9163" actuatorfrcrange="-150 150"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.4 1 0.4 1" mesh="FL_knee_link"/>
+            <geom type="mesh" rgba="0.4 1 0.4 1" mesh="FL_knee_link"/>
+            <geom size="0.025" pos="-0.007061 0.0105 -0.26749" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1"/>
+            <geom size="0.025" pos="-0.007061 0.0105 -0.26749" rgba="1 1 1 1"/>
+          </body>
+        </body>
+      </body>
+      <body name="HR_abd_link" pos="-0.2065 -0.065 0">
+        <inertial pos="0.074261 -0.010662 0.00797" quat="0.47108 0.481433 0.529655 0.515531" mass="1.748" diaginertia="0.0014516 0.00107337 0.000660418"/>
+        <joint name="HR_abd_joint" pos="0 0 0" axis="1 0 0" range="-0.80285 0.80285" actuatorfrcrange="-100 100"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.8 1 0.8 1" mesh="RL_abd_link"/>
+        <geom type="mesh" rgba="0.8 1 0.8 1" mesh="RL_abd_link"/>
+        <body name="HR_hip_link" pos="-0.08 -0.119 0">
+          <inertial pos="-0.0014 0.0344 -0.0174" quat="0.985102 -0.0970444 0.0193668 -0.140648" mass="2.22606" diaginertia="0.00945738 0.00933332 0.00202047"/>
+          <joint name="HR_hip_joint" pos="0 0 0" axis="0 1 0" range="-1.0472 4.1888" actuatorfrcrange="-100 100"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 0.5 1 1" mesh="RL_hip_link"/>
+          <geom type="mesh" rgba="1 0.5 1 1" mesh="RL_hip_link"/>
+          <body name="HR_knee_link" pos="0 -0.01 -0.26">
+            <inertial pos="0.00432668 0.0101814 -0.133929" quat="0.728618 -0.00369805 -0.00253684 0.684905" mass="0.336305" diaginertia="0.00482398 0.00477364 9.17969e-05"/>
+            <joint name="HR_knee_joint" pos="0 0 0" axis="0 1 0" range="-2.6965 -0.9163" actuatorfrcrange="-150 150"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 0.4 0.4 1" mesh="RL_knee_link"/>
+            <geom type="mesh" rgba="1 0.4 0.4 1" mesh="RL_knee_link"/>
+            <geom size="0.025" pos="-0.007061 0.0105 -0.26749" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1"/>
+            <geom size="0.025" pos="-0.007061 0.0105 -0.26749" rgba="1 1 1 1"/>
+          </body>
+        </body>
+      </body>
+      <body name="FL_abd_link" pos="0.2065 0.065 0">
+        <inertial pos="0.074261 0.010662 0.00797" quat="0.481433 0.47108 0.515531 0.529655" mass="1.748" diaginertia="0.0014516 0.00107337 0.000660418"/>
+        <joint name="FL_abd_joint" pos="0 0 0" axis="1 0 0" range="-0.80285 0.80285" actuatorfrcrange="-100 100"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 0.4 0.4 1" mesh="FL_abd_link1"/>
+        <geom type="mesh" rgba="1 0.4 0.4 1" mesh="FL_abd_link"/>
+        <body name="FL_hip_link" pos="0.08 0.119 0">
+          <inertial pos="-0.0014 -0.0344 -0.0174" quat="0.985102 0.0970444 0.0193668 0.140648" mass="2.22606" diaginertia="0.00945738 0.00933332 0.00202047"/>
+          <joint name="FL_hip_joint" pos="0 0 0" axis="0 1 0" range="-1.0472 4.1888" actuatorfrcrange="-100 100"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 0.4 1" mesh="FL_hip_link1"/>
+          <geom type="mesh" rgba="1 1 0.4 1" mesh="FL_hip_link"/>
+          <body name="FL_knee_link" pos="0 0.01 -0.26">
+            <inertial pos="0.00432668 -0.0101814 -0.133929" quat="0.684905 -0.00253684 -0.00369805 0.728618" mass="0.336305" diaginertia="0.00482398 0.00477364 9.17969e-05"/>
+            <joint name="FL_knee_joint" pos="0 0 0" axis="0 1 0" range="-2.6965 -0.9163" actuatorfrcrange="-150 150"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.4 1 0.4 1" mesh="FL_knee_link1"/>
+            <geom type="mesh" rgba="0.4 1 0.4 1" mesh="FL_knee_link"/>
+            <geom size="0.025" pos="-0.007061 -0.0105 -0.26749" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1"/>
+            <geom size="0.025" pos="-0.007061 -0.0105 -0.26749" rgba="1 1 1 1"/>
+          </body>
+        </body>
+      </body>
+      <body name="HL_abd_link" pos="-0.2065 0.065 0">
+        <inertial pos="0.074261 0.010662 0.00797" quat="0.515531 0.529655 0.481433 0.47108" mass="1.748" diaginertia="0.0014516 0.00107337 0.000660418"/>
+        <joint name="HL_abd_joint" pos="0 0 0" axis="1 0 0" range="-0.80285 0.80285" actuatorfrcrange="-100 100"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.8 1 0.8 1" mesh="RL_abd_link1"/>
+        <geom type="mesh" rgba="0.8 1 0.8 1" mesh="RL_abd_link"/>
+        <body name="HL_hip_link" pos="-0.08 0.119 0">
+          <inertial pos="-0.0014 -0.0344 -0.0174" quat="0.985102 0.0970444 0.0193668 0.140648" mass="2.22606" diaginertia="0.00945738 0.00933332 0.00202047"/>
+          <joint name="HL_hip_joint" pos="0 0 0" axis="0 1 0" range="-1.0472 4.1888" actuatorfrcrange="-100 100"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 0.5 1 1" mesh="RL_hip_link1"/>
+          <geom type="mesh" rgba="1 0.5 1 1" mesh="RL_hip_link"/>
+          <body name="HL_knee_link" pos="0 0.01 -0.26">
+            <inertial pos="0.00432668 -0.0101814 -0.133929" quat="0.684905 -0.00253684 -0.00369805 0.728618" mass="0.336305" diaginertia="0.00482398 0.00477364 9.17969e-05"/>
+            <joint name="HL_knee_joint" pos="0 0 0" axis="0 1 0" range="-2.6965 -0.9163" actuatorfrcrange="-150 150"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 0.4 0.4 1" mesh="RL_knee_link1"/>
+            <geom type="mesh" rgba="1 0.4 0.4 1" mesh="RL_knee_link"/>
+            <geom size="0.025" pos="-0.007061 -0.0105 -0.26749" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1"/>
+            <geom size="0.025" pos="-0.007061 -0.0105 -0.26749" rgba="1 1 1 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>

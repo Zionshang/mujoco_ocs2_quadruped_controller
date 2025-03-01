@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<robot name="galileo_mini15" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="galileo_mini15">
+    <mujoco>
+        <compiler 
+        meshdir="../meshes/" 
+        balanceinertia="true" 
+        discardvisual="false" />
+  </mujoco>
+  <link name="world" />
+  <joint name="floating_base_joint" type="floating">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="world" />
+    <child link="base_link" />
+  </joint>
   <link name="base_link">
     <inertial>
       <origin xyz="0.01435 0.0040863 0.0010607" rpy="0 0 0" />
@@ -97,7 +109,7 @@
     <parent link="FR_abd_link" />
     <child link="FR_hip_link" />
     <axis xyz="0 1 0" />
-    <limit lower="-1.0472" upper="4.1888" effort="100" velocity="21" />
+    <limit lower="-4.1888" upper="1.0472" effort="100" velocity="21" />
   </joint>
 
   <link name="FR_knee_link">
@@ -238,7 +250,7 @@
     <parent link="HR_abd_link" />
     <child link="HR_hip_link" />
     <axis xyz="0 1 0" />
-    <limit lower="-1.0472" upper="4.1888" effort="100" velocity="21" />
+    <limit lower="-4.1888" upper="1.0472" effort="100" velocity="21" />
   </joint>
 
   <link name="HR_knee_link">
@@ -376,7 +388,7 @@
     <parent link="FL_abd_link" />
     <child link="FL_hip_link" />
     <axis xyz="0 1 0" />
-    <limit lower="-1.0472" upper="4.1888" effort="100" velocity="21" />
+    <limit lower="-4.1888" upper="1.0472" effort="100" velocity="21" />
   </joint>
 
   <link name="FL_knee_link">
@@ -512,7 +524,7 @@
     <parent link="HL_abd_link" />
     <child link="HL_hip_link" />
     <axis xyz="0 1 0" />
-    <limit lower="-1.0472" upper="4.1888" effort="100" velocity="21" />
+    <limit lower="-4.1888" upper="1.0472" effort="100" velocity="21" />
   </joint>
 
   <link name="HL_knee_link">

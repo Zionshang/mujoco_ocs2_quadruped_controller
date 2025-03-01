@@ -57,8 +57,6 @@
                         <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="FR_knee_link" />
                         <geom pos="0.032939 0 -0.26149" type="mesh" contype="0" conaffinity="0"
                             group="1" density="0" rgba="1 1 1 1" mesh="FR_foot_link" />
-                        <!-- <geom name="FR_foot_link" pos="0.032939 0 -0.26149" type="mesh" rgba="1 1 1
-                        1" mesh="FR_foot_link" /> -->
                         <geom name="FR_foot_link" pos="0.032939 0 -0.26149" type="sphere"
                             rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
                         <site name="site_forcesensor1" pos="0.032939 0 -0.26149" />
@@ -91,7 +89,8 @@
                         <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="HR_knee_link" />
                         <geom pos="0.032939 0 -0.26149" type="mesh" contype="0" conaffinity="0"
                             group="1" density="0" rgba="1 1 1 1" mesh="HR_foot_link" />
-                        <!-- <geom name="HR_foot_link" pos="0.032939 0 -0.26149" type="mesh" rgba="1 1 1
+                        <!-- <geom name="HR_foot_link" pos="0.032939 0 -0.26149" type="mesh" rgba="1
+                        1 1
                         1" mesh="HR_foot_link" /> -->
                         <geom name="HR_foot_link" pos="0.032939 0 -0.26149" type="sphere"
                             rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
@@ -125,7 +124,8 @@
                         <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="FL_knee_link" />
                         <geom pos="0.032939 0 -0.26149" type="mesh" contype="0" conaffinity="0"
                             group="1" density="0" rgba="1 1 1 1" mesh="FL_foot_link" />
-                        <!-- <geom name="FL_foot_link" pos="0.032939 0 -0.26149" type="mesh" rgba="1 1 1
+                        <!-- <geom name="FL_foot_link" pos="0.032939 0 -0.26149" type="mesh" rgba="1
+                        1 1
                         1" mesh="FL_foot_link" /> -->
                         <geom name="FL_foot_link" pos="0.0329385 0 -0.26149" type="sphere"
                             rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
@@ -159,7 +159,8 @@
                         <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="HL_knee_link" />
                         <geom pos="0.0329385 0 -0.261493" type="mesh" contype="0" conaffinity="0"
                             group="1" density="0" rgba="1 1 1 1" mesh="HL_foot_link" />
-                        <!-- <geom name="HL_foot_link" pos="0.0329385 0 -0.261493" type="mesh" rgba="1 1
+                        <!-- <geom name="HL_foot_link" pos="0.0329385 0 -0.261493" type="mesh"
+                        rgba="1 1
                         1 1" mesh="HL_foot_link" /> -->
                         <geom name="HL_foot_link" pos="0.0329385 0 -0.261493" type="sphere"
                             rgba="1 1 1 1" size="0.03" friction="0.7 0.02 0.01" />
