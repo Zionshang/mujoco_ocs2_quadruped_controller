@@ -128,6 +128,8 @@ namespace ocs2::legged_robot
 
         observation_publisher_->publish(ros_msg_conversions::createObservationMsg(ctrl_comp_.observation_));
 
+        publishRefJointStateMsg(pos_des, vel_des, torque);
+
         return controller_interface::return_type::OK;
     }
 
@@ -238,6 +240,8 @@ namespace ocs2::legged_robot
 
         observation_publisher_ = get_node()->create_publisher<ocs2_msgs::msg::MpcObservation>(
             "legged_robot_mpc_observation", 10);
+        reference_joint_states_publisher_ = get_node()->create_publisher<sensor_msgs::msg::JointState>(
+            "reference_joint_states", 10);
 
         return CallbackReturn::SUCCESS;
     }
@@ -410,6 +414,20 @@ namespace ocs2::legged_robot
         ctrl_comp_.observation_.state(9) = yaw_last + angles::shortest_angular_distance(
                                                           yaw_last, ctrl_comp_.observation_.state(9));
         ctrl_comp_.observation_.mode = ctrl_comp_.estimator_->getMode();
+    }
+
+    void Ocs2QuadrupedController::publishRefJointStateMsg(const vector_t &pos_des, const vector_t &vel_des, const vector_t &torque)
+    {
+        sensor_msgs::msg::JointState ref_joint_state_msg;
+        ref_joint_state_msg.header.stamp = get_node()->now();
+        for (int i = 0; i < joint_names_.size(); i++)
+        {
+            ref_joint_state_msg.name.emplace_back(joint_names_[i]);
+            ref_joint_state_msg.position.emplace_back(pos_des[i]);
+            ref_joint_state_msg.velocity.emplace_back(vel_des[i]);
+            ref_joint_state_msg.effort.emplace_back(torque[i]);
+        }
+        reference_joint_states_publisher_->publish(ref_joint_state_msg);
     }
 }
 

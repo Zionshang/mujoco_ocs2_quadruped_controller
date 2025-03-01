@@ -16,6 +16,7 @@
 #include "SafetyChecker.h"
 #include "ocs2_quadruped_controller/control/CtrlComponent.h"
 #include "ocs2_quadruped_controller/estimator/TerrainEstimator.h"
+#include <sensor_msgs/msg/joint_state.hpp>
 
 namespace ocs2::legged_robot
 {
@@ -75,6 +76,7 @@ namespace ocs2::legged_robot
         void updateStateEstimation(const contact_flag_t &contact_flag,
                                    const rclcpp::Time &time,
                                    const rclcpp::Duration &period);
+        void publishRefJointStateMsg(const vector_t &pos_des, const vector_t &vel_des, const vector_t &torque);
 
         CtrlComponent ctrl_comp_;
         std::vector<std::string> joint_names_;
@@ -109,6 +111,7 @@ namespace ocs2::legged_robot
 
         rclcpp::Subscription<custom_msgs::msg::UserCmds>::SharedPtr control_input_subscription_;
         rclcpp::Publisher<ocs2_msgs::msg::MpcObservation>::SharedPtr observation_publisher_;
+        rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr reference_joint_states_publisher_;
 
         std::string task_file_;
         std::string urdf_file_;
