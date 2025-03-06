@@ -4,7 +4,7 @@ from launch.substitutions import PathJoinSubstitution
 from launch import LaunchDescription
 
 
-robot_pkg_name = "galileo_mini15_description"
+robot_pkg_name = "galileo_mini_description"
 
 
 def generate_launch_description():

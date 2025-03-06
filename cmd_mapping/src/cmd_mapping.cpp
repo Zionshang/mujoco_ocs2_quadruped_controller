@@ -101,7 +101,7 @@ private:
             break;
         }
 
-        user_cmd_.height_ratio = std::clamp(user_cmd_.height_ratio, 0.0, 1.0);
+        user_cmd_.height_ratio = std::clamp(user_cmd_.height_ratio, 0.2, 1.0);
 
         cmd_publisher->publish(user_cmd_);
     }

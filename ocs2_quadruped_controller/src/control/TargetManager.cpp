@@ -9,21 +9,31 @@ namespace ocs2::legged_robot
 {
     TargetManager::TargetManager(CtrlComponent &ctrl_component,
                                  const std::shared_ptr<ReferenceManagerInterface> &referenceManagerPtr,
+                                 const std::shared_ptr<SwingTrajectoryPlanner> &swingTrajectoryPlanner,
                                  const std::string &task_file,
                                  const std::string &reference_file,
                                  rclcpp_lifecycle::LifecycleNode::SharedPtr node)
         : ctrl_component_(ctrl_component),
           referenceManagerPtr_(referenceManagerPtr),
+          swingTrajectoryPlannerPtr_(swingTrajectoryPlanner),
           node_(std::move(node))
     {
         default_joint_state_ = vector_t::Zero(12);
+        target_joint_state_ = vector_t::Zero(12);
         loadData::loadCppDataType(reference_file, "comHeight", command_height_);
         loadData::loadEigenMatrix(reference_file, "defaultJointState", default_joint_state_);
         loadData::loadCppDataType(task_file, "mpc.timeHorizon", time_to_target_);
         loadData::loadCppDataType(reference_file, "targetRotationVelocity", target_rotation_velocity_);
         loadData::loadCppDataType(reference_file, "targetDisplacementVelocity", target_displacement_velocity_);
         odom_pub_ = node_->create_publisher<nav_msgs::msg::Odometry>("reference_odom", 10);
+        reference_joint_states_publisher_ = node_->create_publisher<sensor_msgs::msg::JointState>(
+            "reference_joint_states", 10);
         targetPose = vector_t::Zero(6);
+
+        ik_solver_.loadSettings(task_file, true);
+        target_foot_pos_ << 0.3015, 0.3015, -0.3015, -0.3015,
+            0.1865, -0.1865, 0.1865, -0.1865,
+            -0.38, -0.38, -0.38, -0.38;
     }
 
     void TargetManager::update(const vector3_t &ground_euler_angle_wrt_body, const rclcpp::Time &time, const rclcpp::Duration &period)
@@ -49,9 +59,11 @@ namespace ocs2::legged_robot
         targetPose(4) = ground_euler_angle_wrt_body(1);                            // pitch
         targetPose(5) = ground_euler_angle_wrt_body(2);                            // roll
 
+        updateTargetJointPose(ctrl_component_.observation_.time, targetPose, target_joint_state_);
 
         const scalar_t targetReachingTime = ctrl_component_.observation_.time + time_to_target_;
-        auto trajectories = targetPoseToTargetTrajectories(targetPose, ctrl_component_.observation_, targetReachingTime);
+        auto trajectories = targetPoseToTargetTrajectories(targetPose, target_joint_state_,
+                                                           ctrl_component_.observation_, targetReachingTime);
 
         // ! the state in stateTrajectory is (vx, vy, vz, wz, wy, wx, x, y, z, yaw, pitch, roll, joint state)
         trajectories.stateTrajectory[0].head(3) = cmd_vel_rot;
@@ -63,9 +75,11 @@ namespace ocs2::legged_robot
         odom.child_frame_id = "base";
         publishMsgs(odom);
         referenceManagerPtr_->setTargetTrajectories(std::move(trajectories));
+        publishRefJointStateMsg(target_joint_state_);
     }
 
     TargetTrajectories TargetManager::targetPoseToTargetTrajectories(const vector_t &targetPose,
+                                                                     const vector_t &targetJointState,
                                                                      const SystemObservation &observation,
                                                                      const scalar_t &targetReachingTime)
     {
@@ -76,13 +90,30 @@ namespace ocs2::legged_robot
         vector_t currentPose = observation.state.segment<6>(6);
         // TODO: remove the restrictions on zero velocity
         vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
-        stateTrajectory[0] << vector_t::Zero(6), currentPose, default_joint_state_;
-        stateTrajectory[1] << vector_t::Zero(6), targetPose, default_joint_state_;
+        // stateTrajectory[0] << vector_t::Zero(6), currentPose, default_joint_state_; // todo: 修改期望关节
+        // stateTrajectory[1] << vector_t::Zero(6), targetPose, default_joint_state_;
 
+        stateTrajectory[0] << vector_t::Zero(6), currentPose, targetJointState; // todo: 修改期望关节
+        stateTrajectory[1] << vector_t::Zero(6), targetPose, targetJointState;
         // desired input trajectory (just right dimensions, they are not used)
         const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
 
         return {timeTrajectory, stateTrajectory, inputTrajectory};
+    }
+
+    void TargetManager::updateTargetJointPose(scalar_t time,
+                                              const vector_t &targetPose,
+                                              vector_t &targetJointPose)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            target_foot_pos_.col(i)(2) = swingTrajectoryPlannerPtr_->getZpositionConstraint(i, time) - targetPose(2);
+        }
+        Matrix34d q = ik_solver_.IK(target_foot_pos_); // todo: 修正Matrix34d命名
+        for (int i = 0; i < 4; i++)
+        {
+            targetJointPose.segment<3>(3 * i) = q.col(i);
+        }
     }
 
     nav_msgs::msg::Odometry TargetManager::getOdomMsg(const ocs2::TargetTrajectories &trajectories)
@@ -118,5 +149,16 @@ namespace ocs2::legged_robot
     {
         rclcpp::Time time = odom.header.stamp;
         odom_pub_->publish(odom);
+    }
+
+    void TargetManager::publishRefJointStateMsg(const vector_t &targetJointState) const
+    {
+        sensor_msgs::msg::JointState ref_joint_state_msg;
+        ref_joint_state_msg.header.stamp = node_->now();
+        for (int i = 0; i < 12; i++)
+        {
+            ref_joint_state_msg.position.emplace_back(targetJointState(i));
+        }
+        reference_joint_states_publisher_->publish(ref_joint_state_msg);
     }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot name="galileo_mini_description">
-  <link name="world" />
+  <!-- <link name="world" />
   <joint name="floating_base_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="world" />
     <child link="base_link" />
-  </joint>
+  </joint> -->
   <link name="base_link">
     <inertial>
       <origin
@@ -203,8 +203,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0.9163"
-      upper="2.6965"
+      lower="-2.6965"
+      upper="-0.9163"
       effort="150"
       velocity="21" />
   </joint>
@@ -376,8 +376,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0.9163"
-      upper="2.6965"
+      lower="-2.6965"
+      upper="-0.9163"
       effort="150"
       velocity="21" />
   </joint>
@@ -587,8 +587,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0.9163"
-      upper="2.6965"
+      lower="-2.6965"
+      upper="-0.9163"
       effort="150"
       velocity="21" />
   </joint>
@@ -798,8 +798,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0.9163"
-      upper="2.6965"
+      lower="-2.6965"
+      upper="-0.9163"
       effort="150"
       velocity="21" />
   </joint>

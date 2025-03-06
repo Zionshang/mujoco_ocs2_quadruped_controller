@@ -24,8 +24,10 @@
 
 #include "SwitchedModelReferenceManager.h"
 
-namespace ocs2::legged_robot {
-    class LeggedInterface final : public RobotInterface {
+namespace ocs2::legged_robot
+{
+    class LeggedInterface final : public RobotInterface
+    {
     public:
         LeggedInterface(const std::string &task_file,
                         const std::string &urdf_file,
@@ -53,14 +55,21 @@ namespace ocs2::legged_robot {
         PinocchioInterface &getPinocchioInterface() { return *pinocchio_interface_ptr_; }
         const CentroidalModelInfo &getCentroidalModelInfo() const { return centroidal_model_info_; }
 
-        std::shared_ptr<SwitchedModelReferenceManager> getSwitchedModelReferenceManagerPtr() const {
+        std::shared_ptr<SwitchedModelReferenceManager> getSwitchedModelReferenceManagerPtr() const
+        {
             return reference_manager_ptr_;
         }
 
         const Initializer &getInitializer() const override { return *initializer_ptr_; }
 
-        std::shared_ptr<ReferenceManagerInterface> getReferenceManagerPtr() const override {
+        std::shared_ptr<ReferenceManagerInterface> getReferenceManagerPtr() const override
+        {
             return reference_manager_ptr_;
+        }
+
+        const std::shared_ptr<SwingTrajectoryPlanner> &getSwingTrajectoryPlanner()
+        {
+            return reference_manager_ptr_->getSwingTrajectoryPlanner();
         }
 
     protected:
@@ -91,10 +100,10 @@ namespace ocs2::legged_robot {
         std::unique_ptr<StateInputCost> getFrictionConeSoftConstraint(size_t contactPointIndex,
                                                                       scalar_t frictionCoefficient,
                                                                       const RelaxedBarrierPenalty::Config &
-                                                                      barrierPenaltyConfig);
+                                                                          barrierPenaltyConfig);
 
-        std::unique_ptr<EndEffectorKinematics<scalar_t> > getEeKinematicsPtr(const std::vector<std::string> &foot_names,
-                                                                             const std::string &model_name);
+        std::unique_ptr<EndEffectorKinematics<scalar_t>> getEeKinematicsPtr(const std::vector<std::string> &foot_names,
+                                                                            const std::string &model_name);
 
         std::unique_ptr<StateInputConstraint> getZeroVelocityConstraint(
             const EndEffectorKinematics<scalar_t> &end_effector_kinematics,
