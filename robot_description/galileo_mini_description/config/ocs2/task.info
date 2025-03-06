@@ -317,3 +317,13 @@ kalmanFilter
     footSensorNoiseVelocity     0.1
     footHeightSensorNoise       0.01
 }
+
+; Model Kinematics
+kinematics
+{
+    abd_link_length       0.1065
+    upper_link_length     0.26
+    lower_link_length     0.26
+    body_length           0.603
+    body_width            0.16
+}

@@ -129,13 +129,13 @@ namespace ocs2::legged_robot
         std::shared_ptr<MPC_MRT_Interface> mpc_mrt_interface_;
 
         std::shared_ptr<CentroidalModelRbdConversions> rbd_conversions_;
-        
+
         // Terrain Estimator
         std::shared_ptr<TerrainEstimator> terrain_estimator_;
 
     private:
-        size_t planned_mode; // The mode that is active at the time the policy is evaluated at.
-        vector_t measured_rbd_state_;
+        size_t planned_mode;          // The mode that is active at the time the policy is evaluated at.
+        vector_t measured_rbd_state_; // yaw, pitch, roll, x, y, z, joint pos, 角速度, 线速度, joint vel
         std::thread mpc_thread_;
         std::atomic_bool controller_running_{}, mpc_running_{};
         benchmark::RepeatedTimer mpc_timer_;

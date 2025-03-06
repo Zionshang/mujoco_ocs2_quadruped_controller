@@ -28,7 +28,7 @@ namespace ocs2::legged_robot
         odom_pub_ = node_->create_publisher<nav_msgs::msg::Odometry>("reference_odom", 10);
         reference_joint_states_publisher_ = node_->create_publisher<sensor_msgs::msg::JointState>(
             "reference_joint_states", 10);
-        targetPose = vector_t::Zero(6);
+        target_pose_ = vector_t::Zero(6);
 
         ik_solver_.loadSettings(task_file, true);
         target_foot_pos_ << 0.3015, 0.3015, -0.3015, -0.3015,
@@ -52,22 +52,18 @@ namespace ocs2::legged_robot
 
         // targetPose is expressed in world frame
         double time_step = period.seconds() / time_to_target_;
-        targetPose(0) = targetPose(0) + cmd_vel_rot(0) * time_step;                // x
-        targetPose(1) = targetPose(1) + cmd_vel_rot(1) * time_step;                // y
-        targetPose(2) = ctrl_component_.user_cmds_.height_ratio * command_height_; // z
-        targetPose(3) = targetPose(3) + cmdGoal(3) * time_step;                    // yaw
-        targetPose(4) = ground_euler_angle_wrt_body(1);                            // pitch
-        targetPose(5) = ground_euler_angle_wrt_body(2);                            // roll
-
-        updateTargetJointPose(ctrl_component_.observation_.time, targetPose, target_joint_state_);
+        target_pose_(0) = target_pose_(0) + cmd_vel_rot(0) * time_step;              // x
+        target_pose_(1) = target_pose_(1) + cmd_vel_rot(1) * time_step;              // y
+        target_pose_(2) = ctrl_component_.user_cmds_.height_ratio * command_height_; // z
+        target_pose_(3) = target_pose_(3) + cmdGoal(3) * time_step;                  // yaw
+        target_pose_(4) = ground_euler_angle_wrt_body(1);                            // pitch
+        target_pose_(5) = ground_euler_angle_wrt_body(2);                            // roll
 
         const scalar_t targetReachingTime = ctrl_component_.observation_.time + time_to_target_;
-        auto trajectories = targetPoseToTargetTrajectories(targetPose, target_joint_state_,
+                
+        // the state in stateTrajectory is (vx, vy, vz, wz, wy, wx, x, y, z, yaw, pitch, roll, joint state)
+        auto trajectories = targetPoseToTargetTrajectories(target_pose_, cmd_vel_rot,
                                                            ctrl_component_.observation_, targetReachingTime);
-
-        // ! the state in stateTrajectory is (vx, vy, vz, wz, wy, wx, x, y, z, yaw, pitch, roll, joint state)
-        trajectories.stateTrajectory[0].head(3) = cmd_vel_rot;
-        trajectories.stateTrajectory[1].head(3) = cmd_vel_rot;
 
         auto odom = getOdomMsg(trajectories);
         odom.header.stamp = time;
@@ -79,22 +75,24 @@ namespace ocs2::legged_robot
     }
 
     TargetTrajectories TargetManager::targetPoseToTargetTrajectories(const vector_t &targetPose,
-                                                                     const vector_t &targetJointState,
+                                                                     const vector_t &targetVelocity,
                                                                      const SystemObservation &observation,
                                                                      const scalar_t &targetReachingTime)
     {
         // desired time trajectory
         const scalar_array_t timeTrajectory{observation.time, targetReachingTime};
+        // current state trajectory
+        const vector_t &currentPose = observation.state.segment<6>(6);
+        updateTargetJointPose(ctrl_component_.observation_.time, targetPose, target_joint_state_);
 
-        // desired state trajectory
-        vector_t currentPose = observation.state.segment<6>(6);
-        // TODO: remove the restrictions on zero velocity
         vector_array_t stateTrajectory(2, vector_t::Zero(observation.state.size()));
+
         // stateTrajectory[0] << vector_t::Zero(6), currentPose, default_joint_state_; // todo: 修改期望关节
         // stateTrajectory[1] << vector_t::Zero(6), targetPose, default_joint_state_;
 
-        stateTrajectory[0] << vector_t::Zero(6), currentPose, targetJointState; // todo: 修改期望关节
-        stateTrajectory[1] << vector_t::Zero(6), targetPose, targetJointState;
+        stateTrajectory[0] << targetVelocity, vector_t::Zero(3), currentPose, target_joint_state_;
+        stateTrajectory[1] << targetVelocity, vector_t::Zero(3), targetPose, target_joint_state_;
+
         // desired input trajectory (just right dimensions, they are not used)
         const vector_array_t inputTrajectory(2, vector_t::Zero(observation.input.size()));
 
@@ -107,7 +105,7 @@ namespace ocs2::legged_robot
     {
         for (int i = 0; i < 4; i++)
         {
-            target_foot_pos_.col(i)(2) = swingTrajectoryPlannerPtr_->getZpositionConstraint(i, time) - targetPose(2);
+            target_foot_pos_.col(i)(2) = -targetPose(2);
         }
         Matrix34d q = ik_solver_.IK(target_foot_pos_); // todo: 修正Matrix34d命名
         for (int i = 0; i < 4; i++)

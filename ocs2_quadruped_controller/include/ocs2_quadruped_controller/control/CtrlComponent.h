@@ -42,7 +42,7 @@ struct CtrlComponent
     //     foot_force_state_interface_;
 
     custom_msgs::msg::UserCmds user_cmds_;
-    ocs2::SystemObservation observation_;
+    ocs2::SystemObservation observation_; // 线动量除以质量、角动量除以质量、body位置、欧拉角、关节位置
     int frequency_{};
 
     std::shared_ptr<ocs2::legged_robot::KalmanFilterEstimate> estimator_;

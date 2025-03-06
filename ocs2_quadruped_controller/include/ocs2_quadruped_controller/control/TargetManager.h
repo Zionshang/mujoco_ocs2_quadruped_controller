@@ -32,7 +32,7 @@ namespace ocs2::legged_robot
 
     private:
         TargetTrajectories targetPoseToTargetTrajectories(const vector_t &targetPose,
-                                                          const vector_t &targetJointState,
+                                                          const vector_t &targetVelocity,
                                                           const SystemObservation &observation,
                                                           const scalar_t &targetReachingTime);
         void updateTargetJointPose(scalar_t time,
@@ -54,8 +54,9 @@ namespace ocs2::legged_robot
         scalar_t time_to_target_{};
         scalar_t target_displacement_velocity_;
         scalar_t target_rotation_velocity_;
-        vector_t targetPose; // target [x, y, z, yaw, pitch, roll] expressed in WORLD frame
-        double height_ratio; // the ratio of target height to the nominal height
+        vector_t target_pose_; // target [x, y, z, yaw, pitch, roll] expressed in WORLD frame
+
+        double height_ratio_; // the ratio of target height to the nominal height
 
         Matrix34d target_foot_pos_; // relative to body and expressed in body frame
         rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
