@@ -630,7 +630,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="RR_foot_joint" type="fixed">
+  <joint name="HR_foot_joint" type="fixed">
     <origin
       xyz="0.032939 0 -0.26149"
       rpy="0 0 0" />
