@@ -77,6 +77,14 @@ def generate_launch_description():
         output="screen",
     )
 
+    foxglove_bridge_node = Node(
+        package="foxglove_bridge",
+        executable="foxglove_bridge",
+        output="log",
+        emulate_tty=False,
+        parameters=[{"port": 8765, "address": "0.0.0.0", "max_qos_depth": 5}],
+    )
+
     nodes = [
         cmd_mapping,
         robot_state_publisher,
@@ -84,6 +92,7 @@ def generate_launch_description():
         ocs2_controller,
         keyboard_input,
         hardware_node,
+        foxglove_bridge_node
     ]
 
     return LaunchDescription(nodes)
