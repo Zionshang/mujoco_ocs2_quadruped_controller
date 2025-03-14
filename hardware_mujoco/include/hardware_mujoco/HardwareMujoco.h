@@ -10,6 +10,13 @@
 #include <sensor_msgs/msg/joint_state.hpp>
 #include "custom_msgs/msg/actuator_cmds.hpp"
 #include "custom_msgs/msg/mujoco_msg.hpp"
+#include "custom_msgs/msg/low_cmd.hpp"
+#include "custom_msgs/msg/low_state.hpp"
+#include <custom_msgs/msg/motor_cmd.hpp>
+#include <custom_msgs/msg/user_cmds.hpp>
+
+#include "eigen3/Eigen/Dense"
+using namespace Eigen;
 
 class HardwareMujoco final : public hardware_interface::SystemInterface
 {
@@ -25,9 +32,10 @@ public:
     hardware_interface::return_type write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/) override;
 
 protected:
+    int controller_flag = 0;
     void imu_callback(const sensor_msgs::msg::Imu imu_state);
-    void joint_state_callback(const sensor_msgs::msg::JointState joint_state);
-    // void foot_contact_callback(const custom_msgs::msg::MujocoMsg foot_contact_state);
+    void joint_state_callback(const custom_msgs::msg::LowState joint_state);
+    void user_cmd_callback(const custom_msgs::msg::UserCmds user_msg);
 
     // cmd
     std::unordered_map<std::string, double> joint_position_commands_;
@@ -46,9 +54,18 @@ protected:
     /*node*/
     rclcpp::Node::SharedPtr node_;
     /*publisher*/
-    rclcpp::Publisher<custom_msgs::msg::ActuatorCmds>::SharedPtr actuator_cmd_publisher_;
+    rclcpp::Publisher<custom_msgs::msg::LowCmd>::SharedPtr low_cmd_publisher_;
+
     /*subscriber*/
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_subscriber_;
-    rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_subscriber_;
+    rclcpp::Subscription<custom_msgs::msg::LowState>::SharedPtr joint_state_subscriber_;
     // rclcpp::Subscription<custom_msgs::msg::MujocoMsg>::SharedPtr foot_contact_state_subscriber_;
+
+    rclcpp::Subscription<custom_msgs::msg::UserCmds>::SharedPtr user_cmds_subscriber_;
+
+    // 底层1ms定时器
+    rclcpp::TimerBase::SharedPtr timer_;
+
+    // 电机下层指令
+    custom_msgs::msg::LowCmd MotorCmd;
 };

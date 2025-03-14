@@ -1,0 +1,7 @@
+uint8 state_light
+uint8 open_light
+uint8 imu_reset
+uint8 motor_enable
+uint8 motor_disenable
+uint8 motor_power_supply
+uint8 motor_charging_electrodes

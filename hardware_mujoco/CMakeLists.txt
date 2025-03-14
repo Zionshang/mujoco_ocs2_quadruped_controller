@@ -19,6 +19,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(backward_ros REQUIRED)
+find_package(Eigen3 3.3 REQUIRED NO_MOUDLE)
 
 foreach (Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
@@ -42,6 +43,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 ament_target_dependencies(
         ${PROJECT_NAME}
         ${THIS_PACKAGE_INCLUDE_DEPENDS}
+)
+
+target_link_libraries(${PROJECT_NAME}
+  Eigen3::Eigen
 )
 
 pluginlib_export_plugin_description_file(hardware_interface HardwareMujoco.xml)

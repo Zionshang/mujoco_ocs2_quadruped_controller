@@ -18,6 +18,14 @@ rosidl_generate_interfaces(${PROJECT_NAME}
         "msg/ActuatorCmds.msg"
         "msg/RobotStateMsg.msg"
         "msg/UserCmds.msg"
+        "msg/LowState.msg"
+        "msg/LowCmd.msg"
+        "msg/MotorCmd.msg"
+        "msg/MotorState.msg"
+        "msg/MotorError.msg"
+        "msg/Instruction.msg"
+        "msg/RobotError.msg"
+        "msg/BmsState.msg"
         DEPENDENCIES std_msgs sensor_msgs geometry_msgs
 )
 

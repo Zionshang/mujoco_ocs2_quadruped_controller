@@ -13,6 +13,61 @@
 #include <angles/angles.h>
 #include <ocs2_quadruped_controller/control/GaitManager.h>
 
+RobotHome1::RobotHome1()
+{
+    JointPos.setZero();
+    InitJointPos.setZero();
+    InitFlag = 0;
+    time = 0;
+
+    // FL,FR,HL,HR
+    MiddleJointPos << 0, 75, -150, 0, 75, -150, 0, 75, -150, 0, 75, -150;
+    // HomeJointPos << 0, -60, 120, 0, -60, 120, 0, -60, 120, 0, -60, 120;
+    HomeJointPos << 0, 45, -90, 0, 45, -90, 0, 45, -90, 0, 45, -90;
+
+    MiddleJointPos = MiddleJointPos.eval() * M_PI / 180;
+    HomeJointPos = HomeJointPos.eval() * M_PI / 180;
+    periodT = 10;
+}
+
+RobotHome1::~RobotHome1()
+{
+}
+
+void RobotHome1::setInitJointPos(const Matrix<double, 4, 3> &pos)
+{
+    if (!InitFlag)
+    {
+        InitJointPos = pos;
+
+        InitFlag = 1;
+    }
+    else
+        return;
+}
+void RobotHome1::setTargetJointPos()
+{
+    time += 0.001;
+    double vv, aa;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 3; j++)
+        {
+            if (time <= periodT / 2)
+                TSpline_S_V_A(InitJointPos(i, j), 0, 0, 0, (InitJointPos(i, j) + MiddleJointPos(i, j)) / 2, periodT / 4,
+                              MiddleJointPos(i, j), 0, 0, periodT / 2, 0.001, time, &TargetJointPos(i, j), &vv, &aa);
+            else if (time > periodT / 2 && time < periodT)
+                TSpline_S_V_A(MiddleJointPos(i, j), 0, 0, 0, (MiddleJointPos(i, j) + HomeJointPos(i, j)) / 2,
+                              periodT / 4, HomeJointPos(i, j), 0, 0, periodT / 2, 0.001, time - periodT / 2,
+                              &TargetJointPos(i, j), &vv, &aa);
+            else if (time >= periodT)
+                TargetJointPos = HomeJointPos;
+
+            // joint[i][j]->SetTargetPosition(TargetJointPos(i, j));
+        }
+    // if (time >= periodT)
+    //     RobotRecoverTraj(joint);
+}
+
 namespace ocs2::legged_robot
 {
     using config_type = controller_interface::interface_configuration_type;

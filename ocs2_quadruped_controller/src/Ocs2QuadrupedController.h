@@ -17,11 +17,41 @@
 #include "ocs2_quadruped_controller/control/CtrlComponent.h"
 #include "ocs2_quadruped_controller/estimator/TerrainEstimator.h"
 
+#include "eigen3/Eigen/Dense"
+using namespace Eigen;
+
+extern void TSpline_S_V_A(double p0, double v0, double a0, double t0, double p1, double t1, double p2, double v2,
+                          double a2, double t2, double step, double cont_T, double *p, double *v, double *a);
+
+class RobotHome1
+{
+private:
+    /* data */
+public:
+    RobotHome1(/* args */);
+    ~RobotHome1();
+
+    Matrix<double, 4, 3> JointPos;
+    Matrix<double, 4, 3> InitJointPos;
+    Matrix<double, 4, 3> MiddleJointPos;
+    Matrix<double, 4, 3> HomeJointPos;
+
+    Matrix<double, 4, 3> TargetJointPos;
+    bool InitFlag;
+
+    double time;
+    double periodT;
+    void setInitJointPos(const Matrix<double, 4, 3> &pos);
+    void setTargetJointPos();
+};
+
+
 namespace ocs2::legged_robot
 {
     class Ocs2QuadrupedController final : public controller_interface::ControllerInterface
     {
     public:
+    RobotHome1 home_controller;
         CONTROLLER_INTERFACE_PUBLIC
         Ocs2QuadrupedController() = default;
         ~Ocs2QuadrupedController() override;

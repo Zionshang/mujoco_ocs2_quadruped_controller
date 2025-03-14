@@ -5,6 +5,6 @@ float64 linear_y_input       # velocity or position in linear y direction
 float64 angular_y_input      # velocity or position in angular y direction
 float64 angular_z_input      # velocity or position in angular z direction
 float64 height_ratio         # the ratio of target height to the nominal height
-
+int32 motor_controller         # control motors to power on and enable
 string gait_name             # gaint name [stance, trot, standing_trot, flying_trot]
 bool passive_enable          # enable passive state

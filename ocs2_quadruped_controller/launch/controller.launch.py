@@ -7,6 +7,7 @@ from launch.actions import ExecuteProcess
 
 robot_pkg_name = "galileo_mini_description"
 
+
 def generate_launch_description():
 
     ################################ parameters ################################
@@ -48,6 +49,7 @@ def generate_launch_description():
             "ocs2_quadruped_controller",
             "--controller-manager",
             "/controller_manager",
+            "--inactive",
         ],
     )
 
@@ -68,12 +70,20 @@ def generate_launch_description():
         output="screen",
     )
 
+    hardware_node = Node(
+        package="robot_hardware",
+        executable="robot_hardware_node",
+        name="RobotHardwareNode",
+        output="screen",
+    )
+
     nodes = [
         cmd_mapping,
         robot_state_publisher,
         controller_manager,
         ocs2_controller,
         keyboard_input,
+        hardware_node,
     ]
 
     return LaunchDescription(nodes)
